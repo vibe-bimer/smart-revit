@@ -38,7 +38,10 @@ variables:
   DOTNET_CLI_TELEMETRY_OPTOUT: '1'
   DOTNET_NOLOGO: '1'
   UV_CACHE_DIR: '$CI_PROJECT_DIR/.cache/uv'
-  NUGET_PACKAGES: '$CI_PROJECT_DIR/.cache/nuget'
+  # NUGET_PACKAGES is deliberately not set here: the shell executor runs `git clean -ffdx`
+  # before every job, and a package cache inside the checkout turns one locked assembly
+  # (a reused MSBuild node still holding a DLL) into a failed job before the script starts.
+  # Linux jobs point at .cache/nuget explicitly; Windows jobs use the user profile cache.
   # Revit release years the add-in and the installer are built for.
   REVIT_YEARS: '20 22 23 24 25 26 27'
 
@@ -81,6 +84,8 @@ python:
 core-tests:
   stage: validate
   tags: [linux]
+  variables:
+    NUGET_PACKAGES: '$CI_PROJECT_DIR/.cache/nuget'
   cache:
     key: nuget-linux
     paths:
@@ -190,10 +195,13 @@ addin-build:
   # build directory, so they queue on a shared resource instead.
   resource_group: windows-shell
   timeout: 45m
-  cache:
-    key: nuget-windows
-    paths:
-      - .cache/nuget
+  variables:
+    # A reused MSBuild node keeps assemblies open; the next job's `git clean -ffdx` then fails
+    # on the locked file and the runner exits before the script runs. No node reuse plus an
+    # explicit shutdown afterwards keeps the checkout deletable.
+    MSBUILDDISABLENODEREUSE: '1'
+  after_script:
+    - dotnet build-server shutdown; exit 0
   script:
     - |
       $match = Select-String -Path server/pyproject.toml -Pattern '^version = "(\d+\.\d+\.\d+)"' | Select-Object -First 1
@@ -233,10 +241,10 @@ installer:
   tags: [windows]
   resource_group: windows-shell
   timeout: 90m
-  cache:
-    key: nuget-windows
-    paths:
-      - .cache/nuget
+  variables:
+    MSBUILDDISABLENODEREUSE: '1'
+  after_script:
+    - dotnet build-server shutdown; exit 0
   needs: [addin-build]
   script:
     - |
@@ -271,9 +279,10 @@ installer:
       if ($installers.Count -ne 2) { throw "Expected two MSIs, found $($installers.Count)" }
       $installers | ForEach-Object { Write-Host "MSI: $($_.Name) ($($_.Length) bytes)" }
     - |
+      New-Item -ItemType Directory -Force artifacts/logs | Out-Null
       foreach ($msi in Get-ChildItem output/*.msi) {
         $target = Join-Path $env:TEMP "extract-$($msi.BaseName)"
-        $log = Join-Path $env:TEMP "$($msi.BaseName)-extract.log"
+        $log = "artifacts/logs/$($msi.BaseName)-extract.log"
         $process = Start-Process msiexec.exe -ArgumentList "/a `"$($msi.FullName)`" /qn /norestart TARGETDIR=`"$target`" /l*v `"$log`"" -Wait -PassThru
         if ($process.ExitCode -ne 0) { throw "MSI extraction failed: $($process.ExitCode)" }
         $files = @(Get-ChildItem $target -Recurse -File)
@@ -303,32 +312,38 @@ installer:
         Write-Host "ASSERT: $($msi.Name) contains no Autodesk DLLs"
       }
     # The first of the five MSI smoke tests: install, assert every registered year, uninstall,
-    # assert nothing is left behind. The other four (developer-build overlay, multi-user,
-    # scope conflict, same-version upgrade) still run on GitHub only; see docs/ci.md.
+    # assert nothing is left behind. It writes into the invoking user's %APPDATA%, so on a runner
+    # that also hosts a developer deployment it replaces that deployment and then deletes it on
+    # uninstall. RUN_MSI_INSTALL_SMOKE=1 turns it on; the other four tests (developer-build
+    # overlay, multi-user, scope conflict, same-version upgrade) still run on GitHub only.
     - |
-      $msi = (Get-ChildItem output/*-SingleUser.msi).FullName
-      $roots = @("$env:APPDATA/Autodesk/Revit/Addins/2022", "$env:APPDATA/Autodesk/Revit/Addins/2026", "$env:APPDATA/Autodesk/Revit/Addins/2027")
-      $log = "$env:TEMP/mcp-single-install.log"
-      try {
-        $process = Start-Process msiexec.exe -ArgumentList "/i `"$msi`" /qn /norestart /l*v `"$log`"" -Wait -PassThru
-        if ($process.ExitCode -ne 0) { throw "SingleUser install failed: $($process.ExitCode)" }
-        Write-Host 'ASSERT: SingleUser install exit code 0'
+      if ($env:RUN_MSI_INSTALL_SMOKE -ne '1') {
+        Write-Host 'SKIP: MSI install smoke test (set RUN_MSI_INSTALL_SMOKE=1 on a runner without a developer deployment)'
+      } else {
+        $msi = (Get-ChildItem output/*-SingleUser.msi).FullName
+        $roots = @("$env:APPDATA/Autodesk/Revit/Addins/2022", "$env:APPDATA/Autodesk/Revit/Addins/2026", "$env:APPDATA/Autodesk/Revit/Addins/2027")
+        $log = 'artifacts/logs/mcp-single-install.log'
+        try {
+          $process = Start-Process msiexec.exe -ArgumentList "/i `"$msi`" /qn /norestart /l*v `"$log`"" -Wait -PassThru
+          if ($process.ExitCode -ne 0) { throw "SingleUser install failed: $($process.ExitCode)" }
+          Write-Host 'ASSERT: SingleUser install exit code 0'
+          foreach ($root in $roots) {
+            foreach ($relative in 'RevitModelMcp.addin', 'RevitModelMcp/RevitModelMcp.dll', 'RevitModelMcp/RevitModelMcp.Updater.exe', 'RevitModelMcp/RevitModelMcp.BatchSupervisor.exe', 'RevitModelMcp/RevitModelMcp.Core.dll') {
+              if (!(Test-Path "$root/$relative")) { throw "Missing installed file: $root/$relative" }
+              Write-Host "ASSERT: installed $root/$relative"
+            }
+          }
+        } finally {
+          $process = Start-Process msiexec.exe -ArgumentList "/x `"$msi`" /qn /norestart /l*v `"artifacts/logs/mcp-single-uninstall.log`"" -Wait -PassThru
+          if ($process.ExitCode -ne 0) { throw "SingleUser uninstall failed: $($process.ExitCode)" }
+        }
         foreach ($root in $roots) {
-          foreach ($relative in 'RevitModelMcp.addin', 'RevitModelMcp/RevitModelMcp.dll', 'RevitModelMcp/RevitModelMcp.Updater.exe', 'RevitModelMcp/RevitModelMcp.BatchSupervisor.exe', 'RevitModelMcp/RevitModelMcp.Core.dll') {
-            if (!(Test-Path "$root/$relative")) { throw "Missing installed file: $root/$relative" }
-            Write-Host "ASSERT: installed $root/$relative"
+          foreach ($relative in 'RevitModelMcp.addin', 'RevitModelMcp/RevitModelMcp.dll') {
+            if (Test-Path "$root/$relative") { throw "File remains after uninstall: $root/$relative" }
           }
         }
-      } finally {
-        $process = Start-Process msiexec.exe -ArgumentList "/x `"$msi`" /qn /norestart /l*v `"$env:TEMP/mcp-single-uninstall.log`"" -Wait -PassThru
-        if ($process.ExitCode -ne 0) { throw "SingleUser uninstall failed: $($process.ExitCode)" }
+        Write-Host 'ASSERT: SingleUser uninstall removed every registered year'
       }
-      foreach ($root in $roots) {
-        foreach ($relative in 'RevitModelMcp.addin', 'RevitModelMcp/RevitModelMcp.dll') {
-          if (Test-Path "$root/$relative") { throw "File remains after uninstall: $root/$relative" }
-        }
-      }
-      Write-Host 'ASSERT: SingleUser uninstall removed every registered year'
     - |
       foreach ($year in '22', '26') {
         $stage = "artifacts/addin-R$year"
@@ -351,8 +366,6 @@ installer:
     paths:
       - output/*.msi
       - artifacts/
-      - $TEMP/mcp-*.log
-      - $TEMP/*-extract.log
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
     - if: $CI_COMMIT_TAG
