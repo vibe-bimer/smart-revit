@@ -206,7 +206,8 @@ addin-build:
     - |
       $match = Select-String -Path server/pyproject.toml -Pattern '^version = "(\d+\.\d+\.\d+)"' | Select-Object -First 1
       if (!$match) { throw 'server/pyproject.toml has no plain MAJOR.MINOR.PATCH version' }
-      $env:CI_VERSION = "$($match.Matches[0].Groups[1].Value)-dev"
+      # A tag publishes the tagged version; every other pipeline builds a pre-release of the next one.
+      $env:CI_VERSION = if ($env:CI_COMMIT_TAG) { $env:CI_COMMIT_TAG -replace '^v', '' } else { "$($match.Matches[0].Groups[1].Value)-dev" }
       Write-Host "CI_VERSION=$env:CI_VERSION"
     - |
       dotnet restore build/RevitApiReferencePin/RevitApiReferencePin.csproj --locked-mode -p:Configuration=Release
@@ -250,7 +251,8 @@ installer:
     - |
       $match = Select-String -Path server/pyproject.toml -Pattern '^version = "(\d+\.\d+\.\d+)"' | Select-Object -First 1
       if (!$match) { throw 'server/pyproject.toml has no plain MAJOR.MINOR.PATCH version' }
-      $env:CI_VERSION = "$($match.Matches[0].Groups[1].Value)-dev"
+      # A tag publishes the tagged version; every other pipeline builds a pre-release of the next one.
+      $env:CI_VERSION = if ($env:CI_COMMIT_TAG) { $env:CI_COMMIT_TAG -replace '^v', '' } else { "$($match.Matches[0].Groups[1].Value)-dev" }
       $env:Build__Version = $env:CI_VERSION
       Write-Host "CI_VERSION=$env:CI_VERSION"
     - |
@@ -360,12 +362,25 @@ installer:
         if ($blocked.Count) { throw "Autodesk binaries must not be distributed: $($blocked.Name -join ', ')" }
         Write-Host "ASSERT: staged add-in R$year"
       }
+    # The MSIs are release assets, not build artifacts: together they are ~94 MB, which the
+    # coordinator refuses with "413 Request Entity Too Large" when they travel as job artifacts.
+    # A tag pushes them to the generic package registry instead, where the release links point.
+    - |
+      if ($env:CI_COMMIT_TAG) {
+        foreach ($msi in Get-ChildItem output/*.msi) {
+          $url = "$env:CI_API_V4_URL/projects/$env:CI_PROJECT_ID/packages/generic/revit-model-mcp/$env:CI_COMMIT_TAG/$($msi.Name)"
+          curl.exe --fail --silent --show-error --header "JOB-TOKEN: $env:CI_JOB_TOKEN" --upload-file $msi.FullName $url
+          if ($LASTEXITCODE -ne 0) { throw "Package upload failed for $($msi.Name)" }
+          Write-Host "ASSERT: uploaded $($msi.Name)"
+        }
+      } else {
+        Write-Host 'SKIP: MSI package upload runs on tags only'
+      }
   artifacts:
     when: always
     expire_in: 30 days
     paths:
-      - output/*.msi
-      - artifacts/
+      - artifacts/logs/
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
     - if: $CI_COMMIT_TAG
@@ -393,13 +408,14 @@ release:
       python3 - "$tag" "$version" > /tmp/release.json <<'PYTHON'
       import json, os, sys
       tag, version = sys.argv[1], sys.argv[2]
-      base = f"{os.environ['CI_PROJECT_URL']}/-/jobs/artifacts/{tag}/raw"
-      def link(name, path, job):
-          return {"name": name, "url": f"{base}/{path}?job={job}"}
+      packages = f"{os.environ['CI_PROJECT_URL']}/-/packages/generic/revit-model-mcp/{tag}"
+      def link(name, url):
+          return {"name": name, "url": url}
       links = [
-          link("Single-user MSI", "output/revit-model-mcp-SingleUser.msi", "installer"),
-          link("Multi-user MSI", "output/revit-model-mcp.msi", "installer"),
-          link("Claude Desktop bundle", "revit-model-mcp.mcpb", "bundle"),
+          link("Single-user MSI", f"{packages}/RevitModelMcp-{version}-SingleUser.msi"),
+          link("Multi-user MSI", f"{packages}/RevitModelMcp-{version}-MultiUser.msi"),
+          link("Claude Desktop bundle",
+               f"{os.environ['CI_PROJECT_URL']}/-/jobs/artifacts/{tag}/raw/revit-model-mcp.mcpb?job=bundle"),
       ]
       print(json.dumps({
           "name": f"v{version}",
