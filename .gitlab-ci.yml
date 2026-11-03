@@ -1,0 +1,386 @@
+# GitLab CI mirror of .github/workflows/{ci,docs,release}.yml.
+#
+# Runner contract (shell executors; the LAN host has no Docker):
+#
+#   tag `linux`   Ubuntu with git, python3, uv, node 22 and the .NET SDK from global.json
+#   tag `windows` Windows with git, PowerShell, python 3.12, uv, node 22 and the .NET SDK
+#                 from global.json (the add-in and the installer only build on Windows)
+#
+# The GitHub workflows stay authoritative until the fork is switched over, so every job
+# here mirrors one of theirs. A red pipeline therefore means the same thing in both places.
+
+stages:
+  - validate
+  - build
+  - release
+
+variables:
+  # Pinned exactly like the GitHub workflows: an unpinned tool makes a red pipeline mean
+  # "upstream released something" instead of "the change is broken".
+  UV_VERSION: '0.12.22'
+  RUFF_VERSION: '0.16.10'
+  PYTEST_VERSION: '9.1.1'
+  TWINE_VERSION: '7.0.0'
+  MCPB_VERSION: '2.1.2'
+  # The fork budget test diffs the pinned base against HEAD, so the whole history has to
+  # be present; the default shallow clone hides it.
+  GIT_DEPTH: '0'
+  DOTNET_CLI_TELEMETRY_OPTOUT: '1'
+  DOTNET_NOLOGO: '1'
+  UV_CACHE_DIR: '$CI_PROJECT_DIR/.cache/uv'
+  NUGET_PACKAGES: '$CI_PROJECT_DIR/.cache/nuget'
+  # Revit release years the add-in and the installer are built for.
+  REVIT_YEARS: '20 22 23 24 25 26 27'
+
+# ---------------------------------------------------------------------------
+# validate: cheap gates first, in the same order as the GitHub jobs.
+# ---------------------------------------------------------------------------
+
+docs-line:
+  stage: validate
+  tags: [linux]
+  script:
+    - python3 tools/site/check_docs_line.py
+
+python:
+  stage: validate
+  tags: [linux]
+  cache:
+    key: uv-$CI_COMMIT_REF_SLUG
+    paths:
+      - .cache/uv
+  script:
+    # The fork budget test needs the full history, hence GIT_DEPTH above.
+    - uv run python tools/check_fork_identity.py
+    - cd server
+    - uv run --frozen --with pytest==$PYTEST_VERSION pytest -q
+    - uvx ruff==$RUFF_VERSION check .
+    - uvx ruff==$RUFF_VERSION format --check .
+    # The container installs requirements.docker.txt, so the lock file has to produce
+    # exactly those pins or the image and the package drift apart.
+    - uv export --frozen --no-dev --no-emit-project --no-header --quiet -o "$CI_PROJECT_DIR/.requirements.docker.txt"
+    - diff -u --strip-trailing-cr requirements.docker.txt "$CI_PROJECT_DIR/.requirements.docker.txt"
+    - uv build
+    - uvx twine==$TWINE_VERSION check dist/*
+  artifacts:
+    when: always
+    expire_in: 1 week
+    paths:
+      - server/dist/
+
+core-tests:
+  stage: validate
+  tags: [linux]
+  cache:
+    key: nuget-linux
+    paths:
+      - .cache/nuget
+  script:
+    - dotnet restore tests/RevitModelMcp.Core.Tests/RevitModelMcp.Core.Tests.csproj --locked-mode
+    - dotnet test --project tests/RevitModelMcp.Core.Tests/RevitModelMcp.Core.Tests.csproj --no-restore
+
+bundle:
+  stage: validate
+  tags: [linux]
+  script:
+    # The launcher must name this fork's own release wheel: both projects publish the same
+    # version numbers, so any PyPI spec here would install upstream's server.
+    - npm install --prefix "$CI_PROJECT_DIR/.tools/mcpb" --no-save "@anthropic-ai/mcpb@$MCPB_VERSION"
+    - '"$CI_PROJECT_DIR/.tools/mcpb/node_modules/.bin/mcpb" validate bundle/manifest.json'
+    - '"$CI_PROJECT_DIR/.tools/mcpb/node_modules/.bin/mcpb" pack bundle "$CI_PROJECT_DIR/revit-model-mcp.mcpb"'
+    - |
+      cat > /tmp/check_bundle_config.mjs <<'JAVASCRIPT'
+      import assert from 'node:assert/strict';
+      import { readFileSync } from 'node:fs';
+      import { pathToFileURL } from 'node:url';
+
+      const mcpbRoot = `${process.env.CI_PROJECT_DIR}/.tools/mcpb/node_modules/@anthropic-ai/mcpb`;
+      const { getMcpConfigForManifest } = await import(pathToFileURL(`${mcpbRoot}/dist/shared/config.js`));
+      const manifest = JSON.parse(readFileSync('bundle/manifest.json', 'utf8'));
+      // The features index is generated from the server registry and verified against it by
+      // the documentation gate, so it is the single source of truth for documented tools.
+      const documentedTools = [...new Set([...readFileSync('docs/features/index.md', 'utf8')
+        .matchAll(/\((revit_\w+)\.md\)/g)].map(match => match[1]))].sort();
+      assert.deepEqual(manifest.tools.map(tool => tool.name).sort(), documentedTools);
+      assert.equal(manifest.version, '0.0.0');
+      assert.equal(manifest.user_config.REVIT_MCP_REDACT_PATHS.default, true);
+      assert.equal(manifest.user_config.REVIT_MCP_READ_ONLY.default, true);
+      assert.equal(manifest.user_config.REVIT_MCP_TOKEN.sensitive, true);
+      const wheel = `https://github.com/vibe-bimer/revit-model-mcp/releases/download/v${manifest.version}/revit_model_mcp-${manifest.version}-py3-none-any.whl`;
+      assert.ok(!/revit-model-mcp\s*(?:[=<>^~!]=?|[<>])/.test(JSON.stringify(manifest.server)), 'bundle launcher must not resolve a PyPI spec');
+      assert.equal(manifest.server.mcp_config.command, 'uvx');
+      assert.deepEqual(manifest.server.mcp_config.args, ['--from', wheel, 'revit-model-mcp']);
+      assert.equal(manifest.server.mcp_config.platform_overrides, undefined);
+      for (const userConfig of [{}, ...[true, false].flatMap(redact => [true, false].map(readOnly => ({
+        REVIT_MCP_REDACT_PATHS: redact, REVIT_MCP_READ_ONLY: readOnly,
+        REVIT_MCP_HOST: 'ssh:test-workstation', REVIT_MCP_TOKEN: 'test-token',
+      })))]) {
+        const config = await getMcpConfigForManifest({manifest, userConfig, extensionPath: '/tmp/bundle', systemDirs: {}, pathSeparator: '/'});
+        assert.equal(config.command, 'uvx');
+        assert.deepEqual(config.args, ['--from', wheel, 'revit-model-mcp']);
+        const expected = {
+          REVIT_MCP_REDACT_PATHS: String(userConfig.REVIT_MCP_REDACT_PATHS ?? true),
+          REVIT_MCP_READ_ONLY: String(userConfig.REVIT_MCP_READ_ONLY ?? true),
+          REVIT_MCP_HOST: userConfig.REVIT_MCP_HOST ?? 'local',
+          REVIT_MCP_TOKEN: userConfig.REVIT_MCP_TOKEN ?? '',
+        };
+        assert.deepEqual(config.env, expected);
+      }
+      console.log(`PASS: ${documentedTools.length} documented tools, default settings, all boolean combinations and host/token forwarding`);
+      JAVASCRIPT
+    - node /tmp/check_bundle_config.mjs
+  artifacts:
+    when: always
+    expire_in: 1 week
+    paths:
+      - revit-model-mcp.mcpb
+
+docs-verify:
+  stage: validate
+  tags: [linux]
+  cache:
+    key: uv-$CI_COMMIT_REF_SLUG
+    paths:
+      - .cache/uv
+  script:
+    # The generators read the tool registry from the server package, so the server has to be
+    # importable here. --require-hashes cannot be combined with an editable local install,
+    # so the server goes in a second command.
+    - uv venv --python 3.12 .venv-docs
+    - uv pip install --python .venv-docs/bin/python --require-hashes -r docs/requirements.txt
+    - uv pip install --python .venv-docs/bin/python -e ./server
+    # Gates run cheapest-first: the line has to exist, then registry drift, then the
+    # dual-config build, then the unit suite.
+    - .venv-docs/bin/python tools/site/generate_features.py --verify-registry --check
+    - .venv-docs/bin/python tools/site/verify_dual_build.py
+    - .venv-docs/bin/python -m unittest discover -s tools/site -p 'test_*.py'
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_TAG
+  # Publishing stays on the LAN documentation host (192.168.100.120): its timer pulls a
+  # commit, builds an immutable release under releases/<stamp>-<sha>/ and flips `current`,
+  # rolling back when the health probe fails. This job only gates the same sources, so a
+  # broken branch can never reach the publisher.
+
+# ---------------------------------------------------------------------------
+# build: Windows-only work.
+# A shell runner is serial, so the seven Revit years run as a loop instead of a matrix;
+# the per-year assertions are unchanged.
+# ---------------------------------------------------------------------------
+
+addin-build:
+  stage: build
+  tags: [windows]
+  timeout: 45m
+  cache:
+    key: nuget-windows
+    paths:
+      - .cache/nuget
+  script:
+    - |
+      $match = Select-String -Path server/pyproject.toml -Pattern '^version = "(\d+\.\d+\.\d+)"' | Select-Object -First 1
+      if (!$match) { throw 'server/pyproject.toml has no plain MAJOR.MINOR.PATCH version' }
+      $env:CI_VERSION = "$($match.Matches[0].Groups[1].Value)-dev"
+      Write-Host "CI_VERSION=$env:CI_VERSION"
+    - |
+      dotnet restore build/RevitApiReferencePin/RevitApiReferencePin.csproj --locked-mode -p:Configuration=Release
+      if ($LASTEXITCODE -ne 0) { throw 'Revit API reference pin restore failed' }
+      dotnet restore src/RevitModelMcp.BatchSupervisor/RevitModelMcp.BatchSupervisor.csproj --locked-mode -p:Configuration=Release.R26
+      if ($LASTEXITCODE -ne 0) { throw 'Batch supervisor restore failed' }
+    - |
+      foreach ($year in $env:REVIT_YEARS.Split(' ')) {
+        dotnet restore src/RevitModelMcp.Addin/RevitModelMcp.Addin.csproj --locked-mode "-p:Configuration=Release.R$year" -p:DeployAddin=false "-p:Version=$env:CI_VERSION"
+        if ($LASTEXITCODE -ne 0) { throw "R$year locked restore failed" }
+        dotnet build src/RevitModelMcp.Addin -c "Release.R$year" -p:DeployAddin=false "-p:Version=$env:CI_VERSION" -p:IsRepackable=true --no-restore
+        if ($LASTEXITCODE -ne 0) { throw "R$year build or AssemblyRef verification failed" }
+        $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName("src/RevitModelMcp.Addin/bin/Release.R$year/RevitModelMcp.dll").Version.ToString(3)
+        $expectedVersion = $env:CI_VERSION.Split('-')[0]
+        if ($assemblyVersion -ne $expectedVersion) { throw "R$year assembly version $assemblyVersion differs from $expectedVersion" }
+        $product = (Get-Item "src/RevitModelMcp.Addin/bin/Release.R$year/RevitModelMcp.dll").VersionInfo.ProductVersion
+        if (!$product.StartsWith("$env:CI_VERSION+")) { throw "R$year product version $product does not start with $env:CI_VERSION+" }
+        foreach ($name in 'RevitModelMcp.dll', 'RevitModelMcp.Updater.exe', 'RevitModelMcp.BatchSupervisor.exe', 'RevitModelMcp.Core.dll') {
+          $productName = (Get-Item "src/RevitModelMcp.Addin/bin/Release.R$year/$name").VersionInfo.ProductName
+          if ($productName -ne 'Model MCP') { throw "R$year $name has product name '$productName', expected 'Model MCP'" }
+        }
+        Write-Host "ASSERT: R$year add-in built at $env:CI_VERSION"
+      }
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_TAG
+
+installer:
+  stage: build
+  tags: [windows]
+  timeout: 90m
+  cache:
+    key: nuget-windows
+    paths:
+      - .cache/nuget
+  needs: [addin-build]
+  script:
+    - |
+      $match = Select-String -Path server/pyproject.toml -Pattern '^version = "(\d+\.\d+\.\d+)"' | Select-Object -First 1
+      if (!$match) { throw 'server/pyproject.toml has no plain MAJOR.MINOR.PATCH version' }
+      $env:CI_VERSION = "$($match.Matches[0].Groups[1].Value)-dev"
+      $env:Build__Version = $env:CI_VERSION
+      Write-Host "CI_VERSION=$env:CI_VERSION"
+    - |
+      dotnet restore build/RevitApiReferencePin/RevitApiReferencePin.csproj --locked-mode -p:Configuration=Release
+      if ($LASTEXITCODE -ne 0) { throw 'Revit API reference pin restore failed' }
+      dotnet restore src/RevitModelMcp.BatchSupervisor/RevitModelMcp.BatchSupervisor.csproj --locked-mode -p:Configuration=Release.R26
+      if ($LASTEXITCODE -ne 0) { throw 'Batch supervisor restore failed' }
+      dotnet restore build/Build.csproj --locked-mode
+      if ($LASTEXITCODE -ne 0) { throw 'Build project locked restore failed' }
+      dotnet restore build/install/Installer.csproj --locked-mode -p:Configuration=Release
+      if ($LASTEXITCODE -ne 0) { throw 'Installer locked restore failed' }
+    - |
+      foreach ($year in $env:REVIT_YEARS.Split(' ')) {
+        dotnet restore src/RevitModelMcp.Addin/RevitModelMcp.Addin.csproj --locked-mode "-p:Configuration=Release.R$year" -p:DeployAddin=false "-p:Version=$env:CI_VERSION"
+        if ($LASTEXITCODE -ne 0) { throw "R$year locked restore failed" }
+        dotnet build src/RevitModelMcp.Addin -c "Release.R$year" -p:DeployAddin=false "-p:Version=$env:CI_VERSION" -p:IsRepackable=true --no-restore
+        if ($LASTEXITCODE -ne 0) { throw "R$year build or AssemblyRef verification failed" }
+      }
+      Write-Host 'ASSERT: all Revit years built'
+    - python build/server-exe/build.py
+    - python build/server-exe/smoke.py
+    - |
+      dotnet run --no-restore --project build -- pack --no-build
+      if ($LASTEXITCODE -ne 0) { throw 'Installer build failed' }
+      $installers = @(Get-ChildItem output/*.msi)
+      if ($installers.Count -ne 2) { throw "Expected two MSIs, found $($installers.Count)" }
+      $installers | ForEach-Object { Write-Host "MSI: $($_.Name) ($($_.Length) bytes)" }
+    - |
+      foreach ($msi in Get-ChildItem output/*.msi) {
+        $target = Join-Path $env:TEMP "extract-$($msi.BaseName)"
+        $log = Join-Path $env:TEMP "$($msi.BaseName)-extract.log"
+        $process = Start-Process msiexec.exe -ArgumentList "/a `"$($msi.FullName)`" /qn /norestart TARGETDIR=`"$target`" /l*v `"$log`"" -Wait -PassThru
+        if ($process.ExitCode -ne 0) { throw "MSI extraction failed: $($process.ExitCode)" }
+        $files = @(Get-ChildItem $target -Recurse -File)
+        $blocked = @($files | Where-Object {
+          $_.Name -match '^(AdWindows|UIFramework|RevitAPI|RevitNET).*\.dll$' -or
+          ($_.Extension -eq '.dll' -and $_.VersionInfo.CompanyName -match 'Autodesk')
+        })
+        if ($blocked.Count) { throw "Autodesk binaries must not be distributed: $($blocked.Name -join ', ')" }
+        $servers = @($files | Where-Object Name -EQ 'revit-model-mcp.exe')
+        if ($servers.Count -ne 1) { throw "Expected one bundled server executable in $($msi.Name), found $($servers.Count)" }
+        if (!(Test-Path (Join-Path $servers[0].DirectoryName 'licenses/PYTHON-LICENSE.txt'))) { throw "Missing Python license in $($msi.Name)" }
+        $manifests = @($files | Where-Object Name -EQ 'RevitModelMcp.addin')
+        if ($manifests.Count -ne 7) { throw 'Unexpected Revit year count in MSI' }
+        foreach ($year in '20', '22', '23', '24', '25', '26', '27') {
+          $manifest = @($manifests | Where-Object { $_.Directory.Name -eq "20$year" })
+          if ($manifest.Count -ne 1) { throw "Missing or duplicate R$year manifest in MSI" }
+          [xml]$manifestXml = Get-Content -LiteralPath $manifest[0].FullName
+          if (($year -in '26', '27') -ne ($null -ne $manifestXml.SelectSingleNode('/RevitAddIns/ManifestSettings'))) {
+            throw "Wrong ManifestSettings in R$year MSI manifest"
+          }
+          if (!(Test-Path "$($manifest[0].DirectoryName)/RevitModelMcp/RevitModelMcp.dll")) { throw "Missing R$year assembly in MSI" }
+          if (!(Test-Path "$($manifest[0].DirectoryName)/RevitModelMcp/RevitModelMcp.Updater.exe")) { throw "Missing R$year updater in MSI" }
+          if (!(Test-Path "$($manifest[0].DirectoryName)/RevitModelMcp/RevitModelMcp.BatchSupervisor.exe")) { throw "Missing R$year batch supervisor in MSI" }
+          if (!(Test-Path "$($manifest[0].DirectoryName)/RevitModelMcp/RevitModelMcp.Core.dll")) { throw "Missing R$year supervisor Core dependency in MSI" }
+          Write-Host "ASSERT: $($msi.Name) contains R$year manifest and assembly"
+        }
+        Write-Host "ASSERT: $($msi.Name) contains no Autodesk DLLs"
+      }
+    # The first of the five MSI smoke tests: install, assert every registered year, uninstall,
+    # assert nothing is left behind. The other four (developer-build overlay, multi-user,
+    # scope conflict, same-version upgrade) still run on GitHub only; see docs/ci.md.
+    - |
+      $msi = (Get-ChildItem output/*-SingleUser.msi).FullName
+      $roots = @("$env:APPDATA/Autodesk/Revit/Addins/2022", "$env:APPDATA/Autodesk/Revit/Addins/2026", "$env:APPDATA/Autodesk/Revit/Addins/2027")
+      $log = "$env:TEMP/mcp-single-install.log"
+      try {
+        $process = Start-Process msiexec.exe -ArgumentList "/i `"$msi`" /qn /norestart /l*v `"$log`"" -Wait -PassThru
+        if ($process.ExitCode -ne 0) { throw "SingleUser install failed: $($process.ExitCode)" }
+        Write-Host 'ASSERT: SingleUser install exit code 0'
+        foreach ($root in $roots) {
+          foreach ($relative in 'RevitModelMcp.addin', 'RevitModelMcp/RevitModelMcp.dll', 'RevitModelMcp/RevitModelMcp.Updater.exe', 'RevitModelMcp/RevitModelMcp.BatchSupervisor.exe', 'RevitModelMcp/RevitModelMcp.Core.dll') {
+            if (!(Test-Path "$root/$relative")) { throw "Missing installed file: $root/$relative" }
+            Write-Host "ASSERT: installed $root/$relative"
+          }
+        }
+      } finally {
+        $process = Start-Process msiexec.exe -ArgumentList "/x `"$msi`" /qn /norestart /l*v `"$env:TEMP/mcp-single-uninstall.log`"" -Wait -PassThru
+        if ($process.ExitCode -ne 0) { throw "SingleUser uninstall failed: $($process.ExitCode)" }
+      }
+      foreach ($root in $roots) {
+        foreach ($relative in 'RevitModelMcp.addin', 'RevitModelMcp/RevitModelMcp.dll') {
+          if (Test-Path "$root/$relative") { throw "File remains after uninstall: $root/$relative" }
+        }
+      }
+      Write-Host 'ASSERT: SingleUser uninstall removed every registered year'
+    - |
+      foreach ($year in '22', '26') {
+        $stage = "artifacts/addin-R$year"
+        New-Item -ItemType Directory -Force "$stage/RevitModelMcp" | Out-Null
+        Get-ChildItem "src/RevitModelMcp.Addin/bin/Release.R$year" | Where-Object Name -ne 'publish' | Copy-Item -Destination "$stage/RevitModelMcp" -Recurse
+        Copy-Item "src/RevitModelMcp.Addin/bin/Release.R$year/publish/RevitModelMcp.addin", LICENSE, THIRD-PARTY-NOTICES.md $stage
+        foreach ($required in 'RevitModelMcp.dll', 'RevitModelMcp.Updater.exe', 'RevitModelMcp.BatchSupervisor.exe', 'RevitModelMcp.Core.dll') {
+          if (!(Test-Path "$stage/RevitModelMcp/$required")) { throw "Missing R$year $required" }
+        }
+        $blocked = @(Get-ChildItem $stage -Recurse -Filter '*.dll' -File | Where-Object {
+          $_.Name -match '^(AdWindows|UIFramework|RevitAPI|RevitNET).*\.dll$' -or
+          $_.VersionInfo.CompanyName -match 'Autodesk'
+        })
+        if ($blocked.Count) { throw "Autodesk binaries must not be distributed: $($blocked.Name -join ', ')" }
+        Write-Host "ASSERT: staged add-in R$year"
+      }
+  artifacts:
+    when: always
+    expire_in: 30 days
+    paths:
+      - output/*.msi
+      - artifacts/
+      - $TEMP/mcp-*.log
+      - $TEMP/*-extract.log
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_TAG
+
+# ---------------------------------------------------------------------------
+# release: a GitLab Release replaces the GitHub Release the add-in updater used to poll.
+# ---------------------------------------------------------------------------
+
+release:
+  stage: release
+  tags: [linux]
+  needs: [installer, python, bundle]
+  script:
+    - |
+      set -euo pipefail
+      tag="$CI_COMMIT_TAG"
+      version="${tag#v}"
+      python3 - "$version" > /tmp/release-notes.md <<'PYTHON'
+      import re, sys, pathlib
+      version = sys.argv[1]
+      changelog = pathlib.Path('CHANGELOG.md').read_text(encoding='utf-8')
+      match = re.search(rf'^## \[?{re.escape(version)}\]?[^\n]*\n(.*?)(?=^## |\Z)', changelog, re.S | re.M)
+      print(match.group(1).strip() if match else f'Release {version}.')
+      PYTHON
+      python3 - "$tag" "$version" > /tmp/release.json <<'PYTHON'
+      import json, os, sys
+      tag, version = sys.argv[1], sys.argv[2]
+      base = f"{os.environ['CI_PROJECT_URL']}/-/jobs/artifacts/{tag}/raw"
+      def link(name, path, job):
+          return {"name": name, "url": f"{base}/{path}?job={job}"}
+      links = [
+          link("Single-user MSI", "output/revit-model-mcp-SingleUser.msi", "installer"),
+          link("Multi-user MSI", "output/revit-model-mcp.msi", "installer"),
+          link("Claude Desktop bundle", "revit-model-mcp.mcpb", "bundle"),
+      ]
+      print(json.dumps({
+          "name": f"v{version}",
+          "tag_name": tag,
+          "description": open('/tmp/release-notes.md', encoding='utf-8').read(),
+          "assets": {"links": links},
+      }))
+      PYTHON
+      curl --silent --show-error --fail --request POST \
+        --header "JOB-TOKEN: $CI_JOB_TOKEN" \
+        --header "Content-Type: application/json" \
+        --data @/tmp/release.json \
+        "$CI_API_V4_URL/projects/$CI_PROJECT_ID/releases" > /tmp/release-response.json
+      python3 -c "import json;print('release:', json.load(open('/tmp/release-response.json'))['tag_name'])"
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/
