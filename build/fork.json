@@ -104,6 +104,7 @@
     "server/tests/test_fork_identity.py": "the identity check's own tests",
     "server/tests/test_http_host.py": "the loopback HTTP host's own tests",
     "server/tests/test_report_writers.py": "the report writers the fork ships have tests",
+    "server/tests/test_revit_channel.py": "the ssh timeout test needs a budget a loaded machine can meet",
     "server/tests/test_server.py": "the shipped surface lists the fork's tools",
     "server/tests/test_snapshot_report.py": "the snapshot report has tests",
     "server/tests/test_toolsets.py": "the payload guard carries the fork's allowance",
