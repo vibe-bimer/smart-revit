@@ -14,6 +14,16 @@ stages:
   - build
   - release
 
+# One commit should cost one pipeline. Without this rule a branch that has an open merge
+# request runs everything twice and the two copies queue behind the same two runners.
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_TAG
+    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+      when: never
+    - if: $CI_COMMIT_BRANCH
+
 variables:
   # Pinned exactly like the GitHub workflows: an unpinned tool makes a red pipeline mean
   # "upstream released something" instead of "the change is broken".
