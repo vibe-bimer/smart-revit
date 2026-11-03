@@ -2,6 +2,7 @@
   "base": "760bb7c21337abb2a2aec21434e1d208e01e6cc0",
   "baseTag": "v1.0.0 plus eleven post-release fixes",
   "forkPaths": [
+    ".gitlab-ci.yml",
     ".github/workflows/docs.yml",
     "CHANGELOG.zh.md",
     "CONTEXT.md",

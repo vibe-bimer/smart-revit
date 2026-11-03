@@ -197,7 +197,8 @@ addin-build:
         if ($LASTEXITCODE -ne 0) { throw "R$year locked restore failed" }
         dotnet build src/RevitModelMcp.Addin -c "Release.R$year" -p:DeployAddin=false "-p:Version=$env:CI_VERSION" -p:IsRepackable=true --no-restore
         if ($LASTEXITCODE -ne 0) { throw "R$year build or AssemblyRef verification failed" }
-        $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName("src/RevitModelMcp.Addin/bin/Release.R$year/RevitModelMcp.dll").Version.ToString(3)
+        $assemblyPath = (Resolve-Path "src/RevitModelMcp.Addin/bin/Release.R$year/RevitModelMcp.dll").Path
+        $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($assemblyPath).Version.ToString(3)
         $expectedVersion = $env:CI_VERSION.Split('-')[0]
         if ($assemblyVersion -ne $expectedVersion) { throw "R$year assembly version $assemblyVersion differs from $expectedVersion" }
         $product = (Get-Item "src/RevitModelMcp.Addin/bin/Release.R$year/RevitModelMcp.dll").VersionInfo.ProductVersion

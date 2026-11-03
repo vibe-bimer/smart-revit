@@ -598,11 +598,11 @@ class SshHostErrorMappingTests(unittest.IsolatedAsyncioTestCase):
             new=AsyncMock(return_value=process),
         ):
             with self.assertRaises(RemoteCommandTimeoutError) as raised:
-                await host._run("Start-Sleep 60", timeout_seconds=0.001)
+                await host._run("Start-Sleep 60", timeout_seconds=0.05)
 
         message = str(raised.exception)
         self.assertIn("did not complete", message)
-        self.assertIn("within 0.001 s", message)
+        self.assertIn("within 0.05 s", message)
         self.assertIn("command execution timeout", message)
         self.assertIn("not evidence that SSH is unavailable", message)
         self.assertTrue(process.killed)
