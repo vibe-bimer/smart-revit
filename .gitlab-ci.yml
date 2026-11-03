@@ -149,6 +149,10 @@ docs-verify:
     - uv venv --python 3.12 .venv-docs
     - uv pip install --python .venv-docs/bin/python --require-hashes -r docs/requirements.txt
     - uv pip install --python .venv-docs/bin/python -e ./server
+    # The generator starts the server through the console script when it can find one and
+    # falls back to `python -m revit_model_mcp`, which this package does not ship. Putting the
+    # environment on PATH keeps it on the console script.
+    - export PATH="$PWD/.venv-docs/bin:$PATH"
     # Gates run cheapest-first: the line has to exist, then registry drift, then the
     # dual-config build, then the unit suite.
     - .venv-docs/bin/python tools/site/generate_features.py --verify-registry --check
