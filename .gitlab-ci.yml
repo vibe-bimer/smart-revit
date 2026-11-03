@@ -176,9 +176,9 @@ docs-verify:
 addin-build:
   stage: build
   tags: [windows]
-  # Temporary while the LAN instance has no Linux runner: without `needs: []` this job waits
-  # behind the validate stage, which cannot finish until a `linux` runner exists.
-  needs: []
+  # One shell runner means one checkout: two Windows jobs in flight would fight over the same
+  # build directory, so they queue on a shared resource instead.
+  resource_group: windows-shell
   timeout: 45m
   cache:
     key: nuget-windows
@@ -221,6 +221,7 @@ addin-build:
 installer:
   stage: build
   tags: [windows]
+  resource_group: windows-shell
   timeout: 90m
   cache:
     key: nuget-windows
@@ -392,17 +393,3 @@ release:
       python3 -c "import json;print('release:', json.load(open('/tmp/release-response.json'))['tag_name'])"
   rules:
     - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/
-
-# Temporary probe: proves the `windows` shell runner clones, runs PowerShell and finds the
-# toolchain. Removed once the first real pipeline has gone green.
-runner-probe:
-  stage: validate
-  tags: [windows]
-  script:
-    - $PSVersionTable.PSVersion.ToString()
-    - dotnet --version
-    - uv --version
-    - git --version
-    - Write-Host "CI_PROJECT_DIR=$env:CI_PROJECT_DIR"
-  rules:
-    - if: $CI_COMMIT_BRANCH
