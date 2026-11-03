@@ -172,6 +172,9 @@ docs-verify:
 addin-build:
   stage: build
   tags: [windows]
+  # Temporary while the LAN instance has no Linux runner: without `needs: []` this job waits
+  # behind the validate stage, which cannot finish until a `linux` runner exists.
+  needs: []
   timeout: 45m
   cache:
     key: nuget-windows
