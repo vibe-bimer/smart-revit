@@ -384,3 +384,17 @@ release:
       python3 -c "import json;print('release:', json.load(open('/tmp/release-response.json'))['tag_name'])"
   rules:
     - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/
+
+# Temporary probe: proves the `windows` shell runner clones, runs PowerShell and finds the
+# toolchain. Removed once the first real pipeline has gone green.
+runner-probe:
+  stage: validate
+  tags: [windows]
+  script:
+    - $PSVersionTable.PSVersion.ToString()
+    - dotnet --version
+    - uv --version
+    - git --version
+    - Write-Host "CI_PROJECT_DIR=$env:CI_PROJECT_DIR"
+  rules:
+    - if: $CI_COMMIT_BRANCH
