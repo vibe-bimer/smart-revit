@@ -1,0 +1,6 @@
+# GitLab Pages build: the site is served from a project path on the Pages host, so the absolute
+# links the theme writes (canonical, language switcher, sitemap) have to carry that prefix.
+# The LAN configuration keeps the root-served build on 192.168.100.120 until that host retires.
+INHERIT: mkdocs.yml
+
+site_url: http://192.168.100.165:8090/vibe-bimer/revit-model-mcp/

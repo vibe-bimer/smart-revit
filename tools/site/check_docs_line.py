@@ -22,6 +22,7 @@ from pathlib import Path
 REQUIRED_FILES: tuple[tuple[str, str], ...] = (
     ("mkdocs.yml", "the public site configuration"),
     ("mkdocs-lan.yml", "the LAN site configuration"),
+    ("mkdocs-pages.yml", "the GitLab Pages site configuration"),
     ("docs/hooks.py", "the search index hook"),
     ("docs/overrides/main.html", "the metadata overrides"),
     ("docs/index.md", "the site landing page"),
