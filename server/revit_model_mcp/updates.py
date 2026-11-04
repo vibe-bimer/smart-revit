@@ -14,11 +14,13 @@ from pathlib import Path
 
 LOGGER = logging.getLogger(__name__)
 PACKAGE = "revit-model-mcp"
-# This fork publishes its server on GitHub Releases and not to PyPI. Upstream owns the
+# This fork publishes its server on its own GitLab releases and not to PyPI. Upstream owns the
 # revit-model-mcp project on PyPI and both projects share version numbers, so a PyPI lookup
 # here would report upstream's release and a uvx refresh would install upstream's server.
-REPOSITORY = "vibe-bimer/revit-model-mcp"
-RELEASES_URL = f"https://api.github.com/repos/{REPOSITORY}/releases/latest"
+PROJECT_PATH = "vibe-bimer%2Frevit-model-mcp"
+RELEASES_URL = (
+    f"http://192.168.100.165:8929/api/v4/projects/{PROJECT_PATH}/releases/permalink/latest"
+)
 CHECK_INTERVAL = timedelta(hours=24)
 STABLE_VERSION = re.compile(
     r"v?(?:(\d+)!)?(\d+(?:\.\d+)*)(?:(?:[._-]?post|-)\s*(\d+))?"
@@ -100,11 +102,11 @@ def update_status(current: str | None = None) -> dict[str, str | None]:
 
 
 def _fetch_latest(path: Path) -> None:
-    """Record this fork's newest stable release tag, read from its own GitHub releases."""
+    """Record this fork's newest stable release tag, read from its own GitLab releases."""
     try:
         with urllib.request.urlopen(RELEASES_URL, timeout=5) as response:
             release = json.load(response)
-        if not isinstance(release, dict) or release.get("draft") or release.get("prerelease"):
+        if not isinstance(release, dict) or release.get("upcoming_release"):
             return
         tag = release.get("tag_name")
         if not isinstance(tag, str):

@@ -58,13 +58,17 @@ public static class UpdatePolicy
 
     /// <summary>
     /// Accepts HTTPS URLs without credentials whose host is the feed host. For the default GitHub feed the
-    /// GitHub download hosts are accepted too. Loopback HTTP is accepted only when the feed itself is loopback HTTP.
+    /// GitHub download hosts are accepted too. Loopback HTTP is accepted only when the feed itself is loopback
+    /// HTTP, and private-network HTTP only when both the feed and the URL are on the same private host.
     /// </summary>
     public static bool IsAllowedDownloadUrl(string? value, Uri feed)
     {
         if (!Uri.TryCreate(value, UriKind.Absolute, out var uri) || uri.UserInfo.Length != 0) return false;
         if (uri.Scheme == Uri.UriSchemeHttp)
-            return feed.Scheme == Uri.UriSchemeHttp && IsLoopback(uri) && IsLoopback(feed) && uri.Port == feed.Port;
+            return feed.Scheme == Uri.UriSchemeHttp && uri.Port == feed.Port &&
+                   ((IsLoopback(uri) && IsLoopback(feed)) ||
+                    (IsPrivateNetwork(uri) && IsPrivateNetwork(feed) &&
+                     string.Equals(uri.Host, feed.Host, StringComparison.OrdinalIgnoreCase)));
         if (uri.Scheme != Uri.UriSchemeHttps) return false;
         if (string.Equals(uri.Host, feed.Host, StringComparison.OrdinalIgnoreCase)) return true;
         return string.Equals(feed.Host, "api.github.com", StringComparison.OrdinalIgnoreCase) &&
@@ -83,6 +87,18 @@ public static class UpdatePolicy
     }
 
     private static bool IsLoopback(Uri uri) => uri.Host is "127.0.0.1" or "localhost";
+
+    /// <summary>True for an RFC 1918 or IPv6 unique-local host: a LAN release feed is trusted, the public internet is not.</summary>
+    public static bool IsPrivateNetwork(Uri uri) => PrivateNetworkHost(uri.Host);
+
+    private static bool PrivateNetworkHost(string host) =>
+        System.Net.IPAddress.TryParse(host, out var address) &&
+        (address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork
+            ? address.GetAddressBytes() is [10, ..] or [172, >= 16 and <= 31, ..] or [192, 168, ..]
+            : address.IsIPv6LinkLocal || IsUniqueLocal(address.GetAddressBytes()));
+
+    private static bool IsUniqueLocal(byte[] bytes) =>
+        bytes.Length == 16 && (bytes[0] & 0xFE) == 0xFC;
 
     public static string? SelectSingleUserAsset(IEnumerable<string> names, string version)
     {

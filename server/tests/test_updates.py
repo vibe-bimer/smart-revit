@@ -64,14 +64,14 @@ def test_bundled_executable_never_checks_for_updates(tmp_path, monkeypatch):
 
 def test_the_update_source_is_this_fork_and_never_pypi():
     assert updates.RELEASES_URL == (
-        "https://api.github.com/repos/vibe-bimer/revit-model-mcp/releases/latest"
+        "http://192.168.100.165:8929/api/v4/projects/vibe-bimer%2Frevit-model-mcp/releases/permalink/latest"
     )
     assert not hasattr(updates, "PYPI_URL")
 
 
 def test_release_lookup_records_the_tag_of_a_stable_release(tmp_path):
     path = tmp_path / "update.json"
-    release = {"tag_name": "v1.2.0", "draft": False, "prerelease": False}
+    release = {"tag_name": "v1.2.0"}
     with patch.object(
         updates.urllib.request, "urlopen", return_value=io.BytesIO(json.dumps(release).encode())
     ) as request:
@@ -83,14 +83,14 @@ def test_release_lookup_records_the_tag_of_a_stable_release(tmp_path):
 @pytest.mark.parametrize(
     "release",
     [
-        {"tag_name": "v2.0.0", "draft": True, "prerelease": False},
-        {"tag_name": "v2.0.0-rc.1", "draft": False, "prerelease": True},
-        {"tag_name": "v2.0.0rc1", "draft": False, "prerelease": False},
-        {"tag_name": None, "draft": False, "prerelease": False},
+        {"tag_name": "v2.0.0", "upcoming_release": True},
+        {"tag_name": "v2.0.0-rc.1"},
+        {"tag_name": "v2.0.0rc1"},
+        {"tag_name": None},
         [],
     ],
 )
-def test_release_lookup_ignores_a_draft_prerelease_or_malformed_answer(tmp_path, release):
+def test_release_lookup_ignores_an_upcoming_or_malformed_answer(tmp_path, release):
     path = tmp_path / "update.json"
     with patch.object(
         updates.urllib.request, "urlopen", return_value=io.BytesIO(json.dumps(release).encode())

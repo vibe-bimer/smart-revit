@@ -111,6 +111,7 @@
     "server/tests/test_validate_bundle.py": "the managed bundle check has tests",
     "src/RevitModelMcp.Addin/Connect/ConnectText.cs": "the bundled-server message names the product",
     "src/RevitModelMcp.Addin/Updates/UpdateService.cs": "the fork's release feed",
+    "src/RevitModelMcp.Core/Updates/UpdatePolicy.cs": "the release feed's private-network HTTP rule",
     "src/RevitModelMcp.Core/Connect/McpServerSpec.cs": "the install folder and the server source an AI app starts",
     "src/RevitModelMcp.Core/Help/HelpLinks.cs": "the fork's help site",
     "src/RevitModelMcp.Updater/Program.cs": "the updater finds the bundled server in the product folder",
@@ -143,7 +144,8 @@
     "build/packages.lock.json": "pre-commit end-of-file normalization of build metadata",
     "global.json": "pre-commit end-of-file normalization of build metadata",
     "tests/RevitModelMcp.Core.Tests/packages.lock.json": "pre-commit end-of-file normalization of build metadata",
-    "src/RevitModelMcp.Core/packages.lock.json": "pre-commit end-of-file normalization of build metadata"
+    "src/RevitModelMcp.Core/packages.lock.json": "pre-commit end-of-file normalization of build metadata",
+    "server/tests/test_tool_manifest.py": "the manifest test asserts the fork's LAN release feed endpoints"
   },
   "removed": {
     ".github/workflows/winget.yml": "removed: it published to upstream's WinGet package",

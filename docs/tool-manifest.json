@@ -1823,38 +1823,29 @@
   ],
   "externalEndpoints": [
     {
-      "domain": "api.github.com",
-      "protocol": "https",
-      "component": "Revit add-in",
+      "domain": "192.168.100.165:8929",
+      "protocol": "http",
+      "component": "Revit add-in update check",
       "purpose": "Check for the latest stable release at most once every 24 hours after Revit starts.",
-      "dataSent": "None beyond a standard HTTPS request; no model data.",
+      "dataSent": "None beyond a plain HTTP request on the LAN; no model data.",
       "optional": true,
       "disable": "Install with UPDATEMODE=off (or UPDATECHECK=0), set updateMode to off in settings.json, or build with UpdateChannel=managed."
     },
     {
-      "domain": "github.com",
-      "protocol": "https",
-      "component": "Revit add-in",
+      "domain": "192.168.100.165:8929",
+      "protocol": "http",
+      "component": "Revit add-in update download",
       "purpose": "Download the release MSI and its SHA256 checksum when an update is available; the checksum is verified before install.",
-      "dataSent": "None beyond a standard HTTPS request.",
+      "dataSent": "None beyond a plain HTTP request on the LAN; no model data.",
       "optional": true,
       "disable": "Install with UPDATEMODE=off (or UPDATECHECK=0), set updateMode to off in settings.json, or build with UpdateChannel=managed."
     },
     {
-      "domain": "release-assets.githubusercontent.com",
-      "protocol": "https",
-      "component": "Revit add-in",
-      "purpose": "Download the release MSI and its SHA256 checksum when an update is available; the checksum is verified before install.",
-      "dataSent": "None beyond a standard HTTPS request.",
-      "optional": true,
-      "disable": "Install with UPDATEMODE=off (or UPDATECHECK=0), set updateMode to off in settings.json, or build with UpdateChannel=managed."
-    },
-    {
-      "domain": "api.github.com",
-      "protocol": "https",
+      "domain": "192.168.100.165:8929",
+      "protocol": "http",
       "component": "Python server",
       "purpose": "Best-effort check for a newer release of this fork.",
-      "dataSent": "None beyond a standard HTTPS request.",
+      "dataSent": "None beyond a plain HTTP request on the LAN; no model data.",
       "optional": true,
       "disable": "Set REVIT_MCP_NO_UPDATE_CHECK=1."
     },

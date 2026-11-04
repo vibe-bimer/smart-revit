@@ -162,6 +162,26 @@ public sealed class UpdatePolicyTests
         await Assert.That(UpdatePolicy.IsAllowedDownloadUrl("http://127.0.0.1:9000/a.msi", loopback)).IsTrue();
         await Assert.That(UpdatePolicy.IsAllowedDownloadUrl("http://127.0.0.1:9001/a.msi", loopback)).IsFalse();
         await Assert.That(UpdatePolicy.IsAllowedDownloadUrl(null, loopback)).IsFalse();
+        var lan = new Uri("http://192.168.100.165:8929");
+        await Assert.That(UpdatePolicy.IsAllowedDownloadUrl("http://192.168.100.165:8929/packages/x", lan)).IsTrue();
+        await Assert.That(UpdatePolicy.IsAllowedDownloadUrl("http://192.168.100.166:8929/packages/x", lan)).IsFalse();
+        await Assert.That(UpdatePolicy.IsAllowedDownloadUrl("http://192.168.100.165:8930/packages/x", lan)).IsFalse();
+        await Assert.That(UpdatePolicy.IsAllowedDownloadUrl("http://8.8.8.8/a.msi", lan)).IsFalse();
+        await Assert.That(UpdatePolicy.IsAllowedDownloadUrl("http://evil.example/a.msi", lan)).IsFalse();
+        var publicHttp = new Uri("http://releases.example.com");
+        await Assert.That(UpdatePolicy.IsAllowedDownloadUrl("http://releases.example.com/a.msi", publicHttp)).IsFalse();
+    }
+
+    [Test]
+    public async Task PrivateNetworkFeedsAreClassifiedByAddress()
+    {
+        await Assert.That(UpdatePolicy.IsPrivateNetwork(new Uri("http://192.168.100.165:8929"))).IsTrue();
+        await Assert.That(UpdatePolicy.IsPrivateNetwork(new Uri("http://10.0.0.1"))).IsTrue();
+        await Assert.That(UpdatePolicy.IsPrivateNetwork(new Uri("http://172.16.0.1"))).IsTrue();
+        await Assert.That(UpdatePolicy.IsPrivateNetwork(new Uri("http://172.31.255.255"))).IsTrue();
+        await Assert.That(UpdatePolicy.IsPrivateNetwork(new Uri("http://172.32.0.1"))).IsFalse();
+        await Assert.That(UpdatePolicy.IsPrivateNetwork(new Uri("http://11.0.0.1"))).IsFalse();
+        await Assert.That(UpdatePolicy.IsPrivateNetwork(new Uri("http://releases.example.com"))).IsFalse();
     }
 
     [Test]
