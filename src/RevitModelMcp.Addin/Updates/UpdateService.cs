@@ -128,32 +128,37 @@ internal static class UpdateService
             return;
         }
 
-        var assetName = UpdatePolicy.SelectSingleUserAsset(release.Assets.Links.Select(asset => asset.Name), release.TagName);
-        var msiAsset = release.Assets.Links.FirstOrDefault(asset => asset.Name == assetName);
-        var checksumAsset = release.Assets.Links.FirstOrDefault(asset => asset.Name == "SHA256SUMS.txt");
+        // GitLab release links carry a display label and keep the file name in the URL, so the
+        // assets are matched by the name each download ends in.
+        var assets = release.Assets.Links
+            .Select(asset => new { Asset = asset, FileName = UpdatePolicy.AssetFileName(asset.DownloadUrl) ?? asset.Name })
+            .ToList();
+        var assetName = UpdatePolicy.SelectSingleUserAsset(assets.Select(item => item.FileName), release.TagName);
+        var msiAsset = assets.FirstOrDefault(item => item.FileName == assetName);
+        var checksumAsset = assets.FirstOrDefault(item => item.FileName == "SHA256SUMS.txt");
         if (msiAsset is null || checksumAsset is null)
         {
             ActivityRecorder.RecordSystemNotice($"Update to {release.TagName} failed: release assets are missing.", releaseUrl, true);
             return;
         }
-        UpdatePolicy.EnsureAllowedDownloadUrl(msiAsset.DownloadUrl, feed);
-        UpdatePolicy.EnsureAllowedDownloadUrl(checksumAsset.DownloadUrl, feed);
+        UpdatePolicy.EnsureAllowedDownloadUrl(msiAsset.Asset.DownloadUrl, feed);
+        UpdatePolicy.EnsureAllowedDownloadUrl(checksumAsset.Asset.DownloadUrl, feed);
 
         var version = release.TagName.TrimStart('v', 'V');
         var directory = Path.Combine(LocalDirectory, "updates", version);
         CreatePrivateDirectory(directory);
-        var checksumText = ReadText(new Uri(checksumAsset.DownloadUrl), feed);
+        var checksumText = ReadText(new Uri(checksumAsset.Asset.DownloadUrl), feed);
         File.WriteAllText(Path.Combine(directory, "SHA256SUMS.txt"), checksumText);
-        var expected = UpdatePolicy.ParseChecksum(checksumText, msiAsset.Name);
+        var expected = UpdatePolicy.ParseChecksum(checksumText, msiAsset.FileName);
         if (expected is null)
         {
             ActivityRecorder.RecordSystemNotice($"Update to {release.TagName} failed: MSI checksum is missing.", releaseUrl, true);
             return;
         }
-        var msiPath = Path.Combine(directory, msiAsset.Name);
+        var msiPath = Path.Combine(directory, msiAsset.FileName);
         try
         {
-            Download(new Uri(msiAsset.DownloadUrl), msiPath, feed);
+            Download(new Uri(msiAsset.Asset.DownloadUrl), msiPath, feed);
             using var file = File.OpenRead(msiPath);
             if (!UpdatePolicy.VerifyChecksum(file, expected))
             {

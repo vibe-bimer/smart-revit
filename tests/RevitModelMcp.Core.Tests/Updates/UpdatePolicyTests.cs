@@ -223,6 +223,21 @@ public sealed class UpdatePolicyTests
     }
 
     [Test]
+    public async Task ReadsTheFileNameAGitLabReleaseLinkDownloads()
+    {
+        // A GitLab release link labels the asset "Single-user MSI" and keeps the file name in
+        // the package URL, so the updater reads the name from the URL instead of the label.
+        await Assert.That(UpdatePolicy.AssetFileName(
+                "http://192.168.100.165:8929/api/v4/projects/15/packages/generic/revit-model-mcp/v1.0.0/RevitModelMcp-1.0.0-SingleUser.msi"))
+            .IsEqualTo("RevitModelMcp-1.0.0-SingleUser.msi");
+        await Assert.That(UpdatePolicy.AssetFileName(
+                "http://192.168.100.165:8929/vibe-bimer/revit-model-mcp/-/jobs/artifacts/v1.0.0/raw/revit-model-mcp.mcpb?job=bundle"))
+            .IsEqualTo("revit-model-mcp.mcpb");
+        await Assert.That(UpdatePolicy.AssetFileName("https://example.test/releases/")).IsNull();
+        await Assert.That(UpdatePolicy.AssetFileName("not a url")).IsNull();
+    }
+
+    [Test]
     public async Task ParsesTargetChecksumFromMultipleLfOnlyLines()
     {
         const string fileName = "RevitModelMcp-0.5.0-SingleUser.msi";
