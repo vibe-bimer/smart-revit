@@ -93,7 +93,17 @@ def test_required_manifest_keys(built):
     assert built["aiServices"] == []
     assert isinstance(built["dataHandling"], dict)
     endpoints = built["externalEndpoints"]
-    assert all(endpoint["protocol"] == "https" for endpoint in endpoints)
+    assert all(endpoint["protocol"] in {"https", "http"} for endpoint in endpoints)
+    assert all(
+        endpoint["protocol"] == "http"
+        for endpoint in endpoints
+        if endpoint["domain"] == "192.168.100.165:8929"
+    )
+    assert all(
+        endpoint["protocol"] == "https"
+        for endpoint in endpoints
+        if endpoint["domain"] != "192.168.100.165:8929"
+    )
     keys = [(endpoint["domain"], endpoint["component"]) for endpoint in endpoints]
     assert len(keys) == len(set(keys))
 

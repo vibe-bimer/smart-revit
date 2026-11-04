@@ -144,7 +144,7 @@ def _endpoint(domain, component, purpose, data_sent, disable, protocol="https"):
 EXTERNAL_ENDPOINTS = [
     _endpoint(
         "192.168.100.165:8929",
-        "Revit add-in",
+        "Revit add-in update check",
         "Check for the latest stable release at most once every 24 hours after Revit starts.",
         "None beyond a plain HTTP request on the LAN; no model data.",
         _UPDATE_CHECK_DISABLE,
@@ -152,7 +152,7 @@ EXTERNAL_ENDPOINTS = [
     ),
     _endpoint(
         "192.168.100.165:8929",
-        "Revit add-in",
+        "Revit add-in update download",
         _RELEASE_DOWNLOAD_PURPOSE,
         "None beyond a plain HTTP request on the LAN; no model data.",
         _UPDATE_CHECK_DISABLE,

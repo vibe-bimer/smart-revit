@@ -1825,7 +1825,7 @@
     {
       "domain": "192.168.100.165:8929",
       "protocol": "http",
-      "component": "Revit add-in",
+      "component": "Revit add-in update check",
       "purpose": "Check for the latest stable release at most once every 24 hours after Revit starts.",
       "dataSent": "None beyond a plain HTTP request on the LAN; no model data.",
       "optional": true,
@@ -1834,7 +1834,7 @@
     {
       "domain": "192.168.100.165:8929",
       "protocol": "http",
-      "component": "Revit add-in",
+      "component": "Revit add-in update download",
       "purpose": "Download the release MSI and its SHA256 checksum when an update is available; the checksum is verified before install.",
       "dataSent": "None beyond a plain HTTP request on the LAN; no model data.",
       "optional": true,
