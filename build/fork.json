@@ -144,7 +144,8 @@
     "build/packages.lock.json": "pre-commit end-of-file normalization of build metadata",
     "global.json": "pre-commit end-of-file normalization of build metadata",
     "tests/RevitModelMcp.Core.Tests/packages.lock.json": "pre-commit end-of-file normalization of build metadata",
-    "src/RevitModelMcp.Core/packages.lock.json": "pre-commit end-of-file normalization of build metadata"
+    "src/RevitModelMcp.Core/packages.lock.json": "pre-commit end-of-file normalization of build metadata",
+    "server/tests/test_tool_manifest.py": "the manifest test asserts the fork's LAN release feed endpoints"
   },
   "removed": {
     ".github/workflows/winget.yml": "removed: it published to upstream's WinGet package",
