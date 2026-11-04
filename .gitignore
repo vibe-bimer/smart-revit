@@ -45,6 +45,7 @@ docs/screenshots/raw/
 /site-lan/
 /site.new/
 /site.prev/
+/public/
 /.site-build.lock
 
 # MCP bundle output

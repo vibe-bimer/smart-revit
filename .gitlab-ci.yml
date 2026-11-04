@@ -173,14 +173,23 @@ docs-verify:
     - .venv-docs/bin/python tools/site/generate_features.py --verify-registry --check
     - .venv-docs/bin/python tools/site/verify_dual_build.py
     - .venv-docs/bin/python -m unittest discover -s tools/site -p 'test_*.py'
+    # The LAN build is the one without a deployment base, so it serves correctly from any
+    # path. Keeping it as a job artifact makes the documentation readable on the GitLab host
+    # before Pages is switched on: the project is public, so the archive downloads anonymously.
+    - rm -rf public && cp -r site-lan public
+  artifacts:
+    name: docs-site-$CI_COMMIT_SHORT_SHA
+    paths:
+      - public
+    expire_in: 1 week
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
     - if: $CI_COMMIT_TAG
-  # Publishing stays on the LAN documentation host (192.168.100.120): its timer pulls a
-  # commit, builds an immutable release under releases/<stamp>-<sha>/ and flips `current`,
-  # rolling back when the health probe fails. This job only gates the same sources, so a
-  # broken branch can never reach the publisher.
+  # The job gates the sources and publishes the built site as an artifact. The permanent
+  # address is GitLab Pages once pages_external_url is configured on the GitLab host; until
+  # then this artifact is the reachable copy. The LAN publisher on 192.168.100.120 keeps
+  # serving the version channels until that host is retired.
 
 # ---------------------------------------------------------------------------
 # build: Windows-only work.
