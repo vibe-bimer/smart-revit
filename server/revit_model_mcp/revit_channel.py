@@ -594,7 +594,7 @@ class RemoteHost(Protocol):
     async def delete_files(self, names: list[str]) -> None: ...
 
 
-RELEASES_URL = "https://github.com/vibe-bimer/revit-model-mcp/releases/latest"
+RELEASES_URL = "http://192.168.100.165:8929/vibe-bimer/revit-model-mcp/-/releases"
 ADDIN_VERSION = re.compile(
     r"(\d+(?:\.\d+)+)(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?"
     r"(?:\+[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?"

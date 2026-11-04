@@ -373,6 +373,15 @@ installer:
           if ($LASTEXITCODE -ne 0) { throw "Package upload failed for $($msi.Name)" }
           Write-Host "ASSERT: uploaded $($msi.Name)"
         }
+        $sums = foreach ($msi in Get-ChildItem output/*.msi) {
+          "$((Get-FileHash $msi.FullName -Algorithm SHA256).Hash.ToLower())  $($msi.Name)"
+        }
+        $sumsFile = 'artifacts/logs/SHA256SUMS.txt'
+        $sums | Set-Content $sumsFile -Encoding ascii
+        $sumsUrl = "$env:CI_API_V4_URL/projects/$env:CI_PROJECT_ID/packages/generic/revit-model-mcp/$env:CI_COMMIT_TAG/SHA256SUMS.txt"
+        curl.exe --fail --silent --show-error --header "JOB-TOKEN: $env:CI_JOB_TOKEN" --upload-file $sumsFile $sumsUrl
+        if ($LASTEXITCODE -ne 0) { throw 'Package upload failed for SHA256SUMS.txt' }
+        Write-Host 'ASSERT: uploaded SHA256SUMS.txt'
       } else {
         Write-Host 'SKIP: MSI package upload runs on tags only'
       }
@@ -409,11 +418,15 @@ release:
       import json, os, sys
       tag, version = sys.argv[1], sys.argv[2]
       packages = f"{os.environ['CI_PROJECT_URL']}/-/packages/generic/revit-model-mcp/{tag}"
-      def link(name, url):
-          return {"name": name, "url": url}
+      def link(name, url, filepath=None):
+          entry = {"name": name, "url": url}
+          if filepath:
+              entry["filepath"] = filepath
+          return entry
       links = [
           link("Single-user MSI", f"{packages}/RevitModelMcp-{version}-SingleUser.msi"),
           link("Multi-user MSI", f"{packages}/RevitModelMcp-{version}-MultiUser.msi"),
+          link("SHA256SUMS.txt", f"{packages}/SHA256SUMS.txt", filepath="/SHA256SUMS.txt"),
           link("Claude Desktop bundle",
                f"{os.environ['CI_PROJECT_URL']}/-/jobs/artifacts/{tag}/raw/revit-model-mcp.mcpb?job=bundle"),
       ]

@@ -49,10 +49,10 @@ A published prerelease such as `0.9.1-rc.1` is replaced by the stable release `0
 - Set `UpdateMode` in the machine policy (`HKLM\Software\Policies\RevitModelMcp` or `%ProgramData%\RevitModelMcp\policy.json`) to lock the mode for every user. Users cannot raise it.
 - Use the `managed` channel when your deployment tool owns updates. No update request leaves the machine.
 - Per-machine installs only ever notify, whatever the mode.
-- To check an internal mirror instead of GitHub, set `REVIT_MCP_UPDATE_FEED` to an HTTPS base URL (loopback HTTP is allowed for tests). The mirror must serve the same `/repos/vibe-bimer/revit-model-mcp/releases/latest` JSON as the GitHub API.
+- To check an internal mirror instead of the fork's GitLab release feed, set `REVIT_MCP_UPDATE_FEED` to an HTTPS base URL (loopback HTTP is allowed for tests). The mirror must serve the same GitLab release JSON (`/api/v4/projects/<id>/releases/permalink/latest`) as the fork's GitLab instance.
 
 ## Download safety
 
-- Download URLs must use HTTPS and carry no credentials. The host must be the feed host. For the default GitHub feed, `github.com`, `api.github.com`, `objects.githubusercontent.com` and `release-assets.githubusercontent.com` are accepted. The final host after redirects is checked too.
+- Download URLs must carry no credentials. On an HTTPS feed the host must be the feed host. On an HTTP feed, loopback is trusted and a private-network address (RFC 1918 or IPv6 unique-local) is trusted only when both the feed and the URL are on the same private host; the fork's GitLab release feed is `http://192.168.100.165:8929`. The final host after redirects is checked too.
 - A version whose checksum does not match, or whose installation fails, is blocked for seven days. The add-in skips it and shows a notice with a link to the release.
 - `SHA256SUMS.txt` comes from the same release as the MSI, so it detects corruption but not a compromised release. Signature verification is not part of this version. It needs a signing key for the checksum file or an Authenticode certificate for the MSI; see the [code signing policy](code-signing.md).

@@ -129,10 +129,10 @@ _PYPI_LAUNCHER_DISABLE = (
 )
 
 
-def _endpoint(domain, component, purpose, data_sent, disable):
+def _endpoint(domain, component, purpose, data_sent, disable, protocol="https"):
     return {
         "domain": domain,
-        "protocol": "https",
+        "protocol": protocol,
         "component": component,
         "purpose": purpose,
         "dataSent": data_sent,
@@ -143,32 +143,28 @@ def _endpoint(domain, component, purpose, data_sent, disable):
 
 EXTERNAL_ENDPOINTS = [
     _endpoint(
-        "api.github.com",
+        "192.168.100.165:8929",
         "Revit add-in",
         "Check for the latest stable release at most once every 24 hours after Revit starts.",
-        "None beyond a standard HTTPS request; no model data.",
+        "None beyond a plain HTTP request on the LAN; no model data.",
         _UPDATE_CHECK_DISABLE,
+        protocol="http",
     ),
     _endpoint(
-        "github.com",
+        "192.168.100.165:8929",
         "Revit add-in",
         _RELEASE_DOWNLOAD_PURPOSE,
-        _HTTPS_REQUEST_ONLY,
+        "None beyond a plain HTTP request on the LAN; no model data.",
         _UPDATE_CHECK_DISABLE,
+        protocol="http",
     ),
     _endpoint(
-        "release-assets.githubusercontent.com",
-        "Revit add-in",
-        _RELEASE_DOWNLOAD_PURPOSE,
-        _HTTPS_REQUEST_ONLY,
-        _UPDATE_CHECK_DISABLE,
-    ),
-    _endpoint(
-        "api.github.com",
+        "192.168.100.165:8929",
         "Python server",
         "Best-effort check for a newer release of this fork.",
-        _HTTPS_REQUEST_ONLY,
+        "None beyond a plain HTTP request on the LAN; no model data.",
         "Set REVIT_MCP_NO_UPDATE_CHECK=1.",
+        protocol="http",
     ),
     _endpoint(
         "github.com",

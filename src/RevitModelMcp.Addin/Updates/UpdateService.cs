@@ -21,10 +21,10 @@ internal static class UpdateService
         internal static readonly DataContractJsonSerializer Instance = new(typeof(T));
     }
 
-    private const string ReleasePath = "/repos/vibe-bimer/revit-model-mcp/releases/latest";
+    private const string ReleasePath = "/api/v4/projects/vibe-bimer%2Frevit-model-mcp/releases/permalink/latest";
     private static readonly string LocalDirectory = Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "RevitModelMcp");
-    private static readonly string ReleasePage = "https://github.com/vibe-bimer/revit-model-mcp/releases";
+    private static readonly string ReleasePage = "http://192.168.100.165:8929/vibe-bimer/revit-model-mcp/-/releases";
 
     public static void Start() => _ = Task.Run(Run);
 
@@ -113,12 +113,11 @@ internal static class UpdateService
 
         var feed = FeedBase();
         var release = RequestJson<Release>(new Uri(feed, ReleasePath));
-        if (release is null || !UpdatePolicy.IsNewerStable(InstalledVersion(), release.TagName, release.Draft, release.Prerelease)) return;
+        if (release is null || !UpdatePolicy.IsNewerStable(InstalledVersion(), release.TagName, false, release.Prerelease)) return;
         if (state.QueuedVersion == release.TagName) return;
         var blocked = state.BlockedVersions.ToDictionary(item => item.Version, item => item.Until);
         if (UpdatePolicy.IsBlocked(release.TagName, blocked, now)) return;
-        var releaseUrl = UpdatePolicy.IsAllowedDownloadUrl(release.HtmlUrl, feed) ? release.HtmlUrl :
-            UpdatePolicy.BuildReleaseUrl(ReleasePage, release.TagName, release.TagName);
+        var releaseUrl = UpdatePolicy.BuildReleaseUrl(ReleasePage, release.TagName, release.TagName);
         if (mode == UpdateMode.Notify)
         {
             if (state.NotifiedVersion == release.TagName) return;
@@ -129,21 +128,21 @@ internal static class UpdateService
             return;
         }
 
-        var assetName = UpdatePolicy.SelectSingleUserAsset(release.Assets.Select(asset => asset.Name), release.TagName);
-        var msiAsset = release.Assets.FirstOrDefault(asset => asset.Name == assetName);
-        var checksumAsset = release.Assets.FirstOrDefault(asset => asset.Name == "SHA256SUMS.txt");
+        var assetName = UpdatePolicy.SelectSingleUserAsset(release.Assets.Links.Select(asset => asset.Name), release.TagName);
+        var msiAsset = release.Assets.Links.FirstOrDefault(asset => asset.Name == assetName);
+        var checksumAsset = release.Assets.Links.FirstOrDefault(asset => asset.Name == "SHA256SUMS.txt");
         if (msiAsset is null || checksumAsset is null)
         {
             ActivityRecorder.RecordSystemNotice($"Update to {release.TagName} failed: release assets are missing.", releaseUrl, true);
             return;
         }
-        UpdatePolicy.EnsureAllowedDownloadUrl(msiAsset.Url, feed);
-        UpdatePolicy.EnsureAllowedDownloadUrl(checksumAsset.Url, feed);
+        UpdatePolicy.EnsureAllowedDownloadUrl(msiAsset.DownloadUrl, feed);
+        UpdatePolicy.EnsureAllowedDownloadUrl(checksumAsset.DownloadUrl, feed);
 
         var version = release.TagName.TrimStart('v', 'V');
         var directory = Path.Combine(LocalDirectory, "updates", version);
         CreatePrivateDirectory(directory);
-        var checksumText = ReadText(new Uri(checksumAsset.Url), feed);
+        var checksumText = ReadText(new Uri(checksumAsset.DownloadUrl), feed);
         File.WriteAllText(Path.Combine(directory, "SHA256SUMS.txt"), checksumText);
         var expected = UpdatePolicy.ParseChecksum(checksumText, msiAsset.Name);
         if (expected is null)
@@ -154,7 +153,7 @@ internal static class UpdateService
         var msiPath = Path.Combine(directory, msiAsset.Name);
         try
         {
-            Download(new Uri(msiAsset.Url), msiPath, feed);
+            Download(new Uri(msiAsset.DownloadUrl), msiPath, feed);
             using var file = File.OpenRead(msiPath);
             if (!UpdatePolicy.VerifyChecksum(file, expected))
             {
@@ -190,11 +189,11 @@ internal static class UpdateService
     private static Uri FeedBase()
     {
         var value = Environment.GetEnvironmentVariable("REVIT_MCP_UPDATE_FEED");
-        if (string.IsNullOrWhiteSpace(value)) return new Uri("https://api.github.com");
+        if (string.IsNullOrWhiteSpace(value)) return new Uri("http://192.168.100.165:8929");
         if (!Uri.TryCreate(value, UriKind.Absolute, out var uri) ||
             !(uri.Scheme == Uri.UriSchemeHttps || uri.Scheme == Uri.UriSchemeHttp &&
-              (uri.Host == "127.0.0.1" || uri.Host == "localhost")))
-            throw new InvalidDataException("REVIT_MCP_UPDATE_FEED must use HTTPS or loopback HTTP.");
+              (uri.Host == "127.0.0.1" || uri.Host == "localhost" || UpdatePolicy.IsPrivateNetwork(uri))))
+            throw new InvalidDataException("REVIT_MCP_UPDATE_FEED must use HTTPS, loopback HTTP or private-network HTTP.");
         return uri;
     }
 
@@ -262,7 +261,7 @@ internal static class UpdateService
         request.Timeout = 10000;
         request.ReadWriteTimeout = 10000;
         request.UserAgent = "RevitModelMcp updater";
-        request.Accept = "application/vnd.github+json, text/plain";
+        request.Accept = "application/json, text/plain";
         request.Proxy = WebRequest.DefaultWebProxy;
         if (request.Proxy is not null) request.Proxy.Credentials = CredentialCache.DefaultCredentials;
         return request;
@@ -350,17 +349,25 @@ internal static class UpdateService
     private sealed class Release
     {
         [DataMember(Name = "tag_name")] public string TagName { get; set; } = string.Empty;
-        [DataMember(Name = "draft")] public bool Draft { get; set; }
-        [DataMember(Name = "prerelease")] public bool Prerelease { get; set; }
-        [DataMember(Name = "html_url")] public string HtmlUrl { get; set; } = string.Empty;
-        [DataMember(Name = "assets")] public List<ReleaseAsset> Assets { get; set; } = [];
+        [DataMember(Name = "upcoming_release")] public bool Prerelease { get; set; }
+        [DataMember(Name = "assets")] public ReleaseAssets Assets { get; set; } = new();
+    }
+
+    [DataContract]
+    private sealed class ReleaseAssets
+    {
+        [DataMember(Name = "links")] public List<ReleaseAsset> Links { get; set; } = [];
     }
 
     [DataContract]
     private sealed class ReleaseAsset
     {
         [DataMember(Name = "name")] public string Name { get; set; } = string.Empty;
-        [DataMember(Name = "browser_download_url")] public string Url { get; set; } = string.Empty;
+        [DataMember(Name = "direct_asset_url")] public string DirectUrl { get; set; } = string.Empty;
+        [DataMember(Name = "url")] public string Url { get; set; } = string.Empty;
+
+        /// <summary>The canonical download link, present only when the release link declares a filepath.</summary>
+        public string DownloadUrl => DirectUrl.Length != 0 ? DirectUrl : Url;
     }
 
     [DataContract]

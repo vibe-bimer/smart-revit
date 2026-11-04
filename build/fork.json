@@ -111,6 +111,7 @@
     "server/tests/test_validate_bundle.py": "the managed bundle check has tests",
     "src/RevitModelMcp.Addin/Connect/ConnectText.cs": "the bundled-server message names the product",
     "src/RevitModelMcp.Addin/Updates/UpdateService.cs": "the fork's release feed",
+    "src/RevitModelMcp.Core/Updates/UpdatePolicy.cs": "the release feed's private-network HTTP rule",
     "src/RevitModelMcp.Core/Connect/McpServerSpec.cs": "the install folder and the server source an AI app starts",
     "src/RevitModelMcp.Core/Help/HelpLinks.cs": "the fork's help site",
     "src/RevitModelMcp.Updater/Program.cs": "the updater finds the bundled server in the product folder",
