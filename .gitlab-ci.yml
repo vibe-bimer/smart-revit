@@ -417,16 +417,15 @@ release:
       python3 - "$tag" "$version" > /tmp/release.json <<'PYTHON'
       import json, os, sys
       tag, version = sys.argv[1], sys.argv[2]
-      packages = f"{os.environ['CI_PROJECT_URL']}/-/packages/generic/revit-model-mcp/{tag}"
-      def link(name, url, filepath=None):
-          entry = {"name": name, "url": url}
-          if filepath:
-              entry["filepath"] = filepath
-          return entry
+      # Package links use the API form: the UI form (/-/packages/...) redirects anonymous
+      # downloads to the sign-in page, which the updater cannot follow.
+      packages = f"{os.environ['CI_API_V4_URL']}/projects/{os.environ['CI_PROJECT_ID']}/packages/generic/revit-model-mcp/{tag}"
+      def link(name, url):
+          return {"name": name, "url": url}
       links = [
           link("Single-user MSI", f"{packages}/RevitModelMcp-{version}-SingleUser.msi"),
           link("Multi-user MSI", f"{packages}/RevitModelMcp-{version}-MultiUser.msi"),
-          link("SHA256SUMS.txt", f"{packages}/SHA256SUMS.txt", filepath="/SHA256SUMS.txt"),
+          link("SHA256SUMS.txt", f"{packages}/SHA256SUMS.txt"),
           link("Claude Desktop bundle",
                f"{os.environ['CI_PROJECT_URL']}/-/jobs/artifacts/{tag}/raw/revit-model-mcp.mcpb?job=bundle"),
       ]
