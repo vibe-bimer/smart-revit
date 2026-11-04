@@ -13,6 +13,7 @@ stages:
   - validate
   - build
   - release
+  - deploy
 
 # One commit should cost one pipeline. Without this rule a branch that has an open merge
 # request runs everything twice and the two copies queue behind the same two runners.
@@ -453,3 +454,36 @@ release:
       python3 -c "import json;print('release:', json.load(open('/tmp/release-response.json'))['tag_name'])"
   rules:
     - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/
+
+# ---------------------------------------------------------------------------
+# deploy: GitLab Pages.
+# The Pages host serves the site under the project path, so this build uses
+# mkdocs-pages.yml instead of the root-served LAN configuration. The job has to
+# be named `pages` and its artifact has to be `public/`: that is the contract
+# GitLab publishes through. Only the default branch deploys, so a merge request
+# cannot overwrite the live site.
+# ---------------------------------------------------------------------------
+
+pages:
+  stage: deploy
+  tags: [linux]
+  needs: []
+  cache:
+    key: uv-$CI_COMMIT_REF_SLUG
+    paths:
+      - .cache/uv
+  script:
+    - uv venv --python 3.12 .venv-docs
+    - uv pip install --python .venv-docs/bin/python --require-hashes -r docs/requirements.txt
+    - uv pip install --python .venv-docs/bin/python -e ./server
+    - export PATH="$PWD/.venv-docs/bin:$PATH"
+    - .venv-docs/bin/python tools/site/generate_features.py --verify-registry --check
+    - .venv-docs/bin/mkdocs build --strict -f mkdocs-pages.yml -d public
+    - .venv-docs/bin/python tools/site/check_site.py --site-dir public
+  artifacts:
+    name: pages-$CI_COMMIT_SHORT_SHA
+    paths:
+      - public
+    expire_in: 1 week
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH

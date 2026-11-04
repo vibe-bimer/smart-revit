@@ -15,6 +15,7 @@
     "docs/",
     "docs/agents/",
     "docs/features/",
+    "mkdocs-pages.yml",
     "mkdocs-lan.yml",
     "scripts/",
     "server/README.zh.md",
