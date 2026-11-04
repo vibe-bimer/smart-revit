@@ -100,6 +100,21 @@ public static class UpdatePolicy
     private static bool IsUniqueLocal(byte[] bytes) =>
         bytes.Length == 16 && (bytes[0] & 0xFE) == 0xFC;
 
+    /// <summary>
+    /// Reads the file name a release asset download ends in. A GitHub asset carries its file
+    /// name in the asset name; a GitLab release link carries a display label and keeps the file
+    /// name in the URL, so the updater matches assets by this value.
+    /// </summary>
+    public static string? AssetFileName(string downloadUrl)
+    {
+        if (!Uri.TryCreate(downloadUrl, UriKind.Absolute, out var uri)) return null;
+        var path = uri.AbsolutePath;
+        var index = path.LastIndexOf('/');
+        if (index < 0 || index == path.Length - 1) return null;
+        var name = Uri.UnescapeDataString(path.Substring(index + 1));
+        return name.Length == 0 ? null : name;
+    }
+
     public static string? SelectSingleUserAsset(IEnumerable<string> names, string version)
     {
         var expected = $"RevitModelMcp-{version.TrimStart('v', 'V')}-SingleUser.msi";
