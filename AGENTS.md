@@ -69,7 +69,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for packaging commands and test coverage.
 - Write code, comments and documentation in English with sentence-case headings and short sentences.
 - Add or update tests for every behavior change; never delete or weaken existing tests.
 - Tests assert behavior through the public surface. A Python test never reads C# source files to check their text; add-in behavior without a Core seam is verified on a Revit workstation and noted in the PR.
-- Describe release changes in Conventional Commit messages; release-please updates [CHANGELOG.md](CHANGELOG.md).
+- Describe release changes in Conventional Commit messages; the maintainer writes the version section of [CHANGELOG.md](CHANGELOG.md) at tag time (see the note in [CONTRIBUTING.md](CONTRIBUTING.md#release-ritual)).
 - Follow `.editorconfig` and the pinned Ruff configuration.
 - Keep internal documentation links valid when moving sections.
 
@@ -88,6 +88,6 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for packaging commands and test coverage.
 Follow the [release ritual](CONTRIBUTING.md#release-ritual).
 The version in `server/pyproject.toml` must equal the tag without its `v` prefix.
 Agents never edit `CHANGELOG.md` or the `server/pyproject.toml` version by hand.
-release-please owns these files and version fields through its release PR.
+In this fork the maintainer owns them: release-please never runs here, because the GitHub remote is not pushed.
 The maintainer merges the release PR to create the tag and publish the release.
 Verify assets and publishing jobs after the release workflow finishes.

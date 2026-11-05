@@ -189,9 +189,12 @@ Automated tests do not validate live Revit behavior; see [validation evidence](d
 
 ## Release ritual
 
+!!! warning "This fork writes the version section by hand"
+    This fork does not push its GitHub remote, so release-please never runs here. Steps 2 and 3 of the upstream ritual do not apply: at tag time the maintainer writes the `## [x.y.z] (YYYY-MM-DD)` section of [CHANGELOG.md](CHANGELOG.md), mirrors it in [CHANGELOG.zh.md](CHANGELOG.zh.md), and sets the same version in `server/pyproject.toml`. The GitLab release job copies that section verbatim into the release description, so a version without a section ships as `Release x.y.z.` and says nothing about it.
+
 1. Merge PRs with Conventional Commit titles.
-2. release-please maintains a `chore(main): release X.Y.Z` PR with generated changelog entries and version updates.
-3. Releases ship on Monday (Europe/Moscow). The maintainer merges the release PR on Monday after required checks pass.
+2. Upstream, release-please maintains a `chore(main): release X.Y.Z` PR with generated changelog entries and version updates. This fork has no such PR; see the note above.
+3. Upstream, releases ship on Monday (Europe/Moscow). This fork tags when the maintainer decides the branch is ready.
 4. Check the Release please workflow, both MSI assets, six ZIPs, wheel, source distribution and `SHA256SUMS.txt`. If a job fails with `The job was not acquired by Runner`, that is a GitHub infrastructure failure: rerun it with `gh run rerun <run id> --failed`.
 5. Check the release assets and `SHA256SUMS.txt`. This fork publishes nothing to PyPI, the MCP Registry, Smithery or WinGet: upstream owns those names, and both projects share version numbers, so a release from here that claimed one of them would install upstream's code while appearing to work.
 
@@ -202,7 +205,7 @@ A scheduled run refreshes it when Monday starts and when it ends.
 For an urgent fix, the maintainer adds the `hotfix-release` label to the release PR, which turns the check green and allows a release on another day.
 The size of the change, not the calendar, decides the version bump: `feat` bumps the minor version and `fix` the patch version, as described below.
 
-release-please owns [CHANGELOG.md](CHANGELOG.md) and the version in `server/pyproject.toml`, which the build checks.
+Upstream, release-please owns [CHANGELOG.md](CHANGELOG.md) and the version in `server/pyproject.toml`, which the build checks. In this fork the maintainer owns both, as the note above says.
 The simple strategy skips its absent default `version.txt`; no separate version file is maintained.
 Before 1.0, `feat` and breaking changes bump the minor version, while `fix` bumps the patch version.
 Visible documentation and dependency changes can also produce a patch release.

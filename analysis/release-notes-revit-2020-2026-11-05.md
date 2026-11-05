@@ -48,7 +48,9 @@ Three texts currently disagree about who writes that section:
 - [CHANGELOG.zh.md](../CHANGELOG.zh.md) says the English log must not be edited by hand, and that entries from 1.0.0 up are English only, with the translation still pending.
 - release-please runs on GitHub Actions only, through `.github/workflows/release-please.yml`, and this fork does not push its GitHub remote.
 
-One decision is therefore outstanding, and this file does not make it: revive the release-please workflow against a reachable remote, or write the version section by hand at tag time and amend those texts to say so. Either way the paragraph must sit inside the version's own section before the tag, because that section is the only input the release job reads.
+The maintainer settled that on 2026-11-05: the version section is written by hand at tag time, and the texts that said otherwise are amended. `CONTRIBUTING.md` and `CONTRIBUTING.zh.md` now open the release ritual with that note and mark steps 2 and 3 as upstream's; `CHANGELOG.zh.md` says entries run from 0.4.0 to 1.0.0 under release-please and hand-written after; `AGENTS.md` and `AGENTS.local.md` no longer name release-please as the owner.
+
+The paragraph must still sit inside the version's own section before the tag, because that section is the only input the release job reads.
 
 ## Coverage behind the paragraph
 
