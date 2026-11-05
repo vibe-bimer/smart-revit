@@ -419,6 +419,40 @@ class FrontmatterDescriptionTests(unittest.TestCase):
         with self.assertRaises(TypeError):
             landing.home_page(self.tools, self.capabilities, "9.9.9", "zh")
 
+    def test_development_section_states_the_migration_as_landed(self):
+        # Issue 53: the three development bullets claimed the fork actions were
+        # still pending; the eight original actions shipped with the fork layer
+        # and are live-validated on both Revit 2020 and 2026, and the
+        # integration branch has merged into main as 1.0.0.
+        for lang, landed, validated, stale, link in (
+            (
+                "zh",
+                "已在主线合流并作为 1.0.0 发布",
+                "两个年份都完成了验收",
+                "尚待完成",
+                "http://192.168.100.165:8929/vibe-bimer/revit-model-mcp/-/issues/15",
+            ),
+            (
+                "en",
+                "merged into main and released as 1.0.0",
+                "live-validated on both Revit 2020 and 2026",
+                "remain outstanding",
+                "http://192.168.100.165:8929/vibe-bimer/revit-model-mcp/-/issues/15",
+            ),
+        ):
+            with self.subTest(lang=lang):
+                html = landing.render_development(lang, 93, 80)
+                self.assertIn(landed, html)
+                self.assertIn(validated, html)
+                self.assertNotIn(stale, html)
+                self.assertNotIn(
+                    "仍待移植" if lang == "zh" else "remain to be migrated", html
+                )
+                self.assertIn(link, html)
+                self.assertNotIn(
+                    "github.com/vibe-bimer/revit-model-mcp/issues/27", html
+                )
+
 
 if __name__ == "__main__":
     unittest.main()

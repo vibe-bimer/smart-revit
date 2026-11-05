@@ -16,7 +16,7 @@ description: "集成分支（上游 1.0 基座加本仓库自研工具）的完�
 | --- | --- | --- |
 | 状态 | 已发布 1.0.0 | 未发布（集成分支） |
 | 分支 | main | `integration/upstream-1.0` |
-| 工具数 | 92 | 80 |
+| 工具数 | 93 | 80 |
 | 目录 | [功能总览](../features/index.md) | index.md |
 
 ## 两套工具面 {#catalogs}
@@ -25,9 +25,9 @@ description: "集成分支（上游 1.0 基座加本仓库自研工具）的完�
 
 | | 现有版本 | 集成分支 |
 | --- | --- | --- |
-| 工具数 | 92 | 80 |
+| 工具数 | 93 | 80 |
 | 读取 | 35 | 34 |
-| 动作 | 57 | 46 |
+| 动作 | 58 | 46 |
 | 已发布 | 已发布 | 未发布 |
 | 分支 | main | `integration/upstream-1.0` |
 
@@ -50,7 +50,7 @@ description: "集成分支（上游 1.0 基座加本仓库自研工具）的完�
 | C# 逃生口 | 1 | 0 |
 | **合计** | **79** | **1** |
 
-[自研工具的移植状态](fork-tools.md) · [集成规格与决策记录](https://github.com/vibe-bimer/revit-model-mcp/issues/27)
+[自研工具的移植状态](fork-tools.md) · [集成规格与决策记录](http://192.168.100.165:8929/vibe-bimer/revit-model-mcp/-/issues/15)
 
 ## 分组统计 {#groups}
 

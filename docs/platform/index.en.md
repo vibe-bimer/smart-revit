@@ -16,7 +16,7 @@ Each catalog records one version: the current release is published and the integ
 | --- | --- | --- |
 | Status | Released 1.0.0 | Unreleased (integration branch) |
 | Branch | main | `integration/upstream-1.0` |
-| Tools | 92 | 80 |
+| Tools | 93 | 80 |
 | Catalog | [Feature overview](../features/index.md) | index.md |
 
 ## Two catalogs {#catalogs}
@@ -25,9 +25,9 @@ The current release is 1.0.0. The integration branch is the new line built on th
 
 | | Current release | Integration branch |
 | --- | --- | --- |
-| Tools | 92 | 80 |
+| Tools | 93 | 80 |
 | Read | 35 | 34 |
-| Action | 57 | 46 |
+| Action | 58 | 46 |
 | Released | Released | Unreleased |
 | Branch | main | `integration/upstream-1.0` |
 
@@ -50,7 +50,7 @@ Every page carries an origin marker: base means the tool came with the upstream 
 | C# escape hatch | 1 | 0 |
 | **Total** | **79** | **1** |
 
-[Fork tool migration status](fork-tools.md) · [Integration specification and decision records](https://github.com/vibe-bimer/revit-model-mcp/issues/27)
+[Fork tool migration status](fork-tools.md) · [Integration specification and decision records](http://192.168.100.165:8929/vibe-bimer/revit-model-mcp/-/issues/15)
 
 ## Tools per group {#groups}
 

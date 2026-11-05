@@ -15,8 +15,8 @@ Local build evidence includes `Release.R26` and `Release.R27`, plus the Revit 20
 | 2027 | ✅ | ✅ | — | — | — |
 
 Live checks use Revit 2026.4 with Autodesk's `Snowdon Towers Sample Architectural.rvt`, called from macOS over the SSH transport.
-The tool set is now 35 read tools and 57 action tools, 92 in total; on 2026, 18 read tools and 10 action tools are live-validated and the rest carry build evidence only.
-The 2020 coverage is described under "Revit 2020 full acceptance run" and "Revit 2020 follow-up run" below: every one of the 92 tools was called at least once, and 91 are verified on the 2020 machine; `revit_sync_document` keeps build evidence only, because the 2020 model is not workshared and the call refuses as intended.
+The tool set is now 35 read tools and 58 action tools, 93 in total; on 2026, 18 read tools and 17 action tools (including the seven first-batch modeling tools) are live-validated and the rest carry build evidence only.
+The 2020 coverage is described under "Revit 2020 full acceptance run" and "Revit 2020 follow-up run" below: every one of the 93 tools was called at least once, and 92 are verified on the 2020 machine; `revit_sync_document` keeps build evidence only, because the 2020 model is not workshared and the call refuses as intended.
 Installer checks cover `-Source Build` for 2024 and 2026 with `-SignThumbprint`, `-Source Release` for 2024 from v0.1.0, and `-Uninstall`.
 Revit 2022–2025 and 2027 have build evidence only for add-in behavior; no live reads or actions are validated on those years in this validation pass.
 
@@ -35,7 +35,7 @@ The Revit undo menu label for a batch (`revit_run_actions`) cannot be verified t
 On both years: after a `dry_run` rollback `isModified` was still `false`; a real write created the level and reported `verification.after = { id, category: "标高", name, elevationMm }`; a duplicate name was refused with `Level '1F' already exists at 0 mm.`; and `create_view=true` moved the view count from 52 to 53.
 After the real writes on both years the test model file kept its size and mtime — no action saved the model.
 
-`revit_create_grid` was verified live on Revit 2026 on 2026-11-02 with `mcp-verify-2026.rvt`, called from Linux over the SSH transport. There is no matching 2020 record: this version has not been run on a 2020 workstation; the R20 configuration was added back and builds on 2026-11-03, and the overall 2020 state is recorded in the 2020 adaptation section below.
+`revit_create_grid` was verified live on Revit 2026 on 2026-11-02 with `mcp-verify-2026.rvt`, called from Linux over the SSH transport. The 2020 acceptance ran on 2026-11-03 and is recorded in the 2020 adaptation section below (`G2020T`, dry-run id 361713, real write id 361715).
 On a clean model a `dry_run` rollback left `isModified` at `false` and reported `verification.after = { id, category: "轴网", fork: { name } }` with `wouldCreate: true`; a real write created the grid and left one undo entry, `MCP (mcp): Created a grid in mcp-verify-2026`; a duplicate label was refused with `Grid 'MCP-VERIFY-GRID' already exists.`; `mid_mm` built an arc grid; three collinear points were refused with `start_mm, mid_mm and end_mm must not be collinear: an arc needs a mid point off the start-end line.`; and coincident endpoints were refused with `start_mm and end_mm must not be the same point.`.
 A grid is a datum, so the model holds no bounding box for it: `verification.after` identifies the created grid by `fork.name` rather than `boundingBoxMinMm`/`boundingBoxMaxMm`.
 After every write the model file kept its size (19,918,848 bytes) and mtime (2026-10-02T12:08:34) — no action saved the model.

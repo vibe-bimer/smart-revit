@@ -72,6 +72,9 @@ exclude_docs: |
   requirements.in
   hooks.py
   __pycache__/
+  # Team-internal workspace state for the issue-deck tooling; it travels with the
+  # repository but is not site content.
+  agents/workspace.yaml
   # The demo recording and the social card template live outside docs/ now, so nothing has to be
   # excluded here. tools/site/check_site.py still fails the build if any unreferenced asset
   # reaches the tree.
@@ -285,6 +288,7 @@ nav:
               - features/revit_place_hosted_family.md
               - features/revit_create_column.md
               - features/revit_create_beam.md
+              - features/revit_copy_elements.md
           - 阶段:
               - features/revit_set_phase.md
               - features/revit_merge_phases.md
