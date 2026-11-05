@@ -933,6 +933,62 @@
     ],
     "type": "object"
   },
+  "revit_copy_elements": {
+    "properties": {
+      "document": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null
+      },
+      "dry_run": {
+        "default": false,
+        "type": "boolean"
+      },
+      "dx_mm": {
+        "default": 0,
+        "type": "number"
+      },
+      "dy_mm": {
+        "default": 0,
+        "type": "number"
+      },
+      "dz_mm": {
+        "default": 0,
+        "type": "number"
+      },
+      "element_ids": {
+        "items": {
+          "exclusiveMinimum": 0,
+          "maximum": 9223372036854775807,
+          "type": "integer"
+        },
+        "minItems": 1,
+        "type": "array"
+      },
+      "target_level": {
+        "anyOf": [
+          {
+            "minLength": 1,
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null
+      }
+    },
+    "required": [
+      "element_ids"
+    ],
+    "type": "object"
+  },
   "revit_create_beam": {
     "properties": {
       "document": {
@@ -4608,6 +4664,7 @@
               "create_beam",
               "load_family_file",
               "place_hosted_family",
+              "copy_elements",
               "set_phase",
               "merge_phases",
               "reset_element_ids",
@@ -5413,6 +5470,7 @@
               "create_beam",
               "load_family_file",
               "place_hosted_family",
+              "copy_elements",
               "set_phase",
               "merge_phases",
               "reset_element_ids",

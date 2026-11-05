@@ -62,7 +62,7 @@ description: "从工作站载入一个族文件：整族，或只载入指定类
 | Revit 年份 | 验证状态 |
 | --- | --- |
 | 2020 | <span class="state ok">已实测</span> |
-| 2026 | <span class="state part">仅构建，未实测</span> |
+| 2026 | <span class="state ok">已实测</span> |
 | 2022–2025 / 2027 | <span class="state part">仅构建，未实测</span> |
 
 已实测表示记录过真机执行；仅构建表示通过编译，不代表已完成真机功能验证。Revit 2021 不在本项目构建范围。

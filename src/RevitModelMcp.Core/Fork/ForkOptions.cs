@@ -56,6 +56,12 @@ public sealed class ForkOptions
     public string? FamilyTypeName { get; set; }
     public bool? OverwriteParameters { get; set; }
 
+    // copy-elements (the ids travel at the top level, as they do for every multi-element fork action)
+    public string? TargetLevel { get; set; }
+    public double? DxMm { get; set; }
+    public double? DyMm { get; set; }
+    public double? DzMm { get; set; }
+
     // set-phase
     public string? CreatedPhase { get; set; }
     public string? DemolishedPhase { get; set; }
@@ -107,6 +113,10 @@ public sealed class ForkOptions
         FamilyPath = FamilyPath,
         FamilyTypeName = FamilyTypeName,
         OverwriteParameters = OverwriteParameters,
+        TargetLevel = TargetLevel,
+        DxMm = DxMm,
+        DyMm = DyMm,
+        DzMm = DzMm,
         CreatedPhase = CreatedPhase,
         DemolishedPhase = DemolishedPhase,
         SourcePhase = SourcePhase,

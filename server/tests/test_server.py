@@ -116,6 +116,7 @@ ACTION_TOOL_NAMES = {
     "revit_create_beam",
     "revit_load_family_file",
     "revit_place_hosted_family",
+    "revit_copy_elements",
     "revit_set_phase",
     "revit_merge_phases",
     "revit_reset_element_ids",

@@ -375,6 +375,7 @@ class ActionStep(BaseModel):
         "create_beam",
         "load_family_file",
         "place_hosted_family",
+        "copy_elements",
         "set_phase",
         "merge_phases",
         "reset_element_ids",

@@ -612,7 +612,7 @@ tools:
       '2020':
         state: validated
       '2026':
-        state: built
+        state: validated
       other:
         state: built
     prompts:
@@ -636,7 +636,7 @@ tools:
       '2020':
         state: validated
       '2026':
-        state: built
+        state: validated
       other:
         state: built
     prompts:
@@ -699,6 +699,32 @@ tools:
     note:
       zh: 就近找墙只在放置标高这一层里找；宿主不是墙、定位点超出 host_search_radius_mm 或最近距离并列时被拒绝并列出候选；非单层宿主族用 revit_place_family；rotation_deg 只能是 0，翻面用 flip_facing；不做附着
       en: The nearby search only looks at walls of the placement level; a host that is not a wall, a point outside host_search_radius_mm or two equally near walls are refused with the candidates; level-based families belong to revit_place_family; rotation_deg is only 0, flip_facing turns the family around; nothing is attached
+  revit_copy_elements:
+    source: '5c24a66b8b40'
+    group: edit
+    origin: fork
+    since: 0.11.0
+    title:
+      zh: 复制构件
+      en: Copy elements
+    summary:
+      zh: 同一模型内复制构件并保留宿主：门窗跟着墙一起复制，逐件回报旧 ID → 新 ID（mm）
+      en: Copy elements inside one model and keep their hosts; every element reports its old id to its new id
+    years:
+      '2020':
+        state: validated
+      '2026':
+        state: validated
+      other:
+        state: built
+    prompts:
+    - zh: 把 1F 上这三根柱往东复制 3000mm
+      en: Copy these three columns 3000 mm east
+    - zh: 把这面墙和它上面的门一起复制到 2F
+      en: Copy this wall and the door on it onto 2F
+    note:
+      zh: 宿主族构件的宿主必须在同一个请求里，否则整批拒绝并点名（Revit 会在粘贴结束时删掉找不到新宿主的构件）；复制不销毁任何东西，因此按构件报失败而不是整批拒绝；CopyElements 不保证顺序，按类别 + 类型 + 位置配对，配不准就把 idMappingVerified 标成 false
+      en: A hosted element needs its host in the same request or the batch is refused with both ids, because Revit deletes a hosted copy that finds no host; copying destroys nothing, so a refusal is reported per element; CopyElements promises no order, so pairs are proven by category, type and position and the mapping is marked unverified when a pair cannot be proven
   revit_load_family_file:
     source: 'b24a398ee5a3'
     group: families
@@ -714,7 +740,7 @@ tools:
       '2020':
         state: validated
       '2026':
-        state: built
+        state: validated
       other:
         state: built
     prompts:
@@ -2277,6 +2303,26 @@ param_notes:
     flip_facing:
       zh: true 时调用 flipFacing() 翻转朝向；留空不动
       en: call flipFacing() to reverse the facing when true; empty leaves it alone
+  revit_copy_elements:
+    source: '5c24a66b8b40'
+    element_ids:
+      zh: 要复制的构件；其中每个宿主族构件的宿主也要列进来
+      en: elements to copy; a hosted element's host has to be listed too
+    target_level:
+      zh: 目标标高名；给了就按标高差求 dz，与 dz_mm 相加
+      en: target level name; its height difference becomes dz, added to dz_mm
+    dx_mm:
+      zh: 水平 X 偏移（mm），默认 0
+      en: horizontal X offset in millimetres; 0 by default
+    dy_mm:
+      zh: 水平 Y 偏移（mm），默认 0
+      en: horizontal Y offset in millimetres; 0 by default
+    dz_mm:
+      zh: 竖向偏移（mm），默认 0；给了 target_level 时叠在标高差上
+      en: vertical offset in millimetres; 0 by default, and it adds to the level difference when target_level is given
+    dry_run:
+      zh: 彩排：复制后回滚，只回报将要得到的 ID 配对
+      en: 'rehearse: copy, report the pairing, then roll back'
   revit_set_phase:
     source: '3616a9296d1f'
     element_ids:

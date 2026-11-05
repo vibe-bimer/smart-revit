@@ -73,6 +73,13 @@ public static class ForkInputs
                 ["typeName"] = (action, value) => action.Options.FamilyTypeName = Text("typeName", value),
                 ["overwriteParameters"] = (action, value) => action.Options.OverwriteParameters = Flag("overwriteParameters", value)
             },
+            ["copy-elements"] = new(StringComparer.Ordinal)
+            {
+                ["targetLevel"] = (action, value) => action.Options.TargetLevel = Text("targetLevel", value),
+                ["dxMm"] = (action, value) => action.Options.DxMm = Number("dxMm", value),
+                ["dyMm"] = (action, value) => action.Options.DyMm = Number("dyMm", value),
+                ["dzMm"] = (action, value) => action.Options.DzMm = Number("dzMm", value)
+            },
             ["set-phase"] = new(StringComparer.Ordinal)
             {
                 ["createdPhase"] = (action, value) => action.Options.CreatedPhase = Text("createdPhase", value),

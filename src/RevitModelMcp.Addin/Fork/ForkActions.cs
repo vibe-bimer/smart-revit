@@ -48,6 +48,9 @@ internal static class ForkActions
             case "load-family-file":
                 result = ForkFamilies.Apply(document, action);
                 return true;
+            case "copy-elements":
+                result = ForkCopyElements.Copy(document, action, ids);
+                return true;
             case "set-phase":
                 result = ForkPhases.Set(document, action, ids);
                 return true;
@@ -120,6 +123,11 @@ internal static class ForkActions
                 return null;
             case "load-family-file":
                 ForkFamilies.Validate(action);
+                return null;
+            case "copy-elements":
+                // Resolving the target level needs the document, and a hosted element without its host
+                // must fail here, before the transaction has anything to roll back.
+                ForkCopyElements.Check(document, action);
                 return null;
             case "set-phase":
                 return ForkPhases.ReadAssignment(document, ids);
