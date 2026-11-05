@@ -7,7 +7,9 @@ public sealed class DeletionPolicyTests
     [Test]
     public async Task Threshold_IsFiveHundred()
     {
-        await Assert.That(DeletionPolicy.ConfirmationThreshold).IsEqualTo(500);
+        // Read through a local: the threshold is a const, and TUnitAssertions0005 refuses to assert a constant.
+        var threshold = DeletionPolicy.ConfirmationThreshold;
+        await Assert.That(threshold).IsEqualTo(500);
     }
 
     [Test]

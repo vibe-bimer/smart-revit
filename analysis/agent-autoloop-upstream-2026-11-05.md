@@ -300,4 +300,3 @@ uv run python -m revit_model_mcp.acceptance_ledger ../analysis/acceptance.jsonl 
 ### A hazard noted, not fixed
 
 `revit_channel.py:699` and `ssh_host.py:356` construct a fresh `RevitChannel` for a remote instance and call `_execute_serial` directly, outside the singleton's lock. Today that is correct — the call targets a different Revit process, which the lock does not need to cover. It becomes a bypass only if a future path reaches the *same* instance that way. Worth a glance whenever `_execute_serial` grows a new caller.
-
