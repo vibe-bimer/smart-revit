@@ -935,7 +935,9 @@ def _list_tools(
     command: list[str], env: dict[str, str], cwd: Path | None = None
 ) -> list[dict]:
     """Start the server, initialise the session and return its tool list."""
-    with subprocess.Popen(
+    # Not a context manager: its __exit__ closes stderr while the reader thread is still
+    # blocked reading it, which deadlocks on Windows. The finally below owns the teardown.
+    proc = subprocess.Popen(
         command,
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
@@ -944,7 +946,8 @@ def _list_tools(
         text=True,
         bufsize=1,
         cwd=cwd,
-    ) as proc:
+    )
+    if True:
         stderr: list[str] = []
         threading.Thread(target=lambda: stderr.extend(proc.stderr), daemon=True).start()
 
@@ -990,14 +993,27 @@ def _list_tools(
             if os.name == "nt":
                 # uv starts the server as a grandchild. Terminating uv alone leaves that server
                 # holding the pipes, and the context manager then closes stderr under a reader
-                # thread that is still blocked in it, which deadlocks on Windows.
+                # thread that is still blocked in it, which deadlocks on Windows. The tree kill
+                # already ends uv, so it is the only teardown on that platform.
                 subprocess.run(
                     ["taskkill", "/F", "/T", "/PID", str(proc.pid)],
                     capture_output=True,
                     check=False,
                 )
-            proc.terminate()
-            proc.wait(timeout=30)
+            else:
+                proc.terminate()
+            try:
+                proc.wait(timeout=30)
+            except subprocess.TimeoutExpired:
+                # A teardown that outlives its target must not replace the error that got us
+                # here, so the timeout is swallowed and the caller keeps its own exception.
+                pass
+            for stream in (proc.stdin, proc.stdout, proc.stderr):
+                if stream is not None:
+                    try:
+                        stream.close()
+                    except OSError:
+                        pass
         return normalise_descriptions(tools)
 
 

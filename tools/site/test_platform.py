@@ -20,6 +20,16 @@ class SnapshotAuditTests(unittest.TestCase):
         self.assertEqual(payload["count"], len(payload["tools"]))
         self.assertGreater(payload["count"], 0)
 
+    def test_the_snapshot_is_not_behind_the_registry(self):
+        """The snapshot is dumped by hand, so a tool added since the last dump must fail here."""
+        names = {tool["name"] for tool in self.payload()["tools"]}
+        registry = {tool["name"] for tool in platform_catalog.load_platform()[1]}
+        self.assertEqual(
+            sorted(registry - names),
+            [],
+            "the snapshot lags the registry; re-run generate_features.py --dump-platform",
+        )
+
     def test_the_snapshot_records_where_it_came_from(self):
         provenance = self.payload()["provenance"]
         self.assertEqual(provenance["branch"], platform_catalog.BRANCH)
@@ -58,8 +68,16 @@ class SnapshotAuditTests(unittest.TestCase):
 
 class ForkToolTests(unittest.TestCase):
     def test_the_fork_declares_its_tools(self):
-        """The catalog names the fork's tools; the count follows the catalog, not a number."""
-        self.assertTrue(platform_catalog.FORK_TOOLS)
+        """Every fork-origin tool in the registry is declared, and nothing else is."""
+        declared = set(platform_catalog.FORK_TOOLS)
+        in_registry = {
+            tool["name"]
+            for tool in platform_catalog.load_platform()[1]
+            if platform_catalog.origin_of(tool["name"]) == "fork"
+        }
+        self.assertEqual(sorted(declared), sorted(in_registry))
+        for name, item in platform_catalog.FORK_TOOLS.items():
+            self.assertIn(item["status"], ("grafted", "pending"), name)
 
     def test_every_grafted_tool_is_in_the_snapshot(self):
         names = {tool["name"] for tool in platform_catalog.load_platform()[0]}
@@ -144,7 +162,7 @@ class PageTests(unittest.TestCase):
         )
         self.assertIn(f"| 工具数 | {len(self.released)} | {len(self.tools)} |", page)
 
-    def test_the_fork_page_lists_all_eight_with_status(self):
+    def test_the_fork_page_lists_every_fork_tool_with_status(self):
         page = platform_catalog.fork_page(self.tools, "zh")
         for name in platform_catalog.FORK_TOOLS:
             self.assertIn(f"`{name}`", page)

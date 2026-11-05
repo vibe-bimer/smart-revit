@@ -6,7 +6,7 @@ description: "Load one family file from the workstation: the whole family, or th
 
 `revit_load_family_file`
 
-<p class="facts"><span><b>Group</b> Editing primitives</span><span><b>Kind</b> Action</span><span><b>Base and fork tools</b> Fork (this repository) · Grafted</span><span><b>Status</b> Unreleased (integration branch)</span><span><b>Release version</b> 1.0.0</span><span><b>Source branch</b> <code>feat/gitlab-pages</code></span><span><b>Source commit</b> <code>50baa705e8da63327ab2bff1e544c76252fddbc9</code></span><span><b>Same-name tool in the release</b> Yes, with identical parameters</span><span><b>This contract applies to the release</b> No</span></p>
+<p class="facts"><span><b>Group</b> Editing primitives</span><span><b>Kind</b> Action</span><span><b>Base and fork tools</b> Fork (this repository) · Grafted</span><span><b>Status</b> Unreleased (development line)</span><span><b>Release version</b> 1.0.0</span><span><b>Source branch</b> <code>feat/gitlab-pages</code></span><span><b>Source commit</b> <code>50baa705e8da63327ab2bff1e544c76252fddbc9</code></span><span><b>Same-name tool in the release</b> Yes, with identical parameters</span><span><b>This contract applies to the release</b> No</span></p>
 
 !!! note "Usage notes"
     One file, an optional single type, the load options always supplied, and the closest names for a missing path.
@@ -30,7 +30,7 @@ The same-name tool has an identical contract to release 1.0.0.
 
 </div>
 
-The branch contract ships no parameter descriptions.
+The development-line contract ships no parameter descriptions.
 
 ### Common parameters {#common-parameters}
 
@@ -42,7 +42,7 @@ The branch contract ships no parameter descriptions.
 
 </div>
 
-The branch contract ships no parameter descriptions.
+The development-line contract ships no parameter descriptions.
 
 ## Behavior (registry text) {#behavior}
 

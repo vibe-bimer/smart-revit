@@ -143,5 +143,5 @@ fork_tools:
     status: grafted
     zh: 重建模型 ID
     en: Rebuild model IDs
-    zh_note: '支持模板、副本与重名策略；约一千行，是十三项里最后落地的一项。'
-    en_note: 'Supports templates, copies and duplicate-name policies; about a thousand lines, and the last of the thirteen to land.'
+    zh_note: '支持模板、副本与重名策略；约一千行，是这十四项里最后落地的一项。'
+    en_note: 'Supports templates, copies and duplicate-name policies; about a thousand lines, and the last of the fourteen to land.'

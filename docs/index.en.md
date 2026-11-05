@@ -104,7 +104,7 @@ hide:
   <header class="rmc-section__head">
     <span class="rmc-section__num" aria-hidden="true">↗</span>
     <h2 class="rmc-section__title">New platform and migration progress</h2>
-    <p class="rmc-section__lede">The 93 tools on this site describe the current main line; the upstream 1.0 platform and the fork layer have merged into main and released as 1.0.0.</p>
+    <p class="rmc-section__lede">The 93 tools on this site come from the working tree; the upstream 1.0 platform and the fork layer have merged into main and 1.0.0 has shipped, while later tools such as cross-level copy are still on their way in.</p>
     <a class="rmc-section__link" href="platform/">Browse the 93 tools by origin</a>
     <a class="rmc-section__link" href="http://192.168.100.165:8929/vibe-bimer/revit-model-mcp/-/issues/15">View the integration specification and progress</a>
   </header>

@@ -12,9 +12,9 @@ This section covers the 93 tools of the current release. The integration branch'
 
 This catalog records the released version. The platform catalog records the current development line, which no release carries yet. The status, version number and counts below are read from the registries.
 
-| | Released 1.0.0 | Integration branch |
+| | Released 1.0.0 | Development line |
 | --- | --- | --- |
-| Version | 1.0.0 | 1.0.0 Unreleased (integration branch) |
+| Version | 1.0.0 | 1.0.0 Unreleased (development line) |
 | Branch | main | `feat/gitlab-pages` |
 | Tool | 93 | 93 |
 | Catalog | index.md | [Platform tool catalog](../platform/index.md) |

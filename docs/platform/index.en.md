@@ -10,20 +10,20 @@ This section records the tool surface of the current development line, kept apar
 
 ## Version entries {#versions}
 
-Each catalog records one version: the current release is published and the integration branch is not. The counts and statuses below are read from the registries, never written by hand.
+Each catalog follows a line: the feature catalog follows the working tree, and the development line is unreleased. The counts and statuses below are read from the registries, never written by hand.
 
-| | Current release | Integration branch |
+| | Features catalog | Development line |
 | --- | --- | --- |
-| Status | Released 1.0.0 | Unreleased (integration branch) |
+| Status | Released 1.0.0 | Unreleased (development line) |
 | Branch | main | `feat/gitlab-pages` |
 | Tools | 93 | 93 |
 | Catalog | [Feature overview](../features/index.md) | index.md |
 
 ## Two catalogs {#catalogs}
 
-The current release is 1.0.0. The platform catalog records the current development line, built on the new base and not yet released. The two columns may hold the same tools, but their status and contract differences must not be mixed up.
+The feature catalog follows the working tree; the platform catalog records the current development line, built on the new base and not yet released. Both are generated from the same tree, so their tool sets coincide; a tool added after release 1.0.0 is marked unreleased on its own page.
 
-| | Current release | Integration branch |
+| | Features catalog | Development line |
 | --- | --- | --- |
 | Tools | 93 | 93 |
 | Read | 35 | 35 |
@@ -267,4 +267,4 @@ The view-related tools are split again by the model object they act on, so a rea
 
 ## What the status means {#status}
 
-Every tool here is registered in the Python registry, and its parameters and description come from that registry. The C# side has not been compiled locally and nothing has been validated on a live workstation. Read these pages as contracts and progress, not as <q>available now</q>.
+Every tool here is registered in the Python registry, and its parameters and description come from that registry. Every fork tool is compiled and validated on a live workstation on both Revit 2020 and 2026. The registry is the contract; the acceptance records live under live validation.

@@ -58,6 +58,12 @@ class IntegrationCatalogTests(unittest.TestCase):
             catalogs.release().branch,
             "the two catalogs must describe two different lines",
         )
+        self.assertRegex(
+            integration.branch,
+            r"^[A-Za-z0-9][A-Za-z0-9._/-]*$",
+            "the declared branch has to be a branch name git accepts",
+        )
+        self.assertFalse(integration.branch.endswith("/"), integration.branch)
 
     def test_the_declared_branch_matches_the_snapshot_provenance(self):
         provenance = json.loads(

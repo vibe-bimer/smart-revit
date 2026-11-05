@@ -6,7 +6,7 @@ description: "对符合同一查询条件的构件更新同一个参数，组成
 
 `revit_update_parameters`
 
-<p class="facts"><span><b>分组</b> 编辑原语</span><span><b>类型</b> 动作</span><span><b>基座与自研的区分</b> 基座（上游）</span><span><b>状态</b> 未发布（集成分支）</span><span><b>发布版版本</b> 1.0.0</span><span><b>来源分支</b> <code>feat/gitlab-pages</code></span><span><b>来源提交</b> <code>50baa705e8da63327ab2bff1e544c76252fddbc9</code></span><span><b>发布版有同名工具</b> 有，参数一致</span><span><b>本页契约适用于发布版</b> 否</span></p>
+<p class="facts"><span><b>分组</b> 编辑原语</span><span><b>类型</b> 动作</span><span><b>基座与自研的区分</b> 基座（上游）</span><span><b>状态</b> 未发布（开发线）</span><span><b>发布版版本</b> 1.0.0</span><span><b>来源分支</b> <code>feat/gitlab-pages</code></span><span><b>来源提交</b> <code>50baa705e8da63327ab2bff1e544c76252fddbc9</code></span><span><b>发布版有同名工具</b> 有，参数一致</span><span><b>本页契约适用于发布版</b> 否</span></p>
 
 对符合同一查询条件的构件更新同一个参数，组成员跳到 `skipped.inGroup` 而不中断调用。
 
@@ -23,12 +23,12 @@ description: "对符合同一查询条件的构件更新同一个参数，组成
 | 参数 {scope=col} | 必填 {scope=col} | 默认值 {scope=col} | 类型 {scope=col} | 说明 {scope=col} |
 | --- | :--: | --- | --- | --- |
 | `dry_run` | 否 | `false` | boolean | 只排练：执行后回滚，返回同样的验证块。 |
-| `filters` | 是 | — |  | （集成分支契约未提供说明） |
-| `include_type_parameters` | 否 | `false` | boolean | （集成分支契约未提供说明） |
-| `max_elements` | 否 | `5000` | integer | （集成分支契约未提供说明） |
-| `parameter` | 是 | — | string | （集成分支契约未提供说明） |
-| `parameter_id` | 否 | `null` | any | （集成分支契约未提供说明） |
-| `value` | 是 | — | any | （集成分支契约未提供说明） |
+| `filters` | 是 | — |  | （开发线契约未提供说明） |
+| `include_type_parameters` | 否 | `false` | boolean | （开发线契约未提供说明） |
+| `max_elements` | 否 | `5000` | integer | （开发线契约未提供说明） |
+| `parameter` | 是 | — | string | （开发线契约未提供说明） |
+| `parameter_id` | 否 | `null` | any | （开发线契约未提供说明） |
+| `value` | 是 | — | any | （开发线契约未提供说明） |
 
 </div>
 

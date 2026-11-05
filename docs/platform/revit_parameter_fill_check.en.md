@@ -6,7 +6,7 @@ description: "Count filled, empty and missing parameters per parameter and categ
 
 `revit_parameter_fill_check`
 
-<p class="facts"><span><b>Group</b> Query and totals</span><span><b>Kind</b> Read</span><span><b>Base and fork tools</b> Base (upstream)</span><span><b>Status</b> Unreleased (integration branch)</span><span><b>Release version</b> 1.0.0</span><span><b>Source branch</b> <code>feat/gitlab-pages</code></span><span><b>Source commit</b> <code>50baa705e8da63327ab2bff1e544c76252fddbc9</code></span><span><b>Same-name tool in the release</b> Yes, with identical parameters</span><span><b>This contract applies to the release</b> No</span></p>
+<p class="facts"><span><b>Group</b> Query and totals</span><span><b>Kind</b> Read</span><span><b>Base and fork tools</b> Base (upstream)</span><span><b>Status</b> Unreleased (development line)</span><span><b>Release version</b> 1.0.0</span><span><b>Source branch</b> <code>feat/gitlab-pages</code></span><span><b>Source commit</b> <code>50baa705e8da63327ab2bff1e544c76252fddbc9</code></span><span><b>Same-name tool in the release</b> Yes, with identical parameters</span><span><b>This contract applies to the release</b> No</span></p>
 
 [Same-name release page](../features/revit_parameter_fill_check.md)
 
@@ -21,12 +21,12 @@ The same-name tool has an identical contract to release 1.0.0.
 | Parameter {scope=col} | Required {scope=col} | Default {scope=col} | Type {scope=col} | Meaning {scope=col} |
 | --- | :--: | --- | --- | --- |
 | `categories` | Yes | — | array | Category names (1 to 20) from the categories catalog; matches any listed category. |
-| `include_types` | No | `true` | boolean | (not documented in the branch contract) |
-| `level` | No | `null` | any | (not documented in the branch contract) |
+| `include_types` | No | `true` | boolean | (not documented in the development-line contract) |
+| `level` | No | `null` | any | (not documented in the development-line contract) |
 | `parameters` | Yes | — | array | Exact localized parameter names (1 to 30); names that do not match count as missing. |
 | `sample_limit` | No | `20` | integer | Maximum sampled element IDs per empty and missing list, 1 to 100 (default 20); counts always cover all elements. |
 | `view` | No | `null` | any | Exact non-template view name; limits the search to that view. |
-| `workset` | No | `null` | any | (not documented in the branch contract) |
+| `workset` | No | `null` | any | (not documented in the development-line contract) |
 
 </div>
 

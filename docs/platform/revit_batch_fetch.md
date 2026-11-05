@@ -6,7 +6,7 @@ description: "把已完成的快照下载为新的本地文件，不覆盖已有
 
 `revit_batch_fetch`
 
-<p class="facts"><span><b>分组</b> 批处理与报告</span><span><b>类型</b> 读取</span><span><b>基座与自研的区分</b> 基座（上游）</span><span><b>状态</b> 未发布（集成分支）</span><span><b>发布版版本</b> 1.0.0</span><span><b>来源分支</b> <code>feat/gitlab-pages</code></span><span><b>来源提交</b> <code>50baa705e8da63327ab2bff1e544c76252fddbc9</code></span><span><b>发布版有同名工具</b> 有，参数一致</span><span><b>本页契约适用于发布版</b> 否</span></p>
+<p class="facts"><span><b>分组</b> 批处理与报告</span><span><b>类型</b> 读取</span><span><b>基座与自研的区分</b> 基座（上游）</span><span><b>状态</b> 未发布（开发线）</span><span><b>发布版版本</b> 1.0.0</span><span><b>来源分支</b> <code>feat/gitlab-pages</code></span><span><b>来源提交</b> <code>50baa705e8da63327ab2bff1e544c76252fddbc9</code></span><span><b>发布版有同名工具</b> 有，参数一致</span><span><b>本页契约适用于发布版</b> 否</span></p>
 
 把已完成的快照下载为新的本地文件，不覆盖已有文件。
 
@@ -27,7 +27,7 @@ description: "把已完成的快照下载为新的本地文件，不覆盖已有
 
 </div>
 
-集成分支契约未提供参数说明。
+开发线契约未提供参数说明。
 
 ## 功能说明（注册表原文） {#behavior}
 

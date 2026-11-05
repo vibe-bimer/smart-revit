@@ -6,7 +6,7 @@ description: "Render a highlighted PNG that marks 1 to 500 elements, for issue e
 
 `revit_capture_elements`
 
-<p class="facts"><span><b>Group</b> Views, sheets and schedules</span><span><b>Kind</b> Read</span><span><b>Base and fork tools</b> Base (upstream)</span><span><b>Status</b> Unreleased (integration branch)</span><span><b>Release version</b> 1.0.0</span><span><b>Source branch</b> <code>feat/gitlab-pages</code></span><span><b>Source commit</b> <code>50baa705e8da63327ab2bff1e544c76252fddbc9</code></span><span><b>Same-name tool in the release</b> Yes, with identical parameters</span><span><b>This contract applies to the release</b> No</span></p>
+<p class="facts"><span><b>Group</b> Views, sheets and schedules</span><span><b>Kind</b> Read</span><span><b>Base and fork tools</b> Base (upstream)</span><span><b>Status</b> Unreleased (development line)</span><span><b>Release version</b> 1.0.0</span><span><b>Source branch</b> <code>feat/gitlab-pages</code></span><span><b>Source commit</b> <code>50baa705e8da63327ab2bff1e544c76252fddbc9</code></span><span><b>Same-name tool in the release</b> Yes, with identical parameters</span><span><b>This contract applies to the release</b> No</span></p>
 
 [Same-name release page](../features/revit_capture_elements.md)
 
@@ -20,10 +20,10 @@ The same-name tool has an identical contract to release 1.0.0.
 
 | Parameter {scope=col} | Required {scope=col} | Default {scope=col} | Type {scope=col} | Meaning {scope=col} |
 | --- | :--: | --- | --- | --- |
-| `element_ids` | Yes | — | array | (not documented in the branch contract) |
-| `mode` | No | `"3d"` | string | (not documented in the branch contract) |
+| `element_ids` | Yes | — | array | (not documented in the development-line contract) |
+| `mode` | No | `"3d"` | string | (not documented in the development-line contract) |
 | `output_path` | No | `null` | any | New PNG path, resolved on the machine running this server; an existing file is an error. Default null downloads to a temporary directory and returns localPath. |
-| `padding_mm` | No | `1500` | number | (not documented in the branch contract) |
+| `padding_mm` | No | `1500` | number | (not documented in the development-line contract) |
 | `pixel_size` | No | `1600` | integer | PNG size in pixels along the fitted dimension, 32 to 4000 (default 1600); Revit rejects smaller images. |
 
 </div>

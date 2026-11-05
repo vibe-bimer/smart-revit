@@ -6,7 +6,7 @@ description: "Read one page of elements in a selected view, with IDs, category, 
 
 `revit_view_elements`
 
-<p class="facts"><span><b>Group</b> Views, sheets and schedules</span><span><b>Kind</b> Read</span><span><b>Base and fork tools</b> Base (upstream)</span><span><b>Status</b> Unreleased (integration branch)</span><span><b>Release version</b> 1.0.0</span><span><b>Source branch</b> <code>feat/gitlab-pages</code></span><span><b>Source commit</b> <code>50baa705e8da63327ab2bff1e544c76252fddbc9</code></span><span><b>Same-name tool in the release</b> Yes, with identical parameters</span><span><b>This contract applies to the release</b> No</span></p>
+<p class="facts"><span><b>Group</b> Views, sheets and schedules</span><span><b>Kind</b> Read</span><span><b>Base and fork tools</b> Base (upstream)</span><span><b>Status</b> Unreleased (development line)</span><span><b>Release version</b> 1.0.0</span><span><b>Source branch</b> <code>feat/gitlab-pages</code></span><span><b>Source commit</b> <code>50baa705e8da63327ab2bff1e544c76252fddbc9</code></span><span><b>Same-name tool in the release</b> Yes, with identical parameters</span><span><b>This contract applies to the release</b> No</span></p>
 
 [Same-name release page](../features/revit_view_elements.md)
 
@@ -20,9 +20,9 @@ The same-name tool has an identical contract to release 1.0.0.
 
 | Parameter {scope=col} | Required {scope=col} | Default {scope=col} | Type {scope=col} | Meaning {scope=col} |
 | --- | :--: | --- | --- | --- |
-| `categories` | No | `null` | any | (not documented in the branch contract) |
-| `limit` | No | `100` | integer | (not documented in the branch contract) |
-| `offset` | No | `0` | integer | (not documented in the branch contract) |
+| `categories` | No | `null` | any | (not documented in the development-line contract) |
+| `limit` | No | `100` | integer | (not documented in the development-line contract) |
+| `offset` | No | `0` | integer | (not documented in the development-line contract) |
 | `view` | Yes | — | string | Exact non-template view name from revit_list_views, or a view ID as a decimal string. |
 
 </div>

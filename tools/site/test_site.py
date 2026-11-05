@@ -345,12 +345,7 @@ class FeatureGeneratorTests(unittest.TestCase):
         The two lines carry the same tools today, so the case is constructed rather than
         looked for: a snapshot that dropped one tool still has to leave that page plain.
         """
-        platform_tools, _ = platform_catalog.load_platform()
-        tool = next(
-            t for t in self.tools if t["name"] in {p["name"] for p in platform_tools}
-        )
-        integration = {t["name"] for t in platform_tools} - {tool["name"]}
-        self.assertNotIn(tool["name"], integration)
+        tool = self.tools[0]
         page = generate_features.tool_page(
             tool,
             self.capabilities["tools"][tool["name"]],
@@ -359,6 +354,22 @@ class FeatureGeneratorTests(unittest.TestCase):
             self.contracts,
         )
         self.assertNotIn("{#contract-diff}", page)
+
+        # Passing the twin in is what turns the section on, so the case above is only
+        # meaningful while this half holds: a twin with a different schema gets a diff.
+        twin = {
+            "name": tool["name"],
+            "inputSchema": {"type": "object", "properties": {"x": {"type": "string"}}},
+        }
+        with_twin = generate_features.tool_page(
+            tool,
+            self.capabilities["tools"][tool["name"]],
+            "zh",
+            self.capabilities,
+            self.contracts,
+            twin,
+        )
+        self.assertIn("{#contract-diff}", with_twin)
 
     def test_regenerated_navigation_covers_each_tool_once(self):
         nav = generate_features.nav_block(self.tools, self.capabilities)
@@ -459,14 +470,14 @@ class FrontmatterDescriptionTests(unittest.TestCase):
         for lang, landed, validated, stale, link in (
             (
                 "zh",
-                "已在主线合流并作为 1.0.0 发布",
+                "已在主线合流，1.0.0 已发布",
                 "两个年份都完成了验收",
                 "尚待完成",
                 "http://192.168.100.165:8929/vibe-bimer/revit-model-mcp/-/issues/15",
             ),
             (
                 "en",
-                "merged into main and released as 1.0.0",
+                "merged into main and 1.0.0 has shipped",
                 "live-validated on both Revit 2020 and 2026",
                 "remain outstanding",
                 "http://192.168.100.165:8929/vibe-bimer/revit-model-mcp/-/issues/15",

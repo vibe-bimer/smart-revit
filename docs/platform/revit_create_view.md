@@ -6,7 +6,7 @@ description: "创建平面、剖面、三维或绘图视图；无边界三维视
 
 `revit_create_view`
 
-<p class="facts"><span><b>分组</b> 视图、图纸与明细表</span><span><b>类型</b> 动作</span><span><b>基座与自研的区分</b> 基座（上游）</span><span><b>状态</b> 未发布（集成分支）</span><span><b>发布版版本</b> 1.0.0</span><span><b>来源分支</b> <code>feat/gitlab-pages</code></span><span><b>来源提交</b> <code>50baa705e8da63327ab2bff1e544c76252fddbc9</code></span><span><b>发布版有同名工具</b> 有，参数一致</span><span><b>本页契约适用于发布版</b> 否</span></p>
+<p class="facts"><span><b>分组</b> 视图、图纸与明细表</span><span><b>类型</b> 动作</span><span><b>基座与自研的区分</b> 基座（上游）</span><span><b>状态</b> 未发布（开发线）</span><span><b>发布版版本</b> 1.0.0</span><span><b>来源分支</b> <code>feat/gitlab-pages</code></span><span><b>来源提交</b> <code>50baa705e8da63327ab2bff1e544c76252fddbc9</code></span><span><b>发布版有同名工具</b> 有，参数一致</span><span><b>本页契约适用于发布版</b> 否</span></p>
 
 创建平面、剖面、三维或绘图视图；无边界三维视图显示整个模型。
 
@@ -22,17 +22,17 @@ description: "创建平面、剖面、三维或绘图视图；无边界三维视
 
 | 参数 {scope=col} | 必填 {scope=col} | 默认值 {scope=col} | 类型 {scope=col} | 说明 {scope=col} |
 | --- | :--: | --- | --- | --- |
-| `box` | 否 | `null` | any | （集成分支契约未提供说明） |
-| `detail_level` | 否 | `null` | any | （集成分支契约未提供说明） |
-| `display_style` | 否 | `null` | any | （集成分支契约未提供说明） |
+| `box` | 否 | `null` | any | （开发线契约未提供说明） |
+| `detail_level` | 否 | `null` | any | （开发线契约未提供说明） |
+| `display_style` | 否 | `null` | any | （开发线契约未提供说明） |
 | `dry_run` | 否 | `false` | boolean | 只排练：执行后回滚，返回同样的验证块。 |
 | `element_ids` | 否 | `null` | any | 要处理的构件 Revit ID 列表。 |
-| `kind` | 是 | — | string | （集成分支契约未提供说明） |
-| `level` | 否 | `null` | any | （集成分支契约未提供说明） |
-| `name` | 否 | `null` | any | （集成分支契约未提供说明） |
-| `scale` | 否 | `null` | any | （集成分支契约未提供说明） |
-| `template` | 否 | `null` | any | （集成分支契约未提供说明） |
-| `view_family_type` | 否 | `null` | any | （集成分支契约未提供说明） |
+| `kind` | 是 | — | string | （开发线契约未提供说明） |
+| `level` | 否 | `null` | any | （开发线契约未提供说明） |
+| `name` | 否 | `null` | any | （开发线契约未提供说明） |
+| `scale` | 否 | `null` | any | （开发线契约未提供说明） |
+| `template` | 否 | `null` | any | （开发线契约未提供说明） |
+| `view_family_type` | 否 | `null` | any | （开发线契约未提供说明） |
 
 </div>
 

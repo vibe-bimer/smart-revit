@@ -284,7 +284,7 @@ def render_development(lang: str, released_count: int, branch_count: int) -> str
     """Describe the integration branch separately from the released tool catalog."""
     if lang == "zh":
         title = "新版底座与移植进展"
-        intro = f"当前网站的 {released_count} 个工具对应现行主线版本；上游 1.0 底座与 fork 层已在主线合流并作为 1.0.0 发布。"
+        intro = f"当前网站的 {released_count} 个工具取自当前代码树；上游 1.0 底座与 fork 层已在主线合流，1.0.0 已发布，跨标高复制这类后续工具还在往主线合。"
         base = f"上游底座包含文档管理、视图与图纸、族和链接、模型导出、批处理等能力；平台目录的 {branch_count} 项工具快照取自当前开发线，该线尚未发布。"
         sample = "视图光照工具在 Revit 2020 与 2026 两个年份都完成了验收。"
         pending = "楼板、标高、阶段设置与合并、构件 ID 导出、重置和模型重建八条动作已随 fork 层移植，并在这两个年份完成验收；此后又新增轴网、载入族、结构柱、宿主族、梁与跨标高复制。"
@@ -292,7 +292,7 @@ def render_development(lang: str, released_count: int, branch_count: int) -> str
         catalog = f"按基座与自研查阅 {branch_count} 个工具"
     else:
         title = "New platform and migration progress"
-        intro = f"The {released_count} tools on this site describe the current main line; the upstream 1.0 platform and the fork layer have merged into main and released as 1.0.0."
+        intro = f"The {released_count} tools on this site come from the working tree; the upstream 1.0 platform and the fork layer have merged into main and 1.0.0 has shipped, while later tools such as cross-level copy are still on their way in."
         base = f"The upstream platform adds document management, views and sheets, families and links, export, and batch processing; the {branch_count}-tool snapshot in the platform catalog comes from the current development line, which no release carries yet."
         sample = "The view-lighting tool is live-validated on both Revit 2020 and 2026."
         pending = "The eight original actions — floor, level, phase setting and merging, element ID export and reset, and model rebuilding — shipped with the fork layer and are live-validated on both years; grid, family loading, column, hosted family, beam and cross-level copy followed."

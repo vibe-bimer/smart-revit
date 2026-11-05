@@ -6,7 +6,7 @@ description: "在同一会话中逐个打开模型，执行步骤与 C# 代码�
 
 `revit_process_models`
 
-<p class="facts"><span><b>分组</b> 批处理与报告</span><span><b>类型</b> 动作</span><span><b>基座与自研的区分</b> 基座（上游）</span><span><b>状态</b> 未发布（集成分支）</span><span><b>发布版版本</b> 1.0.0</span><span><b>来源分支</b> <code>feat/gitlab-pages</code></span><span><b>来源提交</b> <code>50baa705e8da63327ab2bff1e544c76252fddbc9</code></span><span><b>发布版有同名工具</b> 有，参数一致</span><span><b>本页契约适用于发布版</b> 否</span></p>
+<p class="facts"><span><b>分组</b> 批处理与报告</span><span><b>类型</b> 动作</span><span><b>基座与自研的区分</b> 基座（上游）</span><span><b>状态</b> 未发布（开发线）</span><span><b>发布版版本</b> 1.0.0</span><span><b>来源分支</b> <code>feat/gitlab-pages</code></span><span><b>来源提交</b> <code>50baa705e8da63327ab2bff1e544c76252fddbc9</code></span><span><b>发布版有同名工具</b> 有，参数一致</span><span><b>本页契约适用于发布版</b> 否</span></p>
 
 在同一会话中逐个打开模型，执行步骤与 C# 代码、导出、按需保存后关闭；就地保存和代码需要确认令牌。
 
@@ -22,18 +22,18 @@ description: "在同一会话中逐个打开模型，执行步骤与 C# 代码�
 
 | 参数 {scope=col} | 必填 {scope=col} | 默认值 {scope=col} | 类型 {scope=col} | 说明 {scope=col} |
 | --- | :--: | --- | --- | --- |
-| `code` | 否 | `null` | any | （集成分支契约未提供说明） |
+| `code` | 否 | `null` | any | （开发线契约未提供说明） |
 | `confirm_token` | 否 | `null` | any | 首次调用返回的确认令牌，用于确认破坏性操作。 |
 | `dry_run` | 否 | `false` | boolean | 只排练：执行后回滚，返回同样的验证块。 |
-| `exports` | 否 | `null` | any | （集成分支契约未提供说明） |
-| `folder` | 否 | `null` | any | （集成分支契约未提供说明） |
-| `open` | 否 | `null` | any | （集成分支契约未提供说明） |
-| `paths` | 否 | `null` | any | （集成分支契约未提供说明） |
-| `pattern` | 否 | `"*.rvt"` | string | （集成分支契约未提供说明） |
-| `recursive` | 否 | `false` | boolean | （集成分支契约未提供说明） |
-| `save` | 否 | `null` | any | （集成分支契约未提供说明） |
-| `steps` | 否 | `null` | any | （集成分支契约未提供说明） |
-| `stop_on_error` | 否 | `false` | boolean | （集成分支契约未提供说明） |
+| `exports` | 否 | `null` | any | （开发线契约未提供说明） |
+| `folder` | 否 | `null` | any | （开发线契约未提供说明） |
+| `open` | 否 | `null` | any | （开发线契约未提供说明） |
+| `paths` | 否 | `null` | any | （开发线契约未提供说明） |
+| `pattern` | 否 | `"*.rvt"` | string | （开发线契约未提供说明） |
+| `recursive` | 否 | `false` | boolean | （开发线契约未提供说明） |
+| `save` | 否 | `null` | any | （开发线契约未提供说明） |
+| `steps` | 否 | `null` | any | （开发线契约未提供说明） |
+| `stop_on_error` | 否 | `false` | boolean | （开发线契约未提供说明） |
 
 </div>
 

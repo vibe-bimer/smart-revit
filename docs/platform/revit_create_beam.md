@@ -6,7 +6,7 @@ description: "按曲线与标高创建梁，端点不做吸附；结构用途按
 
 `revit_create_beam`
 
-<p class="facts"><span><b>分组</b> 编辑原语</span><span><b>类型</b> 动作</span><span><b>基座与自研的区分</b> 自研（本仓库） · 已移植</span><span><b>状态</b> 未发布（集成分支）</span><span><b>发布版版本</b> 1.0.0</span><span><b>来源分支</b> <code>feat/gitlab-pages</code></span><span><b>来源提交</b> <code>50baa705e8da63327ab2bff1e544c76252fddbc9</code></span><span><b>发布版有同名工具</b> 有，参数一致</span><span><b>本页契约适用于发布版</b> 否</span></p>
+<p class="facts"><span><b>分组</b> 编辑原语</span><span><b>类型</b> 动作</span><span><b>基座与自研的区分</b> 自研（本仓库） · 已移植</span><span><b>状态</b> 未发布（开发线）</span><span><b>发布版版本</b> 1.0.0</span><span><b>来源分支</b> <code>feat/gitlab-pages</code></span><span><b>来源提交</b> <code>50baa705e8da63327ab2bff1e544c76252fddbc9</code></span><span><b>发布版有同名工具</b> 有，参数一致</span><span><b>本页契约适用于发布版</b> 否</span></p>
 
 !!! note "使用提示"
     走曲线加标高的重载、端点不吸附、结构用途按枚举写入、竖向偏移先写族的标高参数再退到移动实例。
@@ -26,13 +26,13 @@ description: "按曲线与标高创建梁，端点不做吸附；结构用途按
 | 参数 {scope=col} | 必填 {scope=col} | 默认值 {scope=col} | 类型 {scope=col} | 说明 {scope=col} |
 | --- | :--: | --- | --- | --- |
 | `dry_run` | 否 | `false` | boolean | 只排练：执行后回滚，返回同样的验证块。 |
-| `end_mm` | 是 | — | array | （集成分支契约未提供说明） |
-| `family` | 是 | — | string | （集成分支契约未提供说明） |
-| `level` | 是 | — | string | （集成分支契约未提供说明） |
-| `start_mm` | 是 | — | array | （集成分支契约未提供说明） |
-| `structural_usage` | 否 | `null` | any | （集成分支契约未提供说明） |
-| `type_name` | 否 | `null` | any | （集成分支契约未提供说明） |
-| `z_offset_mm` | 否 | `0` | number | （集成分支契约未提供说明） |
+| `end_mm` | 是 | — | array | （开发线契约未提供说明） |
+| `family` | 是 | — | string | （开发线契约未提供说明） |
+| `level` | 是 | — | string | （开发线契约未提供说明） |
+| `start_mm` | 是 | — | array | （开发线契约未提供说明） |
+| `structural_usage` | 否 | `null` | any | （开发线契约未提供说明） |
+| `type_name` | 否 | `null` | any | （开发线契约未提供说明） |
+| `z_offset_mm` | 否 | `0` | number | （开发线契约未提供说明） |
 
 </div>
 
