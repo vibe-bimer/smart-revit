@@ -933,7 +933,7 @@ tools:
       en: Read the active document, open views, selection and open documents
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -953,7 +953,7 @@ tools:
       en: Activate a non-template view, then zoom to fit or frame element ids
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -973,7 +973,7 @@ tools:
       en: Apply a matching view template to one or more views
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -993,7 +993,7 @@ tools:
       en: Close open UI views in the active document
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1013,7 +1013,7 @@ tools:
       en: Create a plan, section, 3D or drafting view; box coordinates are model mm
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1033,7 +1033,7 @@ tools:
       en: Duplicate a view, optionally with detailing or as a dependent view
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1053,7 +1053,7 @@ tools:
       en: Change category, workset and filter visibility in one view, with a dry-run preview
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1073,7 +1073,7 @@ tools:
       en: Inspect one view's template, display, categories, worksets, filters and links
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1093,7 +1093,7 @@ tools:
       en: Build a local Excel report from snapshots without contacting Revit
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1113,7 +1113,7 @@ tools:
       en: Export PDF, DWG, IFC or schedule CSV files; a dry run returns planned names
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1133,7 +1133,7 @@ tools:
       en: Export NWC on the Revit workstation; needs the Navisworks exporter, and overwriting needs a confirm token
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1153,7 +1153,7 @@ tools:
       en: Write a new .xlsx issue register with element snapshots and review documents
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1173,7 +1173,7 @@ tools:
       en: Read a schema version 1 project snapshot for batch audits; closed worksets can leave it incomplete
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1193,7 +1193,7 @@ tools:
       en: Parse a Navisworks exporter XML on the workstation without exporting
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1213,7 +1213,7 @@ tools:
       en: Render a PNG marking 1 to 500 elements; the temporary view is rolled back
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1233,7 +1233,7 @@ tools:
       en: Colour elements in selected views; reset restores this session's overrides
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1253,7 +1253,7 @@ tools:
       en: Tag elements by category or element ids in a view; room tags need a plan view
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1273,7 +1273,7 @@ tools:
       en: Change each element to one compatible type; group members are skipped
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1293,7 +1293,7 @@ tools:
       en: Copy elements 1 to 100 times at a millimetre offset, rolled back on a dry run
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1313,7 +1313,7 @@ tools:
       en: Create connected duct, pipe, tray or conduit runs from points in mm
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1333,7 +1333,7 @@ tools:
       en: Compile and run C# on the Revit thread; auto mode owns one transaction and undo entry
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1353,7 +1353,7 @@ tools:
       en: Mirror elements across a model X or Y parallel line through point_mm; dry_run rolls back
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1373,7 +1373,7 @@ tools:
       en: Open each model in the interactive session, run steps and C# code, and export or save as requested; in-place saves and code need a confirm_token
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1393,7 +1393,7 @@ tools:
       en: Rotate elements about a vertical axis through center_mm or their bounding-box center; dry_run rolls back, group, pinned and hosted elements are skipped
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1413,7 +1413,7 @@ tools:
       en: Undo the last MCP action via Revit's own undo command, only when the target document is active and the session's undo entry matches
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1433,7 +1433,7 @@ tools:
       en: Update a parameter on elements matching the same filters as revit_query_elements; group members are skipped and dry_run predicts the outcome
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1453,7 +1453,7 @@ tools:
       en: Pair CAD lines into joined basic walls, bridging openings, with millimetre dimensions
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1473,7 +1473,7 @@ tools:
       en: Activate an already open document by title or path reference
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1493,7 +1493,7 @@ tools:
       en: Close a background document; the first call changes nothing and returns the confirm token
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1513,7 +1513,7 @@ tools:
       en: List every open document in one Revit process, including background documents
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1533,7 +1533,7 @@ tools:
       en: Create a project or family from a template on the Revit workstation
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1553,7 +1553,7 @@ tools:
       en: Open a local, UNC or RSN model on the workstation; central models open detached
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1573,7 +1573,7 @@ tools:
       en: Save a document; the first call only returns a confirm_token and changes nothing
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1613,7 +1613,7 @@ tools:
       en: Persist cancellation and prevent unstarted models from running
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1633,7 +1633,7 @@ tools:
       en: Download completed snapshots to new local files without overwriting them
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1653,7 +1653,7 @@ tools:
       en: Start a persistent, read-only run over local, UNC or RSN models
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1673,7 +1673,7 @@ tools:
       en: Read durable run and model status after the initiating client exits
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1693,7 +1693,7 @@ tools:
       en: Request cancellation of an action job; completed changes stay committed
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1713,7 +1713,7 @@ tools:
       en: List recent jobs, or wait up to wait_seconds for one action result
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1733,7 +1733,7 @@ tools:
       en: Run up to 50 actions as one undo step; the batch rolls back on first failure
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1753,7 +1753,7 @@ tools:
       en: Edit an open family in place or named project families, rolled back on a dry run
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1773,7 +1773,7 @@ tools:
       en: Audit an open family or named project families without saving or loading changes; detail=full returns all parameter metadata
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1793,7 +1793,7 @@ tools:
       en: Load .rfa family files on the workstation in a single undo entry
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1813,7 +1813,7 @@ tools:
       en: Load optional families and place instances in one transaction and undo entry
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1833,7 +1833,7 @@ tools:
       en: Create a schedule for one category with named fields in order, with filtering and sorting/grouping; dry_run rolls back
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1853,7 +1853,7 @@ tools:
       en: Create a sheet with the first loaded or a named title block
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1873,7 +1873,7 @@ tools:
       en: Place views and schedules on a sheet; coordinates are sheet mm
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1893,7 +1893,7 @@ tools:
       en: Read displayed schedule header and body cell text, with paging
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1913,7 +1913,7 @@ tools:
       en: Align host grids and levels to a loaded link, with a dry-run rollback preview
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1933,7 +1933,7 @@ tools:
       en: Compare host grids and levels with one loaded Revit link; changes nothing
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1953,7 +1953,7 @@ tools:
       en: Link or import a DWG into a plan view on the Revit workstation and return CAD layers and extents in mm
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:
@@ -1973,7 +1973,7 @@ tools:
       en: Delete selected link types and their instances; dry_run previews, and Revit cannot undo it
     years:
       '2020':
-        state: built
+        state: validated
       '2026':
         state: built
       other:

@@ -23,7 +23,7 @@ This catalog records the released version. The integration branch is unreleased,
 
 | Revit year | Validation |
 | --- | --- |
-| [Revit 2020](v2020.md) | 19/35 reads and 20/57 actions validated live; the rest are build-only |
+| [Revit 2020](v2020.md) | 35/35 reads and 56/57 actions validated live; the rest are build-only |
 | [Revit 2026](v2026.md) | 18/35 reads and 10/57 actions validated live; the rest are build-only |
 | 2022–2025 / 2027 | Build only, not live-tested |
 
