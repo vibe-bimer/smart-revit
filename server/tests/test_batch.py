@@ -122,6 +122,13 @@ async def test_start_persists_inputs_and_chooses_process(boundary):
 
 
 @pytest.mark.anyio
+async def test_start_accepts_the_shipped_years_including_2020(boundary):
+    tools, host, channel = boundary
+    result = await tools["revit_batch_start"](paths=[r"C:\models\A.rvt"], years=[2020])
+    assert host.runs[result["runId"]]["years"] == [2020]
+
+
+@pytest.mark.anyio
 @pytest.mark.parametrize("minutes", [5, 30, 180])
 async def test_start_persists_open_timeout(boundary, minutes):
     tools, host, _channel = boundary
@@ -154,6 +161,8 @@ async def test_invalid_open_timeout_creates_no_run(boundary, minutes):
         {"paths": [r"C:\A.rvt", r"c:\a.RVT"]},
         {"paths": [r"C:\a.rvt"], "years": [2027, 2027]},
         {"paths": [r"C:\a.rvt"], "years": [2021]},
+        {"paths": [r"C:\a.rvt"], "years": [2019]},
+        {"paths": [r"C:\a.rvt"], "years": [2020, 2021]},
         {"paths": [r"C:\a.rvt"], "parameter_rules": [{"category": "", "parameter": "Mark"}]},
     ],
 )

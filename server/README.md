@@ -87,7 +87,7 @@ Boolean server variables accept `1`, `true`, `yes`, `on` and `0`, `false`, `no`,
 | `REVIT_MCP_HTTP_BIND` | Add-in | `httpBind` from `settings.json` | IPv4 interface address for the listener. |
 | `REVIT_MCP_HTTP_PORT` | Add-in | `httpPort` from `settings.json` | Listener port, 1-65535. Give each HTTP-enabled Revit process its own port. |
 | `REVIT_MCP_UPDATE_FEED` | Add-in | GitHub API | Release feed base URL for update checks. Must be HTTPS, or HTTP on loopback. |
-| `REVIT_MCP_REVIT_EXE_<year>` | Add-in | `Program Files\Autodesk\Revit <year>\Revit.exe` | Path to `Revit.exe` for the batch collector, for each year from 2022 to 2027. |
+| `REVIT_MCP_REVIT_EXE_<year>` | Add-in | `Program Files\Autodesk\Revit <year>\Revit.exe` | Path to `Revit.exe` for the batch collector, for each year the add-in ships (2020 and 2022 through 2027). |
 | `REVIT_MCP_RSN_REST_BASE` | Add-in (batch supervisor) | Unset | `AdminRESTService.svc/` URL of the Revit Server host. Required to read RSN model metadata before a batch run. |
 
 The add-in also reads `REVIT_MCP_BATCH_WORKER`; the batch supervisor sets it on worker processes, so do not set it yourself.
