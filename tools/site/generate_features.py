@@ -987,7 +987,17 @@ def _list_tools(
             proc.stdin.flush()
             tools = call("tools/list", 2)["result"]["tools"]
         finally:
+            if os.name == "nt":
+                # uv starts the server as a grandchild. Terminating uv alone leaves that server
+                # holding the pipes, and the context manager then closes stderr under a reader
+                # thread that is still blocked in it, which deadlocks on Windows.
+                subprocess.run(
+                    ["taskkill", "/F", "/T", "/PID", str(proc.pid)],
+                    capture_output=True,
+                    check=False,
+                )
             proc.terminate()
+            proc.wait(timeout=30)
         return normalise_descriptions(tools)
 
 
