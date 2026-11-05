@@ -97,6 +97,46 @@ def test_the_layer_fits_its_budget_right_now(budget, config, monkeypatch):
     assert unowned == []
 
 
+def test_numstat_compares_the_base_with_the_working_tree(budget, config, monkeypatch):
+    # The documented workflow runs the gate before committing, so the diff must
+    # reach the working tree; `base...HEAD` would report the previous commit.
+    seen = {}
+
+    class Result:
+        returncode = 0
+        stdout = ""
+        stderr = ""
+
+    def fake_run(args, **kwargs):
+        seen["args"] = args
+        return Result()
+
+    monkeypatch.setattr(budget.subprocess, "run", fake_run)
+    budget.numstat(config["base"])
+    args = seen["args"]
+    assert args[:4] == ["git", "diff", "--numstat", "--no-renames"]
+    assert args[4] == config["base"]
+
+
+def test_the_measurement_line_separates_a_clean_tree_from_a_dirty_one(budget):
+    clean = budget.measurement_line("760bb7c21337abb", "ef67187", 0, 0)
+    dirty = budget.measurement_line("760bb7c21337abb", "ef67187", 3, 2)
+    assert clean == "measured 760bb7c..ef67187, clean working tree"
+    assert "760bb7c..ef67187 plus the working tree" in dirty
+    assert "(3 tracked, 2 untracked)" in dirty
+
+
+def test_an_untracked_file_outside_the_layer_is_named_by_the_gate(budget, capsys, monkeypatch):
+    # A file git does not track never reaches a diff, so the gate must list it
+    # separately: an untracked file outside the layer is as unowned as an edit.
+    monkeypatch.setattr(budget, "untracked_files", lambda *args, **kwargs: ["notes.txt"])
+    exit_code = budget.main()
+    out = capsys.readouterr().out
+    assert exit_code == 1
+    assert "notes.txt (untracked)" in out
+    assert out.splitlines()[0].startswith("measured ")
+
+
 def test_the_report_names_the_base_and_the_gap(config):
     upstream_report = load("upstream_report")
     # Compare against a ref that exists in every clone, so the test never
