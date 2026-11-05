@@ -37,7 +37,7 @@
     "src/RevitModelMcp.Core/Control/ActionVerificationModels.cs",
     "src/RevitModelMcp.Core/Control/ControlJobParser.cs"
   ],
-  "hookBudgetLines": 94,
+  "hookBudgetLines": 119,
   "reads": {
     ".github/ISSUE_TEMPLATE/config.yml": "the fork's own issue links",
     ".github/workflows/ci.yml": "the bundle launcher check",
@@ -93,6 +93,7 @@
     "server/requirements.docker.txt": "the dependency audit refreshes the hash-pinned docker list with the lock",
     "server/uv.lock": "the dependency audit refreshes the lock past published CVEs",
     "server/revit_model_mcp/actions.py": "one registration call, one import and the step union",
+    "server/revit_model_mcp/batch.py": "the batch validator accepts the shipped years, 2020 included",
     "server/revit_model_mcp/revit_channel.py": "the release page the update check reads",
     "server/revit_model_mcp/server.py": "one registration call and one import",
     "server/revit_model_mcp/toolsets.py": "the shipped surface lists the fork's tools",
@@ -113,6 +114,7 @@
     "server/tests/test_toolsets.py": "the payload guard carries the fork's allowance",
     "server/tests/test_validate_bundle.py": "the managed bundle check has tests",
     "src/RevitModelMcp.Addin/Connect/ConnectText.cs": "the bundled-server message names the product",
+    "src/RevitModelMcp.Addin/Control/BatchCommands.cs": "the batch supervisor looks for Revit.exe from 2020 up",
     "src/RevitModelMcp.Addin/Updates/UpdateService.cs": "the fork's release feed",
     "src/RevitModelMcp.Core/Updates/UpdatePolicy.cs": "the release feed's private-network HTTP rule",
     "src/RevitModelMcp.Core/Connect/McpServerSpec.cs": "the install folder and the server source an AI app starts",
