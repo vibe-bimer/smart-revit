@@ -45,8 +45,7 @@ internal static class ActionVerifier
                 verification.WouldCreate = action.DryRun ? true : null;
                 break;
             case "delete":
-                var stillPresent = verification.Changed!
-                    .Where(id => ActionCommandExecutor.CreateId(id).ToElement(targetDocument) is not null).ToList();
+                var stillPresent = verification.Changed!.Where(id => Survives(targetDocument, id)).ToList();
                 verification.After = new ActionFacts { StillPresent = stillPresent };
                 if (stillPresent.Count > 0) throw new InvalidOperationException("Deletion verification found surviving elements.");
                 break;
@@ -90,6 +89,22 @@ internal static class ActionVerifier
     private static Element RequiredElement(Document targetDocument, long id) =>
         ActionCommandExecutor.CreateId(id).ToElement(targetDocument)
         ?? throw new InvalidOperationException($"Verification could not find element {id}.");
+
+    /// <summary>
+    /// Revit raises instead of returning null when the id was deleted inside the still-open transaction,
+    /// which is exactly the state the deletion check looks up.
+    /// </summary>
+    private static bool Survives(Document targetDocument, long id)
+    {
+        try
+        {
+            return ActionCommandExecutor.CreateId(id).ToElement(targetDocument) is not null;
+        }
+        catch (Exception exception) when (exception is ArgumentException or InvalidOperationException)
+        {
+            return false;
+        }
+    }
 
     private static ActionFacts ParameterFacts(Document targetDocument, ActionJobContract action)
     {

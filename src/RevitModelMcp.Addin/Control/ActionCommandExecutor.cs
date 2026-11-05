@@ -1127,7 +1127,9 @@ internal static class ActionCommandExecutor
             "show" => data.Count ?? ids?.Count ?? 0,
             "delete" => data.Verification?.Changed?.Count ?? ids?.Count ?? 0,
             "load-family" or "place-families" or "create-mep-run" => data.Count ?? 0,
+            "reset-element-ids" or "rebuild-model-ids" => data.Count ?? 0,
             "walls-from-cad" => data.Count ?? 0,
+            "set-phase" => data.Count ?? ids?.Count ?? 0,
             "apply-view-template" or "place-views-on-sheet" or "tag-elements" or "create-schedule" => data.Count ?? 0,
             _ => 0
         };

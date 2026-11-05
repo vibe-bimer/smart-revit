@@ -71,7 +71,8 @@ internal static class BatchCommands
         var root = Path.Combine(ChannelDirectory.RootDirectory, "runs", runId!);
         if (!File.Exists(Path.Combine(root, "run.json"))) throw new FileNotFoundException("Batch run state is absent.");
         var executables = new Dictionary<int, string>();
-        for (var year = 2022; year <= 2027; year++)
+        // The add-in ships for R20 and the later years, so the supervisor looks for every one of them.
+        for (var year = 2020; year <= 2027; year++)
         {
             var configured = Environment.GetEnvironmentVariable($"REVIT_MCP_REVIT_EXE_{year}");
             var path = configured ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
