@@ -245,7 +245,7 @@ def refresh_capability_sources(tools: list[dict]) -> int:
         if block != lines[start + 1 : end]:
             changed += 1
             lines[start + 1 : end] = block
-    CAPABILITIES.write_text("".join(lines), encoding="utf-8")
+    CAPABILITIES.write_text("".join(lines), encoding="utf-8", newline="\n")
     return changed
 
 
@@ -1111,6 +1111,7 @@ def main() -> int:
         PLATFORM_JSON.write_text(
             json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
             encoding="utf-8",
+            newline="\n",
         )
         print(
             f"platform-tools.json: {payload['count']} tools from {payload['provenance']['commit'][:7]}"
@@ -1121,6 +1122,7 @@ def main() -> int:
         TOOLS_JSON.write_text(
             json.dumps(tools, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
             encoding="utf-8",
+            newline="\n",
         )
         print(f"tools.json: {len(tools)} tools")
         return 0
@@ -1138,11 +1140,11 @@ def main() -> int:
     files = generate(tools, capabilities, contracts)
     stale = []
     for path, content in files.items():
-        if not path.exists() or path.read_text(encoding="utf-8") != content:
+        if not path.exists() or path.read_bytes() != content.encode("utf-8"):
             stale.append(path.relative_to(ROOT))
             if args.write:
                 path.parent.mkdir(parents=True, exist_ok=True)
-                path.write_text(content, encoding="utf-8")
+                path.write_text(content, encoding="utf-8", newline="\n")
     if args.check and stale:
         print("Generated pages are stale; run tools/site/generate_features.py --write:")
         for path in stale:
