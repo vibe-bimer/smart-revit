@@ -19,7 +19,9 @@
     "mkdocs-lan.yml",
     "scripts/",
     "server/README.zh.md",
+    "server/revit_model_mcp/acceptance_ledger.py",
     "server/revit_model_mcp/fork_actions.py",
+    "server/tests/test_acceptance_ledger.py",
     "src/RevitModelMcp.Addin/Fork/",
     "src/RevitModelMcp.Core/Fork/",
     "tools/site/"
