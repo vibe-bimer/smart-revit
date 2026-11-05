@@ -6,7 +6,7 @@ description: "在墙上放门窗：宿主可点名也可就近找墙，回报挂
 
 `revit_place_hosted_family`
 
-<p class="facts"><span><b>分组</b> 编辑</span><span><b>类型</b> 动作（需授权）</span><span><b>起始版本</b> 0.10.0</span><span><b>版本</b> 已发布 1.0.0</span><span><b>集成分支有同名工具</b> 没有</span><span><b>本页契约适用于发布版</b> 是</span><span><b>影响范围</b> 模型构件 / 参数</span><span><b>来源</b> 自研（本仓库）</span></p>
+<p class="facts"><span><b>分组</b> 编辑</span><span><b>类型</b> 动作（需授权）</span><span><b>起始版本</b> 0.10.0</span><span><b>版本</b> 已发布 1.0.0</span><span><b>集成分支有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span><span><b>影响范围</b> 模型构件 / 参数</span><span><b>来源</b> 自研（本仓库）</span></p>
 
 在墙上放门窗：宿主可点名也可就近找墙，回报挂在哪面墙上（mm）
 
@@ -15,6 +15,8 @@ description: "在墙上放门窗：宿主可点名也可就近找墙，回报挂
 
 !!! note "使用提示"
     就近找墙只在放置标高这一层里找；宿主不是墙、定位点超出 host_search_radius_mm 或最近距离并列时被拒绝并列出候选；非单层宿主族用 revit_place_family；rotation_deg 只能是 0，翻面用 flip_facing；不做附着
+
+[同名集成分支页面](../platform/revit_place_hosted_family.md)
 
 ## 可复制提示词 {#prompts}
 

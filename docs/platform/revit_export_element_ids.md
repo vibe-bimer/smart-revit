@@ -1,0 +1,61 @@
+---
+description: "把构件 ID 台账导出为 xlsx，含系统成员与连接器读取。"
+---
+
+# 导出构件 ID 台账
+
+`revit_export_element_ids`
+
+<p class="facts"><span><b>分组</b> 导出与登记</span><span><b>类型</b> 读取</span><span><b>基座与自研的区分</b> 自研（本仓库） · 已移植</span><span><b>状态</b> 未发布（集成分支）</span><span><b>发布版版本</b> 1.0.0</span><span><b>来源分支</b> <code>feat/gitlab-pages</code></span><span><b>来源提交</b> <code>50baa705e8da63327ab2bff1e544c76252fddbc9</code></span><span><b>发布版有同名工具</b> 有，参数一致</span><span><b>本页契约适用于发布版</b> 否</span></p>
+
+!!! note "使用提示"
+    输出 xlsx 台账，含系统成员与连接器读取。
+
+把构件 ID 台账导出为 xlsx，含系统成员与连接器读取。
+
+[同名发布版页面](../features/revit_export_element_ids.md)
+
+## 与发布版的契约差异 {#contract-diff}
+
+同名工具的契约与发布版 1.0.0 一致。
+
+## 参数 {#parameters}
+
+<div class="rmc-tablewrap" markdown="1">
+
+| 参数 {scope=col} | 必填 {scope=col} | 默认值 {scope=col} | 类型 {scope=col} |
+| --- | :--: | --- | --- |
+| `fields` | 否 | `null` | any |
+| `path` | 否 | `null` | any |
+
+</div>
+
+集成分支契约未提供参数说明。
+
+### 通用参数 {#common-parameters}
+
+<div class="rmc-tablewrap" markdown="1">
+
+| 参数 {scope=col} | 必填 {scope=col} | 默认值 {scope=col} | 类型 {scope=col} | 说明 {scope=col} |
+| --- | :--: | --- | --- | --- |
+| `document` | 否 | `null` | any | 打开多个模型时，用标题或路径指定目标文档。 |
+| `timeout_seconds` | 否 | `120` | integer | 本次调用的等待上限（秒）。 |
+
+</div>
+
+## 功能说明（注册表原文） {#behavior}
+
+以下保留工具在注册表中声明的英文原文，作为契约来源。
+
+```text
+Write the element identifier register of the drawn components to a workbook, read-only.
+
+`fields` picks the columns and `path` names the file, which must not already exist; without
+one the workbook goes to Documents/RevitModelMcp/Exports with a timestamp. Non-component
+categories are reported under skippedCategories and the list is capped at 50,000 rows.
+The workbook is written on the Revit workstation; nothing is downloaded.
+```
+
+---
+
+[返回目录](index.md) · [自研工具的移植状态](fork-tools.md)

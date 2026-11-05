@@ -105,11 +105,11 @@ hide:
     <span class="rmc-section__num" aria-hidden="true">↗</span>
     <h2 class="rmc-section__title">新版底座与移植进展</h2>
     <p class="rmc-section__lede">当前网站的 93 个工具对应现行主线版本；上游 1.0 底座与 fork 层已在主线合流并作为 1.0.0 发布。</p>
-    <a class="rmc-section__link" href="platform/">按基座与自研查阅 80 个工具</a>
+    <a class="rmc-section__link" href="platform/">按基座与自研查阅 93 个工具</a>
     <a class="rmc-section__link" href="http://192.168.100.165:8929/vibe-bimer/revit-model-mcp/-/issues/15">查看集成规格与进展</a>
   </header>
   <ul class="rmc-development">
-    <li>上游底座包含文档管理、视图与图纸、族和链接、模型导出、批处理等能力；集成分支的 80 项工具快照已并入主线。</li>
+    <li>上游底座包含文档管理、视图与图纸、族和链接、模型导出、批处理等能力；平台目录的 93 项工具快照取自当前开发线，该线尚未发布。</li>
     <li>视图光照工具在 Revit 2020 与 2026 两个年份都完成了验收。</li>
     <li>楼板、标高、阶段设置与合并、构件 ID 导出、重置和模型重建八条动作已随 fork 层移植，并在这两个年份完成验收；此后又新增轴网、载入族、结构柱、宿主族、梁与跨标高复制。</li>
   </ul>

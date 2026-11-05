@@ -10,7 +10,7 @@ generate_features.py against the worktree on that branch.
 Every tool is labelled by origin, because the point of this section is to keep the upstream
 base ("基座") apart from the tools this fork owns ("自研"):
   upstream  a tool that came with the upstream base.
-  fork      a tool this fork designed; only the grafted ones exist on the branch yet.
+  fork      a tool this fork designed; the grafted ones are the ones the snapshot carries.
 """
 
 from __future__ import annotations
@@ -78,9 +78,45 @@ ZH = {
         "复制构件",
         "沿模型轴按毫米偏移创建 1 到 100 份连续副本；`dry_run` 会回滚。",
     ),
+    "revit_copy_elements": (
+        "跨标高复制构件",
+        "把构件复制到同一模型的另一标高处，按标高差算竖向位移；宿主必须在同一批里，逐个构件配对并给出 idMappingVerified。",
+    ),
+    "revit_create_beam": (
+        "创建梁",
+        "按曲线与标高创建梁，端点不做吸附；结构用途按枚举写入，竖向偏移先写族的标高参数再退到移动实例。",
+    ),
+    "revit_create_column": (
+        "创建柱",
+        "在指定位置创建结构柱，顶底由标高或高度与偏移决定；不做附着，类型不存在时列出可用类型。",
+    ),
+    "revit_create_floor": (
+        "创建楼板",
+        "在给定标高的闭合轮廓上创建楼板；`dry_run` 会回滚。",
+    ),
+    "revit_create_grid": (
+        "创建轴网",
+        "创建直线或三点定弧的轴网；重名即拒绝，弧线要求中间点不在起终点连线上。",
+    ),
+    "revit_create_level": (
+        "创建标高",
+        "按毫米高程创建标高，可同时建同名楼层平面视图；重名即拒绝并给出既有标高的名称与高程。",
+    ),
     "revit_delete": (
         "删除构件",
         "删除构件及其 Revit 依赖，计数包含依赖对象；连同依赖超过 500 个构件时需要确认令牌。",
+    ),
+    "revit_export_element_ids": (
+        "导出构件 ID 台账",
+        "把构件 ID 台账导出为 xlsx，含系统成员与连接器读取。",
+    ),
+    "revit_load_family_file": (
+        "载入族文件",
+        "从磁盘载入一个族文件，可只载入其中一个类型；路径不存在时给出最近匹配。",
+    ),
+    "revit_merge_phases": (
+        "合并阶段",
+        "把一个阶段并入另一个阶段，构件随之改阶段；该命令不进批量步骤词表。",
     ),
     "revit_mirror": (
         "镜像构件",
@@ -89,6 +125,18 @@ ZH = {
     "revit_move": (
         "移动构件",
         "按 `dx_mm`、`dy_mm`、`dz_mm` 沿模型轴移动构件；`dry_run` 回滚并返回验证块。",
+    ),
+    "revit_place_hosted_family": (
+        "放置宿主族",
+        "把单层宿主族放到墙面上，点名宿主或就近找墙；并列与超半径被拒并列出候选。",
+    ),
+    "revit_rebuild_model_ids": (
+        "重建模型 ID",
+        "按模板重建模型与副本的构件 ID，支持重名策略。",
+    ),
+    "revit_reset_element_ids": (
+        "重置构件 ID",
+        "重置构件 ID，`dry_run` 报出代价，每个构件在自己的子事务里提交。",
     ),
     "revit_rotate": (
         "旋转构件",
@@ -101,6 +149,10 @@ ZH = {
     "revit_set_parameter": (
         "设置参数",
         "写入一个实例或类型参数，可用参数 ID、共享参数 GUID 或本地化名称定位；长度用毫米、面积用平方米。",
+    ),
+    "revit_set_phase": (
+        "设置阶段",
+        "把构件写入既有阶段；Revit 不能创建或改名阶段。",
     ),
     "revit_update_parameters": (
         "批量更新参数",
@@ -398,9 +450,11 @@ FORK_TOOLS = catalogs.fork_tools()
 LABELS = {
     "zh": {
         "title": "新版基座工具目录",
-        "intro": "这一节记录集成分支上的工具面，与「功能」一节的现有版本分开。分支上的工具尚未发布，其中 {pending} 个自研工具还没移植，所以目录不是可交付清单，而是移植进度表。",
+        "intro": "这一节记录当前开发线上的工具面，与「功能」一节的已发布版本分开。该线尚未发布：{state}",
+        "intro_pending": "其中 {pending} 个自研工具还没移植，所以目录不是可交付清单，而是移植进度表。",
+        "intro_complete": "自研工具已全部接上，目录是这条开发线的完整清单。",
         "catalogs": "两套工具面",
-        "catalogs_intro": "现有版本是已经发布的 {version}，集成分支是以上游一零版为底座的新线。两者的工具数量与清单都不同，不能混用。",
+        "catalogs_intro": "现有版本是已经发布的 {version}；平台目录记录当前开发线，以新版底座为起点，尚未发布。两栏的工具集合可以重合，但状态与契约差异不能混用。",
         "current": "现有版本",
         "platform": "集成分支",
         "released": "已发布",
@@ -408,7 +462,7 @@ LABELS = {
         "branch": "分支",
         "base": "底座提交",
         "origin": "基座与自研的区分",
-        "origin_intro": "每个工具在页面上都带来源标记：基座表示随上游底座而来，自研表示本仓库自己设计。自研工具在分支上目前只移植了 {grafted} 项。",
+        "origin_intro": "每个工具在页面上都带来源标记：基座表示随上游底座而来，自研表示本仓库自己设计。自研 {total} 项，其中 {grafted} 项已接上这条线。",
         "base_origin": "基座（上游）",
         "fork_origin": "自研（本仓库）",
         "grafted": "已移植",
@@ -469,13 +523,15 @@ LABELS = {
         "fork_status": "移植状态",
         "count_line": "共 {total} 个工具：基座 {base} 个，自研 {fork} 个；读取 {read} 个，动作 {action} 个。",
         "index_desc": "集成分支（上游 1.0 基座加本仓库自研工具）的完整工具清单，按分组列出用途、参数与契约差异。",
-        "fork_desc": "本仓库自研 {total} 个工具的移植状态：{grafted} 个已接到新版底座，{pending} 个仍在待移植队列。",
+        "fork_desc": "本仓库自研 {total} 个工具在新版底座上的移植状态：{grafted} 个已接上，{pending} 个待移植。",
     },
     "en": {
         "title": "Platform tool catalog",
-        "intro": "This section records the tool surface of the integration branch, kept apart from the released catalog under Features. The branch is unreleased and {pending} fork tools are still missing from it, so the catalog is a migration scoreboard, not a delivery list.",
+        "intro": "This section records the tool surface of the current development line, kept apart from the released catalog under Features. The line is unreleased: {state}",
+        "intro_pending": "{pending} fork tools are still missing from it, so the catalog is a migration scoreboard, not a delivery list.",
+        "intro_complete": "every fork tool is attached, so the catalog is the complete list for that line.",
         "catalogs": "Two catalogs",
-        "catalogs_intro": "The current release is {version}. The integration branch is the new line built on the upstream 1.0 base. Their tool counts and names differ, so they are not interchangeable.",
+        "catalogs_intro": "The current release is {version}. The platform catalog records the current development line, built on the new base and not yet released. The two columns may hold the same tools, but their status and contract differences must not be mixed up.",
         "current": "Current release",
         "platform": "Integration branch",
         "released": "Released",
@@ -483,7 +539,7 @@ LABELS = {
         "branch": "Branch",
         "base": "Base commit",
         "origin": "Base and fork tools",
-        "origin_intro": "Every page carries an origin marker: base means the tool came with the upstream base, fork means this repository designed it. Only {grafted} fork tool is grafted so far.",
+        "origin_intro": "Every page carries an origin marker: base means the tool came with the upstream base, fork means this repository designed it. Of the {total} fork tools, {grafted} are attached to this line.",
         "base_origin": "Base (upstream)",
         "fork_origin": "Fork (this repository)",
         "grafted": "Grafted",
@@ -544,7 +600,7 @@ LABELS = {
         "fork_status": "Migration status",
         "count_line": "{total} tools: {base} base and {fork} fork; {read} read and {action} action.",
         "index_desc": "Complete tool list of the integration branch (the upstream 1.0 base plus this repository's fork tools), grouped with purpose, parameters and contract differences.",
-        "fork_desc": "Migration status of this repository's {total} fork tools: {grafted} attached to the new base and {pending} still queued.",
+        "fork_desc": "Migration status of this repository's {total} fork tools onto the new base: {grafted} attached, {pending} queued.",
     },
 }
 
@@ -887,7 +943,18 @@ def index_page(tools: list[dict], released: list[dict], lang: str) -> str:
     numbers = counts(tools)
     pending = sum(1 for item in FORK_TOOLS.values() if item["status"] == "pending")
     grafted = sum(1 for item in FORK_TOOLS.values() if item["status"] == "grafted")
-    fmt = {"version": RELEASE_VERSION, "pending": pending, "grafted": grafted}
+    state = (
+        labels["intro_complete"]
+        if not pending
+        else labels["intro_pending"].format(pending=pending)
+    )
+    fmt = {
+        "version": RELEASE_VERSION,
+        "pending": pending,
+        "grafted": grafted,
+        "total": len(FORK_TOOLS),
+        "state": state,
+    }
     groups = {}
     for tool in sorted(tools, key=sort_key):
         groups.setdefault(tool["toolset"], []).append(tool)
@@ -997,20 +1064,31 @@ def fork_page(tools: list[dict], lang: str) -> str:
     labels = LABELS[lang]
     names = {tool["name"]: tool for tool in tools}
     grafted = sum(1 for item in FORK_TOOLS.values() if item["status"] == "grafted")
+    queued = len(FORK_TOOLS) - grafted
+    queued_zh = (
+        f"其中 {grafted} 个已经接到新版底座上，{queued} 个还在待移植队列里"
+        if queued
+        else f"已全部接到新版底座上（{grafted} 个）"
+    )
+    queued_en = (
+        f"{grafted} attached to the new base and {queued} still queued"
+        if queued
+        else f"all {grafted} attached to the new base"
+    )
     if lang == "zh":
         title = "自研工具的移植状态"
         intro = (
-            f"本仓库自己设计的工具一共 {len(FORK_TOOLS)} 个，其中 {grafted} 个已经接到新版底座上，"
-            f"{len(FORK_TOOLS) - grafted} 个还在待移植队列里。这些工具都不改变基座的行为，只通过 fork 注册表追加命令。"
+            f"本仓库自己设计的工具一共 {len(FORK_TOOLS)} 个，"
+            f"{queued_zh}。这些工具都不改变基座的行为，只通过 fork 注册表追加命令。"
         )
-        legend = "已移植表示分支上能列出并执行；待移植表示实现已在本地版本里，但分支上还没有对应命令。"
+        legend = "已移植表示快照里能列出并执行；待移植表示实现已在本地版本里，但快照里还没有对应命令。"
     else:
         title = "Fork tool migration status"
         intro = (
-            f"This repository owns {len(FORK_TOOLS)} tools. {grafted} is attached to the new base and "
-            f"{len(FORK_TOOLS) - grafted} are still queued. None of them change base behaviour; they append commands through the fork registry."
+            f"This repository owns {len(FORK_TOOLS)} tools: {queued_en}. "
+            "None of them change base behaviour; they append commands through the fork registry."
         )
-        legend = "Grafted means the branch lists and runs it. Pending means the implementation exists in the local version but the branch has no command yet."
+        legend = "Grafted means the snapshot lists and runs it. Pending means the implementation exists in the local version but the snapshot has no command yet."
     out = [
         f"# {title}",
         "",

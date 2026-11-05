@@ -6,7 +6,7 @@ description: "整模型换新 ID：把三维视图可选中的构件重建为一
 
 `revit_rebuild_model_ids`
 
-<p class="facts"><span><b>分组</b> 批量与 ID</span><span><b>类型</b> 动作（需授权）</span><span><b>起始版本</b> 0.8.0</span><span><b>版本</b> 已发布 1.0.0</span><span><b>集成分支有同名工具</b> 没有</span><span><b>本页契约适用于发布版</b> 是</span><span><b>影响范围</b> 新模型文件；源模型不变</span><span><b>来源</b> 自研（本仓库）</span></p>
+<p class="facts"><span><b>分组</b> 批量与 ID</span><span><b>类型</b> 动作（需授权）</span><span><b>起始版本</b> 0.8.0</span><span><b>版本</b> 已发布 1.0.0</span><span><b>集成分支有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span><span><b>影响范围</b> 新模型文件；源模型不变</span><span><b>来源</b> 自研（本仓库）</span></p>
 
 整模型换新 ID：把三维视图可选中的构件重建为一份或多份新模型
 
@@ -15,6 +15,8 @@ description: "整模型换新 ID：把三维视图可选中的构件重建为一
 
 !!! note "使用提示"
     源模型不变；仅复制三维视图可选构件及必要基准，不是完整项目克隆；逐份检查数量与 ID 映射
+
+[同名集成分支页面](../platform/revit_rebuild_model_ids.md)
 
 ## 可复制提示词 {#prompts}
 

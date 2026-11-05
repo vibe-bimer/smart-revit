@@ -703,7 +703,7 @@ tools:
     source: '5c24a66b8b40'
     group: edit
     origin: fork
-    since: 0.11.0
+    since: 1.1.0  # added after 1.0.0 shipped; no release carries it yet
     title:
       zh: 复制构件
       en: Copy elements

@@ -303,6 +303,24 @@ class FeatureGeneratorTests(unittest.TestCase):
         )
         self.assertIn(f"未发布（{generate_features.RELEASE_VERSION}）", page)
 
+    def test_a_tool_added_after_the_release_says_unreleased(self):
+        """A tool that shipped in no release must not wear a release badge.
+
+        The version fact comes from `since`. A tool added after the tag has to carry a
+        `since` above the published version, or its page claims a release that never
+        carried it.
+        """
+        name = "revit_copy_elements"
+        tool = next(item for item in self.tools if item["name"] == name)
+        page = generate_features.tool_page(
+            tool,
+            self.capabilities["tools"][name],
+            "zh",
+            self.capabilities,
+            self.contracts,
+        )
+        self.assertIn(f"未发布（{generate_features.RELEASE_VERSION}）", page)
+
     def test_released_page_links_and_diffs_its_integration_twin(self):
         platform_tools, _ = platform_catalog.load_platform()
         integration = {t["name"]: t["inputSchema"] for t in platform_tools}
@@ -322,9 +340,17 @@ class FeatureGeneratorTests(unittest.TestCase):
         self.assertIn("output_path", page)
 
     def test_released_page_without_twin_has_no_diff_section(self):
+        """A released tool that the integration line does not carry gets no diff section.
+
+        The two lines carry the same tools today, so the case is constructed rather than
+        looked for: a snapshot that dropped one tool still has to leave that page plain.
+        """
         platform_tools, _ = platform_catalog.load_platform()
-        integration = {t["name"] for t in platform_tools}
-        tool = next(t for t in self.tools if t["name"] not in integration)
+        tool = next(
+            t for t in self.tools if t["name"] in {p["name"] for p in platform_tools}
+        )
+        integration = {t["name"] for t in platform_tools} - {tool["name"]}
+        self.assertNotIn(tool["name"], integration)
         page = generate_features.tool_page(
             tool,
             self.capabilities["tools"][tool["name"]],

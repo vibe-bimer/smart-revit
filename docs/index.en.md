@@ -105,11 +105,11 @@ hide:
     <span class="rmc-section__num" aria-hidden="true">↗</span>
     <h2 class="rmc-section__title">New platform and migration progress</h2>
     <p class="rmc-section__lede">The 93 tools on this site describe the current main line; the upstream 1.0 platform and the fork layer have merged into main and released as 1.0.0.</p>
-    <a class="rmc-section__link" href="platform/">Browse the 80 tools by origin</a>
+    <a class="rmc-section__link" href="platform/">Browse the 93 tools by origin</a>
     <a class="rmc-section__link" href="http://192.168.100.165:8929/vibe-bimer/revit-model-mcp/-/issues/15">View the integration specification and progress</a>
   </header>
   <ul class="rmc-development">
-    <li>The upstream platform adds document management, views and sheets, families and links, export, and batch processing; the 80-tool snapshot of the integration branch has merged into main.</li>
+    <li>The upstream platform adds document management, views and sheets, families and links, export, and batch processing; the 93-tool snapshot in the platform catalog comes from the current development line, which no release carries yet.</li>
     <li>The view-lighting tool is live-validated on both Revit 2020 and 2026.</li>
     <li>The eight original actions — floor, level, phase setting and merging, element ID export and reset, and model rebuilding — shipped with the fork layer and are live-validated on both years; grid, family loading, column, hosted family, beam and cross-level copy followed.</li>
   </ul>

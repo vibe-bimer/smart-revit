@@ -12,6 +12,7 @@ import unittest
 from pathlib import Path
 
 import catalogs
+import platform_catalog
 import tomllib
 
 REAL_ROOT = Path(__file__).resolve().parents[2]
@@ -48,11 +49,15 @@ class ReleaseVersionTests(unittest.TestCase):
 
 
 class IntegrationCatalogTests(unittest.TestCase):
-    def test_integration_declares_the_unreleased_branch_and_its_sha(self):
+    def test_integration_declares_an_unreleased_branch_apart_from_the_release(self):
         integration = catalogs.integration()
         self.assertEqual(integration.status, "unreleased")
-        self.assertEqual(integration.branch, "integration/upstream-1.0")
         self.assertEqual(integration.languages, ("zh", "en"))
+        self.assertNotEqual(
+            integration.branch,
+            catalogs.release().branch,
+            "the two catalogs must describe two different lines",
+        )
 
     def test_the_declared_branch_matches_the_snapshot_provenance(self):
         provenance = json.loads(
@@ -73,13 +78,52 @@ class IntegrationCatalogTests(unittest.TestCase):
 
 class ForkOwnershipTests(unittest.TestCase):
     def test_fork_tools_are_declared_with_status_and_both_languages(self):
+        """Every declared tool exists in the registry, with a status and two languages.
+
+        The count is deliberately not asserted: the catalog grows with the fork, and a hard
+        number here only turns a new tool into a failing test.
+        """
         tools = catalogs.fork_tools()
-        self.assertEqual(len(tools), 13)
+        self.assertTrue(tools, "the catalog must declare the fork's tools")
+        registry = {
+            tool["name"]
+            for tool in json.loads(
+                (REAL_ROOT / "tools/site/content/tools.json").read_text(
+                    encoding="utf-8"
+                )
+            )
+        }
         for name, item in tools.items():
+            self.assertIn(name, registry, f"{name} is declared but not registered")
             for field in ("status", "zh", "en", "zh_note", "en_note"):
                 self.assertTrue(item.get(field), f"{name} is missing {field}")
-        grafted = [n for n, i in tools.items() if i["status"] == "grafted"]
-        self.assertEqual(grafted, ["revit_set_view_lighting"])
+
+    def test_grafted_means_present_in_the_snapshot(self):
+        """A tool is grafted exactly when the snapshot registry carries it.
+
+        The status is a claim; the snapshot is the evidence the platform pages are built
+        from, so the two must agree in both directions, at any size of the catalog.
+        """
+        tools = catalogs.fork_tools()
+        self.assertTrue(tools, "the catalog must declare the fork's tools")
+        names = {tool["name"] for tool in platform_catalog.snapshot()["tools"]}
+        grafted = {n for n, i in tools.items() if i["status"] == "grafted"}
+        pending = {n for n, i in tools.items() if i["status"] == "pending"}
+        self.assertEqual(
+            grafted | pending,
+            set(tools),
+            "every fork tool is either grafted or pending",
+        )
+        self.assertEqual(
+            grafted - names,
+            set(),
+            "declared grafted but absent from the snapshot",
+        )
+        self.assertEqual(
+            pending & names,
+            set(),
+            "declared pending but present in the snapshot",
+        )
 
 
 class AuditTests(unittest.TestCase):

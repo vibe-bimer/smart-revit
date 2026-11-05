@@ -6,17 +6,17 @@ description: "Feature overview of every tool in the current release, grouped wit
 
 35 read + 58 action tools, 93 in total
 
-This section covers the 93 tools of the current release. The integration branch's 80 tools, split into base and fork, are in the [platform tool catalog](../platform/index.md).
+This section covers the 93 tools of the current release. The integration branch's 93 tools, split into base and fork, are in the [platform tool catalog](../platform/index.md).
 
 ## Version entries {#versions}
 
-This catalog records the released version. The integration branch is unreleased, and the two differ in both count and tool list. The status, version number and counts below are read from the registries.
+This catalog records the released version. The platform catalog records the current development line, which no release carries yet. The status, version number and counts below are read from the registries.
 
 | | Released 1.0.0 | Integration branch |
 | --- | --- | --- |
 | Version | 1.0.0 | 1.0.0 Unreleased (integration branch) |
-| Branch | main | `integration/upstream-1.0` |
-| Tool | 93 | 80 |
+| Branch | main | `feat/gitlab-pages` |
+| Tool | 93 | 93 |
 | Catalog | index.md | [Platform tool catalog](../platform/index.md) |
 
 ## Browse by Revit year {#by-version}
@@ -191,7 +191,7 @@ Validated live means an execution was recorded on a real workstation. Build only
 
 ## Browse by model object {#objects}
 
-The view-related tools are split again by the model object they act on: views, sheets, schedules and viewport display. The release has no sheet or schedule tools, so those rows point at the same-named tools on the integration branch.
+The view-related tools are split again by the model object they act on: views, sheets, schedules and viewport display. A row whose tools the release does not carry points at the same-named tools on the development line.
 
 ### Views {#objects-views}
 

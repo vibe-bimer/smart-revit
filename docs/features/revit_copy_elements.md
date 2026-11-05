@@ -6,7 +6,7 @@ description: "同一模型内复制构件并保留宿主：门窗跟着墙一起
 
 `revit_copy_elements`
 
-<p class="facts"><span><b>分组</b> 编辑</span><span><b>类型</b> 动作（需授权）</span><span><b>起始版本</b> 0.11.0</span><span><b>版本</b> 已发布 1.0.0</span><span><b>集成分支有同名工具</b> 没有</span><span><b>本页契约适用于发布版</b> 是</span><span><b>影响范围</b> 模型构件 / 参数</span><span><b>来源</b> 自研（本仓库）</span></p>
+<p class="facts"><span><b>分组</b> 编辑</span><span><b>类型</b> 动作（需授权）</span><span><b>起始版本</b> 1.1.0</span><span><b>版本</b> 未发布（1.0.0）</span><span><b>集成分支有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span><span><b>影响范围</b> 模型构件 / 参数</span><span><b>来源</b> 自研（本仓库）</span></p>
 
 同一模型内复制构件并保留宿主：门窗跟着墙一起复制，逐件回报旧 ID → 新 ID（mm）
 
@@ -15,6 +15,8 @@ description: "同一模型内复制构件并保留宿主：门窗跟着墙一起
 
 !!! note "使用提示"
     宿主族构件的宿主必须在同一个请求里，否则整批拒绝并点名（Revit 会在粘贴结束时删掉找不到新宿主的构件）；复制不销毁任何东西，因此按构件报失败而不是整批拒绝；CopyElements 不保证顺序，按类别 + 类型 + 位置配对，配不准就把 idMappingVerified 标成 false
+
+[同名集成分支页面](../platform/revit_copy_elements.md)
 
 ## 可复制提示词 {#prompts}
 

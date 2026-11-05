@@ -6,7 +6,7 @@ description: "Place a structural column on a level at a point, with its top on a
 
 `revit_create_column`
 
-<p class="facts"><span><b>Group</b> Editing</span><span><b>Kind</b> Action (opt-in)</span><span><b>Since</b> 0.10.0</span><span><b>Version</b> Released 1.0.0</span><span><b>Same-name tool on the integration branch</b> No</span><span><b>This contract applies to the release</b> Yes</span><span><b>Effect</b> Model elements / parameters</span><span><b>Origin</b> Fork (this repository)</span></p>
+<p class="facts"><span><b>Group</b> Editing</span><span><b>Kind</b> Action (opt-in)</span><span><b>Since</b> 0.10.0</span><span><b>Version</b> Released 1.0.0</span><span><b>Same-name tool on the integration branch</b> Yes</span><span><b>This contract applies to the release</b> Yes</span><span><b>Effect</b> Model elements / parameters</span><span><b>Origin</b> Fork (this repository)</span></p>
 
 Place a structural column on a level at a point, with its top on a level or at a height
 
@@ -15,6 +15,8 @@ Place a structural column on a level at a point, with its top on a level or at a
 
 !!! note "Usage notes"
     The tool writes both levels and both offsets itself, because set_parameter refuses ElementId parameters; nothing is attached, so the top is a level or a height
+
+[Same-name integration branch page](../platform/revit_create_column.md)
 
 ## Copyable prompts {#prompts}
 

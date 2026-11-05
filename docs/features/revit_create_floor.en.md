@@ -6,7 +6,7 @@ description: "Create a floor from a closed XY boundary with at least three verti
 
 `revit_create_floor`
 
-<p class="facts"><span><b>Group</b> Editing</span><span><b>Kind</b> Action (opt-in)</span><span><b>Since</b> 0.2.0</span><span><b>Version</b> Released 1.0.0</span><span><b>Same-name tool on the integration branch</b> No</span><span><b>This contract applies to the release</b> Yes</span><span><b>Effect</b> Model elements / parameters</span><span><b>Origin</b> Fork (this repository)</span></p>
+<p class="facts"><span><b>Group</b> Editing</span><span><b>Kind</b> Action (opt-in)</span><span><b>Since</b> 0.2.0</span><span><b>Version</b> Released 1.0.0</span><span><b>Same-name tool on the integration branch</b> Yes</span><span><b>This contract applies to the release</b> Yes</span><span><b>Effect</b> Model elements / parameters</span><span><b>Origin</b> Fork (this repository)</span></p>
 
 Create a floor from a closed XY boundary with at least three vertices
 
@@ -15,6 +15,8 @@ Create a floor from a closed XY boundary with at least three vertices
 
 !!! note "Usage notes"
     On 2020 it uses Document.Create.NewFloor, from 2022 Floor.Create
+
+[Same-name integration branch page](../platform/revit_create_floor.md)
 
 ## Copyable prompts {#prompts}
 

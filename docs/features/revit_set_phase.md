@@ -6,7 +6,7 @@ description: "赋创建阶段 / 拆除阶段（空串清除，null 不变）"
 
 `revit_set_phase`
 
-<p class="facts"><span><b>分组</b> 阶段</span><span><b>类型</b> 动作（需授权）</span><span><b>起始版本</b> 0.3.0</span><span><b>版本</b> 已发布 1.0.0</span><span><b>集成分支有同名工具</b> 没有</span><span><b>本页契约适用于发布版</b> 是</span><span><b>影响范围</b> 模型构件 / 参数</span><span><b>来源</b> 自研（本仓库）</span></p>
+<p class="facts"><span><b>分组</b> 阶段</span><span><b>类型</b> 动作（需授权）</span><span><b>起始版本</b> 0.3.0</span><span><b>版本</b> 已发布 1.0.0</span><span><b>集成分支有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span><span><b>影响范围</b> 模型构件 / 参数</span><span><b>来源</b> 自研（本仓库）</span></p>
 
 赋创建阶段 / 拆除阶段（空串清除，null 不变）
 
@@ -15,6 +15,8 @@ description: "赋创建阶段 / 拆除阶段（空串清除，null 不变）"
 
 !!! note "使用提示"
     阶段顺序检查的 API 只在 2022+ ，2020 走兜底
+
+[同名集成分支页面](../platform/revit_set_phase.md)
 
 ## 可复制提示词 {#prompts}
 
