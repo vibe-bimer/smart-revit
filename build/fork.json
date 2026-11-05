@@ -22,8 +22,10 @@
     "server/revit_model_mcp/acceptance_ledger.py",
     "server/revit_model_mcp/fork_actions.py",
     "server/tests/test_acceptance_ledger.py",
+    "server/tests/test_dependency_floors.py",
     "src/RevitModelMcp.Addin/Fork/",
     "src/RevitModelMcp.Core/Fork/",
+    "tools/check_dependency_floors.py",
     "tools/site/"
   ],
   "hooks": [

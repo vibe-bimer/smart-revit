@@ -74,6 +74,10 @@ python:
     # exactly those pins or the image and the package drift apart.
     - uv export --frozen --no-dev --no-emit-project --no-header --quiet -o "$CI_PROJECT_DIR/.requirements.docker.txt"
     - diff -u --strip-trailing-cr requirements.docker.txt "$CI_PROJECT_DIR/.requirements.docker.txt"
+    # The audit job only runs on GitHub Actions, so an advisory that a bump closed is
+    # asserted here too, offline, against the lock's own pins. The job's working
+    # directory is server/, so the path is spelled from the project root.
+    - python3 "$CI_PROJECT_DIR/tools/check_dependency_floors.py"
     - uv build
     - uvx twine==$TWINE_VERSION check dist/*
   artifacts:
