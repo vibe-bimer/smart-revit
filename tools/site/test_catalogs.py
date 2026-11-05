@@ -24,6 +24,22 @@ class ReleaseVersionTests(unittest.TestCase):
         )["project"]["version"]
         self.assertEqual(catalogs.release().version, expected)
 
+    def test_the_published_version_keeps_up_with_the_project_version(self):
+        """A shipped release must be declared shipped, or every newer tool page lies.
+
+        ``released_version`` is the last version that actually left the building; the
+        project version is where the next one is prepared. They agree once the tag is
+        cut, so a gap here means the catalog was left behind by a release.
+        """
+        published = catalogs.release().released_version
+        current = catalogs.release().version
+        self.assertEqual(
+            published,
+            current,
+            f"the catalog still calls {published} the published version while the "
+            f"project is at {current}; bump released_version when you cut the tag",
+        )
+
     def test_the_version_is_not_a_literal_in_the_module(self):
         source = (REAL_ROOT / "tools/site/catalogs.py").read_text(encoding="utf-8")
         version = catalogs.release().version

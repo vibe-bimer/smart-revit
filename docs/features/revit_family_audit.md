@@ -6,7 +6,7 @@ description: "审计打开的族或按名称审计项目族，不保存或加载
 
 `revit_family_audit`
 
-<p class="facts"><span><b>分组</b> 族</span><span><b>类型</b> 读取（只读）</span><span><b>起始版本</b> 1.0.0</span><span><b>版本</b> 未发布（1.0.0）</span><span><b>集成分支有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span></p>
+<p class="facts"><span><b>分组</b> 族</span><span><b>类型</b> 读取（只读）</span><span><b>起始版本</b> 1.0.0</span><span><b>版本</b> 已发布 1.0.0</span><span><b>集成分支有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span></p>
 
 审计打开的族或按名称审计项目族，不保存或加载更改；detail=full 返回全部参数元数据
 

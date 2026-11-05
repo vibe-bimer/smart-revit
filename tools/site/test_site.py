@@ -6,6 +6,7 @@ from copy import deepcopy
 from pathlib import Path
 from unittest.mock import patch
 
+import catalogs
 import check_site
 import generate_features
 import landing
@@ -286,16 +287,21 @@ class FeatureGeneratorTests(unittest.TestCase):
             self.capabilities,
             self.contracts,
         )
-        self.assertIn("已发布 0.9.0", page)
+        self.assertIn(f"已发布 {catalogs.release().released_version}", page)
+        # A tool that only exists in the tree: the branch is reachable whenever a
+        # capability's `since` sits above the published version, so build that case
+        # from the fixture instead of relying on the real catalog being mid-release.
         unreleased = next(item for item in self.tools if item["name"] == "revit_jobs")
+        ahead = deepcopy(self.capabilities["tools"][unreleased["name"]])
+        ahead["since"] = "99.0.0"
         page = generate_features.tool_page(
             unreleased,
-            self.capabilities["tools"][unreleased["name"]],
+            ahead,
             "zh",
             self.capabilities,
             self.contracts,
         )
-        self.assertIn("未发布（1.0.0）", page)
+        self.assertIn(f"未发布（{generate_features.RELEASE_VERSION}）", page)
 
     def test_released_page_links_and_diffs_its_integration_twin(self):
         platform_tools, _ = platform_catalog.load_platform()

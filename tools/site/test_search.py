@@ -244,7 +244,10 @@ class SearchIndexEnrichmentTests(unittest.TestCase):
             docs["features/revit_export_view/"]["tool"], "revit_export_view"
         )
         self.assertEqual(docs["features/revit_export_view/"]["status"], "released")
-        self.assertEqual(docs["features/revit_export_view/"]["version"], "0.9.0")
+        self.assertEqual(
+            docs["features/revit_export_view/"]["version"],
+            catalogs.release().released_version,
+        )
         self.assertEqual(docs["en/features/revit_export_view/"]["lang"], "en")
         self.assertEqual(docs["en/features/revit_export_view/"]["catalog"], "release")
         self.assertEqual(docs["platform/revit_export_view/"]["status"], "unreleased")

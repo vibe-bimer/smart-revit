@@ -12,9 +12,9 @@ This section covers the 93 tools of the current release. The integration branch'
 
 This catalog records the released version. The integration branch is unreleased, and the two differ in both count and tool list. The status, version number and counts below are read from the registries.
 
-| | Released 0.9.0 | Integration branch |
+| | Released 1.0.0 | Integration branch |
 | --- | --- | --- |
-| Version | 0.9.0 | 1.0.0 Unreleased (integration branch) |
+| Version | 1.0.0 | 1.0.0 Unreleased (integration branch) |
 | Branch | main | `integration/upstream-1.0` |
 | Tool | 93 | 80 |
 | Catalog | index.md | [Platform tool catalog](../platform/index.md) |

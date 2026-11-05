@@ -6,7 +6,7 @@ description: "List running Revit instances and their active documents"
 
 `revit_list_instances`
 
-<p class="facts"><span><b>Group</b> Connection and documents</span><span><b>Kind</b> Read (read-only)</span><span><b>Since</b> 0.6.0</span><span><b>Version</b> Released 0.9.0</span><span><b>Same-name tool on the integration branch</b> Yes</span><span><b>This contract applies to the release</b> Yes</span></p>
+<p class="facts"><span><b>Group</b> Connection and documents</span><span><b>Kind</b> Read (read-only)</span><span><b>Since</b> 0.6.0</span><span><b>Version</b> Released 1.0.0</span><span><b>Same-name tool on the integration branch</b> Yes</span><span><b>This contract applies to the release</b> Yes</span></p>
 
 List running Revit instances and their active documents
 

@@ -6,7 +6,7 @@ description: "将工作共享文档与中心文件同步；首次调用不改动
 
 `revit_sync_document`
 
-<p class="facts"><span><b>分组</b> 文档与进程</span><span><b>类型</b> 动作（需授权）</span><span><b>起始版本</b> 1.0.0</span><span><b>版本</b> 未发布（1.0.0）</span><span><b>集成分支有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span><span><b>影响范围</b> 模型构件 / 参数</span></p>
+<p class="facts"><span><b>分组</b> 文档与进程</span><span><b>类型</b> 动作（需授权）</span><span><b>起始版本</b> 1.0.0</span><span><b>版本</b> 已发布 1.0.0</span><span><b>集成分支有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span><span><b>影响范围</b> 模型构件 / 参数</span></p>
 
 将工作共享文档与中心文件同步；首次调用不改动任何内容，需用返回的 confirm_token 再确认
 
