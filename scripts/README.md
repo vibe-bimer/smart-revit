@@ -203,6 +203,6 @@ The comparison asserts no fixed page, asset or tool count: it asserts that the t
 
 When tools change, run `python tools/site/generate_features.py --dump`, review both languages in `capabilities.yaml` and the complete Chinese contracts in `contracts.yaml`, then run `--write`. A stale registry, translation hash, generated page, language pair or link blocks publication and leaves the old site online. Those gates now run on the exported tree, and each one is recorded in the release manifest.
 
-工具变化后运行 `python tools/site/generate_features.py --dump`，审核 `capabilities.yaml` 的双语内容与 `contracts.yaml` 的完整中文契约，再运行 `--write`。集成分支的 80 个工具页在 `docs/platform/`，由 `platform_catalog.py` 从 `platform-tools.json` 生成；刷新快照用 `python tools/site/generate_features.py --dump-platform /path/to/branch/worktree`，不要手改。注册表、译文哈希、生成页面、语言配对或链接未通过检查时，发布会被阻止，旧站点仍在线；这些校验现在跑在导出树上，结论逐项写进发布清单。
+工具变化后运行 `python tools/site/generate_features.py --dump`，审核 `capabilities.yaml` 的双语内容与 `contracts.yaml` 的完整中文契约，再运行 `--write`。开发线的 93 个工具页在 `docs/platform/`，由 `platform_catalog.py` 从 `platform-tools.json` 生成；刷新快照用 `python tools/site/generate_features.py --dump-platform /path/to/branch/worktree`，不要手改。注册表、译文哈希、生成页面、语言配对或链接未通过检查时，发布会被阻止，旧站点仍在线；这些校验现在跑在导出树上，结论逐项写进发布清单。
 
 Dependencies / 依赖：`docs/requirements.txt`, the Python server package / Python 服务器包, `curl`, `flock`, `ss`, Git. Logs / 日志：`${SITE_STATE_DIR:-~/.local/state/revit-model-mcp}/site-update.log`.

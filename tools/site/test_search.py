@@ -318,6 +318,21 @@ class SearchCatalogDataTests(unittest.TestCase):
         self.assertIn("javascripts/search-catalog.js", config)
         self.assertIn("javascripts/search-enhance.js", config)
 
+    def test_the_search_script_names_the_development_line(self):
+        script = (ROOT / "docs/javascripts/search-enhance.js").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn('branchNote: "开发线"', script)
+        self.assertIn('branchNote: "development line"', script)
+        self.assertIn("开发线目录", script)
+        self.assertIn("Development line catalog", script)
+        self.assertNotIn("集成分支", script)
+        self.assertNotIn("integration branch", script)
+        readme = (ROOT / "scripts/README.md").read_text(encoding="utf-8")
+        self.assertIn("开发线的 93 个工具页", readme)
+        self.assertNotIn("集成分支", readme)
+        self.assertNotIn("integration branch", readme)
+
 
 class CheckSiteSearchTests(unittest.TestCase):
     def build(self, directory, index, pages):

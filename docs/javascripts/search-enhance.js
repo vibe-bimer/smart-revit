@@ -4,7 +4,7 @@
  * is written in, which catalog it belongs to, or which of two same-name tools it is. This script
  * re-renders the modal's result list from that same index, filtered to the page's language by
  * default, with an explicit all-languages switch, status badges and a no-result guide. An exact
- * tool-name query puts the applicable tool pages first, release before integration branch.
+ * tool-name query puts the applicable tool pages first, release before the development line.
  *
  * Progressive enhancement: without this script the modal still shows the plugin's own results.
  */
@@ -21,7 +21,7 @@
       noResultCatalog: "去目录里找",
       release: "已发布",
       branch: "未发布",
-      branchNote: "集成分支",
+      branchNote: "开发线",
       language: "英文",
       loading: "正在搜索…",
     },
@@ -34,7 +34,7 @@
       noResultCatalog: "Browse the catalog",
       release: "Released",
       branch: "Unreleased",
-      branchNote: "integration branch",
+      branchNote: "development line",
       language: "Chinese",
       loading: "Searching…",
     },
@@ -257,7 +257,7 @@
     });
     if (exact) {
       // An exact tool name is a lookup, not a keyword match: the applicable tool pages come first,
-      // release before integration branch, and nothing else may be placed above them.
+      // release before the development line, and nothing else may be placed above them.
       var leading = toolPages(phrase);
       var seen = Object.create(null);
       leading.forEach(function (entry) {
@@ -364,8 +364,8 @@
             ? "现有版本目录"
             : "Released catalog"
           : lang === "zh"
-          ? "集成分支目录"
-          : "Integration branch catalog";
+          ? "开发线目录"
+          : "Development line catalog";
       links.appendChild(link);
     });
     box.appendChild(links);
