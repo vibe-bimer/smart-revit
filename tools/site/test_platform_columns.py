@@ -1,11 +1,11 @@
 """The Meaning column of a platform parameter table stays honest about missing text.
 
-The integration-branch contract ships no description for many branch-only parameters, so
+The development-line contract ships no description for many line-only parameters, so
 the fallback that renders the Meaning/说明 cell finds nothing. These tests pin the rule
 that keeps the generated pages readable without inventing descriptions:
 
   * no row of a table has a meaning: the column is dropped and one line under the
-    table says that the branch contract ships no parameter descriptions;
+    table says that the development-line contract ships no parameter descriptions;
   * only some rows have one: the column stays and undocumented rows render the
     meaning-missing placeholder instead of an empty cell.
 """
@@ -29,8 +29,8 @@ class UndocumentedTableTests(unittest.TestCase):
     def test_the_column_is_dropped_and_the_note_follows_the_table(self):
         tool = _tool({"type_name": {"type": "string"}})
         for lang, note in (
-            ("zh", "集成分支契约未提供参数说明。"),
-            ("en", "The branch contract ships no parameter descriptions."),
+            ("zh", "开发线契约未提供参数说明。"),
+            ("en", "The development-line contract ships no parameter descriptions."),
         ):
             with self.subTest(lang=lang):
                 rows, has_meaning = platform_catalog._parameter_rows(tool, False, lang)
@@ -48,14 +48,14 @@ class UndocumentedTableTests(unittest.TestCase):
                 self.assertEqual(lines[-1], note)
                 self.assertEqual(lines[lines.index("</div>") + 2], note)
 
-    def test_the_note_wording_is_the_one_the_issue_specifies(self):
+    def test_the_note_wording_is_fixed(self):
         self.assertEqual(
             platform_catalog.LABELS["zh"]["meaning_missing_note"],
-            "集成分支契约未提供参数说明。",
+            "开发线契约未提供参数说明。",
         )
         self.assertEqual(
             platform_catalog.LABELS["en"]["meaning_missing_note"],
-            "The branch contract ships no parameter descriptions.",
+            "The development-line contract ships no parameter descriptions.",
         )
 
 
