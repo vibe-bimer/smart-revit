@@ -75,12 +75,12 @@ LABELS = {
         "other": "2022–2025 / 2027",
         "summary": "用途",
         "versions": "版本入口",
-        "versions_intro": "本目录记录的是已发布的现有版本；集成分支尚未发布，两者工具数量与清单都不同。下表的状态、版本号与数量都从注册表读取。",
+        "versions_intro": "本目录记录已发布的现有版本；平台目录记录当前开发线，该线尚未发布。下表的状态、版本号与数量都从注册表读取。",
         "entry": "目录",
         "platform_page": "新版基座工具目录",
         "objects": "按模型对象浏览",
-        "objects_intro": "视图相关工具按操作的模型对象再分一次：视图、图纸、明细表与视口显示。现有版本没有覆盖的对象组会指向集成分支的同类工具。",
-        "branch_tools": "集成分支有 {count} 个同类工具",
+        "objects_intro": "视图相关工具按操作的模型对象再分一次：视图、图纸、明细表与视口显示。现有版本没有覆盖的对象组会指向开发线的同类工具。",
+        "branch_tools": "开发线有 {count} 个同类工具",
         "index": "功能总览",
         "matrix": "版本支持矩阵",
         "prompts_page": "提示词库",
@@ -98,15 +98,15 @@ LABELS = {
         "version": "版本",
         "released": "已发布",
         "unreleased": "未发布",
-        "twin_fact": "集成分支有同名工具",
+        "twin_fact": "开发线有同名工具",
         "applies_fact": "本页契约适用于发布版",
         "applies_yes": "是",
         "twin_yes": "有",
         "twin_no": "没有",
-        "twin_link": "同名集成分支页面",
-        "contract_diff": "与集成分支的契约差异",
+        "twin_link": "同名开发线页面",
+        "contract_diff": "与开发线的契约差异",
         "contract_diff_intro": "下表由注册表 inputSchema 自动比较得出，不是手写清单。",
-        "contract_diff_note": "本页是发布版 {version} 的契约；集成分支上的同名工具参数不同，请勿混用。",
+        "contract_diff_note": "本页是发布版 {version} 的契约；开发线上的同名工具参数不同，请勿混用。",
         "legend": "已实测表示记录过真机执行；仅构建表示通过编译，不代表已完成真机功能验证。Revit 2021 不在本项目构建范围。",
         "index_desc": "当前发布版全部工具的功能总览，按分组列出每个工具的用途、参数与 Revit 年份支持。",
         "matrix_desc": "读取工具与动作工具在 Revit 2020、2026 及 2022–2027 上的验证状态矩阵。",
@@ -141,12 +141,12 @@ LABELS = {
         "other": "2022–2025 / 2027",
         "summary": "Purpose",
         "versions": "Version entries",
-        "versions_intro": "This catalog records the released version. The integration branch is unreleased, and the two differ in both count and tool list. The status, version number and counts below are read from the registries.",
+        "versions_intro": "This catalog records the released version. The platform catalog records the current development line, which no release carries yet. The status, version number and counts below are read from the registries.",
         "entry": "Catalog",
         "platform_page": "Platform tool catalog",
         "objects": "Browse by model object",
-        "objects_intro": "The view-related tools are split again by the model object they act on: views, sheets, schedules and viewport display. The release has no sheet or schedule tools, so those rows point at the same-named tools on the integration branch.",
-        "branch_tools": "The integration branch has {count} tools of this kind",
+        "objects_intro": "The view-related tools are split again by the model object they act on: views, sheets, schedules and viewport display. A row whose tools the release does not carry points at the same-named tools on the development line.",
+        "branch_tools": "The development line has {count} tools of this kind",
         "index": "Feature overview",
         "matrix": "Version support matrix",
         "prompts_page": "Prompt library",
@@ -164,15 +164,15 @@ LABELS = {
         "version": "Version",
         "released": "Released",
         "unreleased": "Unreleased",
-        "twin_fact": "Same-name tool on the integration branch",
+        "twin_fact": "Same-name tool on the development line",
         "applies_fact": "This contract applies to the release",
         "applies_yes": "Yes",
         "twin_yes": "Yes",
         "twin_no": "No",
-        "twin_link": "Same-name integration branch page",
-        "contract_diff": "Contract differences from the integration branch",
+        "twin_link": "Same-name development line page",
+        "contract_diff": "Contract differences from the development line",
         "contract_diff_intro": "The list below is computed from the registry inputSchema; it is not a hand-written list.",
-        "contract_diff_note": "This page is the contract of release {version}; the same-name tool on the integration branch takes different parameters, so do not mix them.",
+        "contract_diff_note": "This page is the contract of release {version}; the same-name tool on the development line takes different parameters, so do not mix them.",
         "legend": "Validated live means an execution was recorded on a real workstation. Build only means compilation passed, not live functional validation. Revit 2021 is outside this project's build targets.",
         "index_desc": "Feature overview of every tool in the current release, grouped with each tool's purpose, parameters and Revit year support.",
         "matrix_desc": "Validation status matrix for read and action tools across Revit 2020, 2026 and 2022–2027.",
@@ -245,7 +245,7 @@ def refresh_capability_sources(tools: list[dict]) -> int:
         if block != lines[start + 1 : end]:
             changed += 1
             lines[start + 1 : end] = block
-    CAPABILITIES.write_text("".join(lines), encoding="utf-8")
+    CAPABILITIES.write_text("".join(lines), encoding="utf-8", newline="\n")
     return changed
 
 
@@ -295,11 +295,23 @@ def parameter_meaning(
     raise SystemExit(f"Missing {lang} parameter meaning: {tool['name']}.{name}")
 
 
-def schema_type(spec: dict) -> str:
+def schema_type(spec: dict, defs: dict | None = None) -> str:
+    """The type a parameter table shows, following a `$ref` into the tool's own `$defs`.
+
+    A pydantic model arrives as `{"$ref": "#/$defs/Name"}` and carries no inline `type`;
+    answering `any` for it says the contract places no constraint, which is false.
+    """
+    if "$ref" in spec:
+        target = (defs or {}).get(str(spec["$ref"]).rsplit("/", 1)[-1])
+        return schema_type(target, defs) if isinstance(target, dict) else "any"
     if "anyOf" in spec:
-        return " / ".join(schema_type(item) for item in spec["anyOf"])
+        return " / ".join(schema_type(item, defs) for item in spec["anyOf"])
     kind = spec.get("type", "any")
-    return f"array<{schema_type(spec.get('items', {}))}>" if kind == "array" else kind
+    return (
+        f"array<{schema_type(spec.get('items', {}), defs)}>"
+        if kind == "array"
+        else kind
+    )
 
 
 def table_rows(tool: dict, common: bool, capabilities: dict, lang: str) -> list[str]:
@@ -322,7 +334,7 @@ def table_rows(tool: dict, common: bool, capabilities: dict, lang: str) -> list[
             "|", "\\|"
         )
         rows.append(
-            f"| `{name}` | {labels['yes'] if name in required else labels['no']} | {default} | `{schema_type(spec)}` | {meaning} |"
+            f"| `{name}` | {labels['yes'] if name in required else labels['no']} | {default} | `{schema_type(spec, schema.get('$defs'))}` | {meaning} |"
         )
     return rows
 
@@ -535,12 +547,12 @@ def index_page(
         branch_count = platform_catalog.snapshot()["count"]
     if lang == "zh":
         pointer = (
-            f"这一节是现有版本的 {len(tools)} 个工具。集成分支的 {branch_count} 个工具按基座与自研分开，见"
+            f"这一节是现有版本的 {len(tools)} 个工具。开发线的 {branch_count} 个工具按基座与自研分开，见"
             " [新版基座工具目录](../platform/index.md)。"
         )
     else:
         pointer = (
-            f"This section covers the {len(tools)} tools of the current release. The integration branch's"
+            f"This section covers the {len(tools)} tools of the current release. The development line's"
             f" {branch_count} tools, split into base and fork, are in the"
             " [platform tool catalog](../platform/index.md)."
         )
@@ -935,7 +947,9 @@ def _list_tools(
     command: list[str], env: dict[str, str], cwd: Path | None = None
 ) -> list[dict]:
     """Start the server, initialise the session and return its tool list."""
-    with subprocess.Popen(
+    # Not a context manager: its __exit__ closes stderr while the reader thread is still
+    # blocked reading it, which deadlocks on Windows. The finally below owns the teardown.
+    proc = subprocess.Popen(
         command,
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
@@ -944,7 +958,8 @@ def _list_tools(
         text=True,
         bufsize=1,
         cwd=cwd,
-    ) as proc:
+    )
+    if True:
         stderr: list[str] = []
         threading.Thread(target=lambda: stderr.extend(proc.stderr), daemon=True).start()
 
@@ -987,7 +1002,30 @@ def _list_tools(
             proc.stdin.flush()
             tools = call("tools/list", 2)["result"]["tools"]
         finally:
-            proc.terminate()
+            if os.name == "nt":
+                # uv starts the server as a grandchild. Terminating uv alone leaves that server
+                # holding the pipes, and the context manager then closes stderr under a reader
+                # thread that is still blocked in it, which deadlocks on Windows. The tree kill
+                # already ends uv, so it is the only teardown on that platform.
+                subprocess.run(
+                    ["taskkill", "/F", "/T", "/PID", str(proc.pid)],
+                    capture_output=True,
+                    check=False,
+                )
+            else:
+                proc.terminate()
+            try:
+                proc.wait(timeout=30)
+            except subprocess.TimeoutExpired:
+                # A teardown that outlives its target must not replace the error that got us
+                # here, so the timeout is swallowed and the caller keeps its own exception.
+                pass
+            for stream in (proc.stdin, proc.stdout, proc.stderr):
+                if stream is not None:
+                    try:
+                        stream.close()
+                    except OSError:
+                        pass
         return normalise_descriptions(tools)
 
 
@@ -1111,6 +1149,7 @@ def main() -> int:
         PLATFORM_JSON.write_text(
             json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
             encoding="utf-8",
+            newline="\n",
         )
         print(
             f"platform-tools.json: {payload['count']} tools from {payload['provenance']['commit'][:7]}"
@@ -1121,6 +1160,7 @@ def main() -> int:
         TOOLS_JSON.write_text(
             json.dumps(tools, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
             encoding="utf-8",
+            newline="\n",
         )
         print(f"tools.json: {len(tools)} tools")
         return 0
@@ -1138,11 +1178,11 @@ def main() -> int:
     files = generate(tools, capabilities, contracts)
     stale = []
     for path, content in files.items():
-        if not path.exists() or path.read_text(encoding="utf-8") != content:
+        if not path.exists() or path.read_bytes() != content.encode("utf-8"):
             stale.append(path.relative_to(ROOT))
             if args.write:
                 path.parent.mkdir(parents=True, exist_ok=True)
-                path.write_text(content, encoding="utf-8")
+                path.write_text(content, encoding="utf-8", newline="\n")
     if args.check and stale:
         print("Generated pages are stale; run tools/site/generate_features.py --write:")
         for path in stale:

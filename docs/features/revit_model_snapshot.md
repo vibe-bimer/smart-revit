@@ -6,11 +6,11 @@ description: "读取 schema v1 项目快照用于批量审计（只读；关闭�
 
 `revit_model_snapshot`
 
-<p class="facts"><span><b>分组</b> 导出与检验</span><span><b>类型</b> 读取（只读）</span><span><b>起始版本</b> 1.0.0</span><span><b>版本</b> 未发布（1.0.0）</span><span><b>集成分支有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span></p>
+<p class="facts"><span><b>分组</b> 导出与检验</span><span><b>类型</b> 读取（只读）</span><span><b>起始版本</b> 1.0.0</span><span><b>版本</b> 已发布 1.0.0</span><span><b>开发线有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span></p>
 
 读取 schema v1 项目快照用于批量审计（只读；关闭的工作集会使结果不完整）
 
-[同名集成分支页面](../platform/revit_model_snapshot.md)
+[同名开发线页面](../platform/revit_model_snapshot.md)
 
 ## 可复制提示词 {#prompts}
 
@@ -24,7 +24,7 @@ description: "读取 schema v1 项目快照用于批量审计（只读；关闭�
 
 | 参数 {scope=col} | 必填 {scope=col} | 默认值 {scope=col} | 类型 {scope=col} | 说明 {scope=col} |
 | --- | :--: | --- | --- | --- |
-| `parameter_rules` | 否 | `null` | `array<any> / null` | 快照中参数的取值规则 |
+| `parameter_rules` | 否 | `null` | `array<object> / null` | 快照中参数的取值规则 |
 | `process_id` | 否 | `null` | `integer / null` | 多个运行实例中选定的目标 Revit 进程 |
 
 </div>
@@ -58,7 +58,7 @@ description: "读取 schema v1 项目快照用于批量审计（只读；关闭�
 
 | Revit 年份 | 验证状态 |
 | --- | --- |
-| 2020 | <span class="state part">仅构建，未实测</span> |
+| 2020 | <span class="state ok">已实测</span> |
 | 2026 | <span class="state part">仅构建，未实测</span> |
 | 2022–2025 / 2027 | <span class="state part">仅构建，未实测</span> |
 

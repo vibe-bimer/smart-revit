@@ -190,6 +190,13 @@ STEP_FIELDS: dict[str, dict[str, tuple[Any, Any]]] = {
         "sill_height_mm": (Number | None, None),
         "flip_facing": (bool | None, None),
     },
+    "copy_elements": {
+        "element_ids": (ElementIds, ...),
+        "target_level": (Name | None, None),
+        "dx_mm": (Number, 0),
+        "dy_mm": (Number, 0),
+        "dz_mm": (Number, 0),
+    },
     "set_phase": {
         "element_ids": (ElementIds, ...),
         "created_phase": (str | None, None),
@@ -225,6 +232,7 @@ STEP_TOP_LEVEL: dict[str, tuple[str, ...]] = {
     "create_beam": ("family", "type_name", "level"),
     "load_family_file": (),
     "place_hosted_family": ("family", "type_name", "x_mm", "y_mm", "level", "rotation_deg"),
+    "copy_elements": ("element_ids",),
     "set_phase": ("element_ids",),
     "merge_phases": (),
     "reset_element_ids": ("element_ids",),
@@ -661,6 +669,48 @@ def register_fork_actions(mcp, send) -> None:
             typeName=type_name,
             level=level,
             fork=fork,
+            dryRun=dry_run,
+            document=document,
+        )
+
+    @mcp.tool(
+        title="Copy Elements",
+        annotations=ToolAnnotations(
+            title="Copy Elements",
+            readOnlyHint=False,
+            destructiveHint=True,
+            idempotentHint=False,
+        ),
+    )
+    @with_client_identity
+    async def revit_copy_elements(
+        element_ids: Annotated[list[ElementId], Field(min_length=1)],
+        target_level: Name | None = None,
+        dx_mm: Number = 0,
+        dy_mm: Number = 0,
+        dz_mm: Number = 0,
+        dry_run: bool = False,
+        document: str | None = None,
+    ) -> dict[str, Any]:
+        """Copy elements into the same model, keeping their hosts.
+
+        target_level copies onto that level's height instead of the vertical offset; the horizontal
+        offsets always add on top. A hosted element needs its host in element_ids, because the copy
+        is one batch and this server never leaves a hosted element without a host.
+        """
+        return await send(
+            "copy-elements",
+            elementIds=element_ids,
+            fork={
+                name: value
+                for name, value in (
+                    ("targetLevel", target_level),
+                    ("dxMm", dx_mm),
+                    ("dyMm", dy_mm),
+                    ("dzMm", dz_mm),
+                )
+                if value is not None
+            },
             dryRun=dry_run,
             document=document,
         )

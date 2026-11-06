@@ -4,7 +4,7 @@ description: "Copyable prompt library with a sample prompt and purpose summary f
 
 # Prompt library
 
-35 read + 57 action tools, 92 in total
+35 read + 58 action tools, 93 in total
 
 Actions are allowed unless one of three switches is on: the machine policy `ReadOnly`, the workstation `read-only` file, or `REVIT_MCP_READ_ONLY=1`. A fresh install ships with the machine policy read-only. The action connection must address one Revit instance; use `document` when it has multiple open documents. Selection, navigation and isolation also require the target document to be active.
 
@@ -530,6 +530,18 @@ Put a 300x600 concrete beam on 2F from 0,0 to 6000,0, dropped 150
 
 ```text
 Put a steel beam on 1F from 0,0 to 6000,0 and set its structural usage to Girder
+```
+
+### <span class="state part">Fork</span> [Copy elements](revit_copy_elements.md)
+
+`revit_copy_elements` — Copy elements inside one model and keep their hosts; every element reports its old id to its new id
+
+```text
+Copy these three columns 3000 mm east
+```
+
+```text
+Copy this wall and the door on it onto 2F
 ```
 
 ## Phases {#group-phases}

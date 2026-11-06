@@ -314,6 +314,40 @@ public sealed class ForkInputTests
         await Assert.That(parsed.Error).IsEqualTo("reset-element-ids does not accept fork.seed.");
     }
 
+    // The copy travels as one rigid set: the ids at the top level, the target level and the offsets in
+    // the bag, because no copy overload accepts a level and the caller computes the rise.
+    [Test]
+    public async Task CopyElements_CarriesTheTargetLevelAndTheOffsets()
+    {
+        var parsed = ControlJobParser.Parse(
+            """{"command":"copy-elements","elementIds":[361713,361714],"fork":{"targetLevel":"2F","dxMm":3000,"dzMm":500}}""");
+        await Assert.That(parsed.Kind).IsEqualTo(ControlJobKind.Action);
+        var action = parsed.Action!;
+        await Assert.That(action.ElementIds).IsEquivalentTo([361713L, 361714L]);
+        await Assert.That(action.Options.TargetLevel).IsEqualTo("2F");
+        await Assert.That(action.Options.DxMm).IsEqualTo(3000d);
+        await Assert.That(action.Options.DzMm).IsEqualTo(500d);
+        await Assert.That(action.Options.DyMm).IsNull();
+    }
+
+    [Test]
+    public async Task CopyElements_RefusesAnOffsetOfTheWrongType()
+    {
+        var parsed = ControlJobParser.Parse(
+            """{"command":"copy-elements","elementIds":[7],"fork":{"dzMm":"up"}}""");
+        await Assert.That(parsed.Kind).IsEqualTo(ControlJobKind.Invalid);
+        await Assert.That(parsed.Error).IsEqualTo("fork.dzMm must be a number.");
+    }
+
+    [Test]
+    public async Task CopyElements_RefusesAnUnknownKey()
+    {
+        var parsed = ControlJobParser.Parse(
+            """{"command":"copy-elements","elementIds":[7],"fork":{"rotateDeg":10}}""");
+        await Assert.That(parsed.Kind).IsEqualTo(ControlJobKind.Invalid);
+        await Assert.That(parsed.Error).IsEqualTo("copy-elements does not accept fork.rotateDeg.");
+    }
+
     [Test]
     public async Task RebuildModelIds_CarriesEveryRebuildOption()
     {
@@ -369,7 +403,7 @@ public sealed class ForkInputTests
         await Assert.That(Core.Fork.ForkRegistry.Commands).IsEquivalentTo(
         [
             "set-view-lighting", "create-level", "create-floor", "create-grid", "create-column",
-            "create-beam", "load-family-file", "place-hosted-family",
+            "create-beam", "load-family-file", "place-hosted-family", "copy-elements",
             "set-phase", "merge-phases", "reset-element-ids", "rebuild-model-ids"
         ]);
         // The add-in advertises both lists in its handshake, so the register's command has to be in one of

@@ -124,13 +124,18 @@ internal static class ForkPhases
         var target = ForkLookup.Phase(document, action.Options.TargetPhase!);
         ForkLookup.Require(source.Id != target.Id, "sourcePhase and targetPhase must differ.");
         var sourceId = source.Id;
-        var reassignedCreated = ReassignReferences(document, sourceId, target.Id, ElementOnPhaseStatus.New, true);
-        var reassignedDemolished = ReassignReferences(
+        var sourceName = source.Name;
+        var targetName = target.Name;
+        var created = ReassignReferences(document, sourceId, target.Id, ElementOnPhaseStatus.New, true);
+        var demolished = ReassignReferences(
             document,
             sourceId,
             target.Id,
             ElementOnPhaseStatus.Demolished,
             false);
+        var reassignedCreated = created.Moved;
+        var reassignedDemolished = demolished.Moved;
+        var skipped = created.Skipped.Concat(demolished.Skipped).Distinct().ToList();
         var data = new ActionResultData
         {
             Count = reassignedCreated.Count + reassignedDemolished.Count,
@@ -138,7 +143,7 @@ internal static class ForkPhases
             {
                 Before = new ActionFacts
                 {
-                    Fork = new ForkFacts { SourcePhase = source.Name, TargetPhase = target.Name }
+                    Fork = new ForkFacts { SourcePhase = sourceName, TargetPhase = targetName }
                 }
             }
         };
@@ -158,16 +163,27 @@ internal static class ForkPhases
         {
             Fork = new ForkFacts
             {
-                SourcePhase = source.Name,
-                TargetPhase = target.Name,
+                SourcePhase = sourceName,
+                TargetPhase = targetName,
                 ReassignedCreated = reassignedCreated.Count,
                 ReassignedDemolished = reassignedDemolished.Count,
-                SourceRemaining = CountReferences(document, sourceId)
+                SourceRemaining = deleted ? 0 : CountReferences(document, sourceId)
             }
         };
         data.Verification.Changed = reassignedCreated.Concat(reassignedDemolished)
             .Select(RevitValueReader.GetId).Distinct().ToList();
-        data.Notes = [deleted ? $"Deleted phase '{source.Name}'." : $"Phase '{source.Name}' was kept: {deleteError}"];
+        var notes = new List<string>
+        {
+            deleted ? $"Deleted phase '{sourceName}'." : $"Phase '{sourceName}' was kept: {deleteError}"
+        };
+        if (skipped.Count > 0)
+        {
+            notes.Add(
+                $"Skipped {skipped.Count} element(s) Revit does not allow to change phase: "
+                + string.Join(", ", skipped.Take(10).Select(RevitValueReader.GetId)));
+        }
+
+        data.Notes = notes;
         return data;
     }
 
@@ -183,7 +199,7 @@ internal static class ForkPhases
         if (phaseId is null) return;
         if (!element.ArePhasesModifiable())
         {
-            throw new InvalidOperationException(
+            throw new PhaseNotModifiableException(
                 $"Phases cannot be modified on element {RevitValueReader.GetId(element.Id)} ('{element.Category?.Name ?? element.Name}').");
         }
 
@@ -211,7 +227,10 @@ internal static class ForkPhases
         element.DemolishedPhaseId = phaseId;
     }
 
-    private static List<ElementId> ReassignReferences(
+    /// <summary>Raised when Revit will not let one element change phase; the merge reports it and carries on.</summary>
+    private sealed class PhaseNotModifiableException(string message) : Exception(message);
+
+    private static (List<ElementId> Moved, List<ElementId> Skipped) ReassignReferences(
         Document document,
         ElementId sourceId,
         ElementId targetId,
@@ -221,14 +240,38 @@ internal static class ForkPhases
         using var filter = new ElementPhaseStatusFilter(sourceId, status);
         using var collector = document.CollectElements().WherePasses(filter);
         var moved = new List<ElementId>();
-        foreach (var element in collector.ToElements())
+        var skipped = new List<ElementId>();
+        // Reassigning one element's phase can retire another element the filter already matched, so the walk
+        // works from a captured id list and skips an entry that no longer resolves instead of failing wholesale.
+        foreach (var id in collector.ToElementIds().ToList())
         {
-            if (element is Phase || element.Id == sourceId) continue;
-            ApplyAssignment(document, element, targetId, created);
+            if (id == sourceId) continue;
+            Element? element;
+            try
+            {
+                element = id.ToElement(document);
+            }
+            catch (Exception exception) when (exception is ArgumentException or InvalidOperationException)
+            {
+                // The Nice3point lookup throws for an id that no longer resolves instead of returning null.
+                continue;
+            }
+
+            if (element is null || element is Phase) continue;
+            try
+            {
+                ApplyAssignment(document, element, targetId, created);
+            }
+            catch (PhaseNotModifiableException)
+            {
+                skipped.Add(element.Id);
+                continue;
+            }
+
             moved.Add(element.Id);
         }
 
-        return moved;
+        return (moved, skipped);
     }
 
     private static int CountReferences(Document document, ElementId sourceId)

@@ -4,27 +4,27 @@ description: "当前发布版全部工具的功能总览，按分组列出每个
 
 # 功能总览
 
-35 个读取 + 57 个动作，共 92 个工具
+35 个读取 + 58 个动作，共 93 个工具
 
-这一节是现有版本的 92 个工具。集成分支的 80 个工具按基座与自研分开，见 [新版基座工具目录](../platform/index.md)。
+这一节是现有版本的 93 个工具。开发线的 93 个工具按基座与自研分开，见 [新版基座工具目录](../platform/index.md)。
 
 ## 版本入口 {#versions}
 
-本目录记录的是已发布的现有版本；集成分支尚未发布，两者工具数量与清单都不同。下表的状态、版本号与数量都从注册表读取。
+本目录记录已发布的现有版本；平台目录记录当前开发线，该线尚未发布。下表的状态、版本号与数量都从注册表读取。
 
-| | 已发布 0.9.0 | 集成分支 |
+| | 已发布 1.0.0 | 开发线 |
 | --- | --- | --- |
-| 版本 | 0.9.0 | 1.0.0 未发布（集成分支） |
-| 分支 | main | `integration/upstream-1.0` |
-| 工具 | 92 | 80 |
+| 版本 | 1.0.0 | 1.0.0 未发布（开发线） |
+| 分支 | main | `feat/gitlab-pages` |
+| 工具 | 93 | 93 |
 | 目录 | index.md | [新版基座工具目录](../platform/index.md) |
 
 ## 按 Revit 年份查阅 {#by-version}
 
 | Revit 年份 | 验证状态 |
 | --- | --- |
-| [Revit 2020](v2020.md) | 读取 19/35、动作 20/57 已实测；其余仅构建 |
-| [Revit 2026](v2026.md) | 读取 18/35、动作 10/57 已实测；其余仅构建 |
+| [Revit 2020](v2020.md) | 读取 35/35、动作 57/58 已实测；其余仅构建 |
+| [Revit 2026](v2026.md) | 读取 18/35、动作 14/58 已实测；其余仅构建 |
 | 2022–2025 / 2027 | 仅构建，未实测 |
 
 已实测表示记录过真机执行；仅构建表示通过编译，不代表已完成真机功能验证。Revit 2021 不在本项目构建范围。
@@ -96,7 +96,7 @@ description: "当前发布版全部工具的功能总览，按分组列出每个
 | [着色构件](revit_override_graphics.md)<br>`revit_override_graphics` | 在指定视图里给构件着色，reset 可还原本次会话的覆盖 |
 | [标注构件](revit_tag_elements.md)<br>`revit_tag_elements` | 在视图里按类别或构件 ID 加标记，房间标记需平面视图 |
 
-### 编辑 (21) {#group-edit}
+### 编辑 (22) {#group-edit}
 
 | 工具 | 用途 |
 | --- | --- |
@@ -121,6 +121,7 @@ description: "当前发布版全部工具的功能总览，按分组列出每个
 | <span class="state part">自研</span> [放置宿主族](revit_place_hosted_family.md)<br>`revit_place_hosted_family` | 在墙上放门窗：宿主可点名也可就近找墙，回报挂在哪面墙上（mm） |
 | <span class="state part">自研</span> [创建柱](revit_create_column.md)<br>`revit_create_column` | 在指定标高的点上放一根结构柱，柱顶给标高或给高度（mm） |
 | <span class="state part">自研</span> [创建梁](revit_create_beam.md)<br>`revit_create_beam` | 沿给定轴线在标高上放一根结构梁，可写结构用途与竖向偏移（mm） |
+| <span class="state part">自研</span> [复制构件](revit_copy_elements.md)<br>`revit_copy_elements` | 同一模型内复制构件并保留宿主：门窗跟着墙一起复制，逐件回报旧 ID → 新 ID（mm） |
 
 ### 阶段 (2) {#group-phases}
 
@@ -190,7 +191,7 @@ description: "当前发布版全部工具的功能总览，按分组列出每个
 
 ## 按模型对象浏览 {#objects}
 
-视图相关工具按操作的模型对象再分一次：视图、图纸、明细表与视口显示。现有版本没有覆盖的对象组会指向集成分支的同类工具。
+视图相关工具按操作的模型对象再分一次：视图、图纸、明细表与视口显示。现有版本没有覆盖的对象组会指向开发线的同类工具。
 
 ### 视图 {#objects-views}
 

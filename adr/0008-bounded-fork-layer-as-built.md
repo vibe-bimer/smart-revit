@@ -69,7 +69,7 @@ keeps the promise the pages make without inventing a second gate.
 
 ## Consequences
 
-A rebase of the fork onto a newer upstream touches nine sites and roughly 99 lines: the six dispatch hooks listed in
+A rebase of the fork onto a newer upstream touches the nine hook sites listed in `build/fork.json`, bounded at 119 changed lines as of the 2026-11-05 update below (99 hand-written lines when this record was written): the six dispatch hooks listed in
 `build/fork.json` plus three hand-edited upstream sites (`ControlJobParser.cs`, `ReadCommandExecutor.cs`,
 `ActionVerificationModels.cs`). Reading the list above is enough
 to find them: `rg 'Fork\.' src/` returns every one, and `python build/check_fork_budget.py` fails when a site the
@@ -86,3 +86,9 @@ the measurements here do not reopen it.
 
 **Raise the budget by trimming upstream descriptions.** The fork already spends 2,434 bytes on its own eight tools.
 Paying for a fork decision with upstream text is spending someone else's budget.
+
+## Update, 2026-11-05: the hook budget rose twice after this record
+
+- 80 to 94 in 4f161e7: the Revit 2020 build added the 2020-only PDF-export refusal and the element-id set filter inside `Control/ActionCommandExecutor.cs`; the spend after that change was 93.
+- 94 to 119 in ef67187: the batch validator and the batch supervisor, edited in place during the 2020 round, were ruled part of the fork layer rather than accidents. The budget is a ratchet, and raising it records that ruling.
+- `build/fork.json` is the source of truth: nine hook files, `hookBudgetLines: 119`, and `python build/check_fork_budget.py` measures the working tree against the base, so uncommitted hook edits are counted too. The current spend is 119 of 119.

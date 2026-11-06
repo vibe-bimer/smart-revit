@@ -72,6 +72,9 @@ exclude_docs: |
   requirements.in
   hooks.py
   __pycache__/
+  # Team-internal workspace state for the issue-deck tooling; it travels with the
+  # repository but is not site content.
+  agents/workspace.yaml
   # The demo recording and the social card template live outside docs/ now, so nothing has to be
   # excluded here. tools/site/check_site.py still fails the build if any unreferenced asset
   # reaches the tree.
@@ -285,6 +288,7 @@ nav:
               - features/revit_place_hosted_family.md
               - features/revit_create_column.md
               - features/revit_create_beam.md
+              - features/revit_copy_elements.md
           - 阶段:
               - features/revit_set_phase.md
               - features/revit_merge_phases.md
@@ -345,12 +349,24 @@ nav:
       - 编辑原语:
           - platform/revit_change_type.md
           - platform/revit_copy.md
+          - platform/revit_copy_elements.md
+          - platform/revit_create_beam.md
+          - platform/revit_create_column.md
+          - platform/revit_create_floor.md
+          - platform/revit_create_grid.md
+          - platform/revit_create_level.md
           - platform/revit_delete.md
+          - platform/revit_load_family_file.md
+          - platform/revit_merge_phases.md
           - platform/revit_mirror.md
           - platform/revit_move.md
+          - platform/revit_place_hosted_family.md
+          - platform/revit_rebuild_model_ids.md
+          - platform/revit_reset_element_ids.md
           - platform/revit_rotate.md
           - platform/revit_run_actions.md
           - platform/revit_set_parameter.md
+          - platform/revit_set_phase.md
           - platform/revit_update_parameters.md
       - 文档生命周期:
           - platform/revit_activate_document.md
@@ -403,6 +419,7 @@ nav:
           - platform/revit_walls_from_cad.md
       - 导出与登记:
           - platform/revit_export.md
+          - platform/revit_export_element_ids.md
           - platform/revit_export_nwc.md
           - platform/revit_issue_register.md
           - platform/revit_nwc_settings_check.md

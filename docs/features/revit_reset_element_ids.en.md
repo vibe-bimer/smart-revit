@@ -6,7 +6,7 @@ description: "Replace eligible standalone elements with copies to obtain new IDs
 
 `revit_reset_element_ids`
 
-<p class="facts"><span><b>Group</b> Batch and ids</span><span><b>Kind</b> Action (opt-in)</span><span><b>Since</b> 0.8.0</span><span><b>Version</b> Released 0.9.0</span><span><b>Same-name tool on the integration branch</b> No</span><span><b>This contract applies to the release</b> Yes</span><span><b>Effect</b> Model elements / parameters</span><span><b>Origin</b> Fork (this repository)</span></p>
+<p class="facts"><span><b>Group</b> Batch and ids</span><span><b>Kind</b> Action (opt-in)</span><span><b>Since</b> 0.8.0</span><span><b>Version</b> Released 1.0.0</span><span><b>Same-name tool on the development line</b> Yes</span><span><b>This contract applies to the release</b> Yes</span><span><b>Effect</b> Model elements / parameters</span><span><b>Origin</b> Fork (this repository)</span></p>
 
 Replace eligible standalone elements with copies to obtain new IDs
 
@@ -15,6 +15,8 @@ Replace eligible standalone elements with copies to obtain new IDs
 
 !!! note "Usage notes"
     Run dry_run first; hosted, dependent, grouped and MEP-system elements are refused
+
+[Same-name development line page](../platform/revit_reset_element_ids.md)
 
 ## Copyable prompts {#prompts}
 

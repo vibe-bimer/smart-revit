@@ -6,14 +6,14 @@ description: "Load optional families and place instances in one transaction and 
 
 `revit_place_families`
 
-<p class="facts"><span><b>Group</b> Families</span><span><b>Kind</b> Action (opt-in)</span><span><b>Since</b> 1.0.0</span><span><b>Version</b> Unreleased (1.0.0)</span><span><b>Same-name tool on the integration branch</b> Yes</span><span><b>This contract applies to the release</b> Yes</span><span><b>Effect</b> Model elements / parameters</span></p>
+<p class="facts"><span><b>Group</b> Families</span><span><b>Kind</b> Action (opt-in)</span><span><b>Since</b> 1.0.0</span><span><b>Version</b> Released 1.0.0</span><span><b>Same-name tool on the development line</b> Yes</span><span><b>This contract applies to the release</b> Yes</span><span><b>Effect</b> Model elements / parameters</span></p>
 
 Load optional families and place instances in one transaction and undo entry
 
 !!! warning "Actions are allowed by default; read-only is explicit"
     Actions are allowed unless one of three switches is on: the machine policy `ReadOnly`, the workstation `read-only` file, or `REVIT_MCP_READ_ONLY=1`. A fresh install ships with the machine policy read-only. The action connection must address one Revit instance; use `document` when it has multiple open documents. Selection, navigation and isolation also require the target document to be active.
 
-[Same-name integration branch page](../platform/revit_place_families.md)
+[Same-name development line page](../platform/revit_place_families.md)
 
 ## Copyable prompts {#prompts}
 
@@ -27,10 +27,10 @@ Load the Double Door family, then place two instances in the meeting room
 
 | Parameter {scope=col} | Required {scope=col} | Default {scope=col} | Type {scope=col} | Meaning {scope=col} |
 | --- | :--: | --- | --- | --- |
-| `at_rooms` | No | `null` | `any / null` | Placement of one family instance per room, with family, type, level and rooms. |
+| `at_rooms` | No | `null` | `object / null` | Placement of one family instance per room, with family, type, level and rooms. |
 | `dry_run` | No | `false` | `boolean` | rehearse: execute, return the same verification block, then roll back |
 | `load` | No | `null` | `array<string> / null` | family file to load |
-| `placements` | No | `null` | `array<any> / null` | family instances to place, each with family, type and coordinates |
+| `placements` | No | `null` | `array<object> / null` | family instances to place, each with family, type and coordinates |
 | `stop_on_error` | No | `true` | `boolean` | stop placing instances at the first error |
 
 </div>
@@ -54,7 +54,7 @@ Load optional families and place instances in one transaction and undo entry.
 
 | Revit year | Validation |
 | --- | --- |
-| 2020 | <span class="state part">Build only, not live-tested</span> |
+| 2020 | <span class="state ok">Validated live</span> |
 | 2026 | <span class="state part">Build only, not live-tested</span> |
 | 2022–2025 / 2027 | <span class="state part">Build only, not live-tested</span> |
 

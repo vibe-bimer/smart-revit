@@ -149,4 +149,4 @@ Close Revit, then remove the add-in from **Apps > Installed apps** (or delete th
 
 ## Get help
 
-Report problems in [GitHub issues](https://github.com/vibe-bimer/revit-model-mcp/issues/new/choose) and ask usage questions in [Discussions](https://github.com/vibe-bimer/revit-model-mcp/discussions). Remove model names and paths from logs and screenshots first.
+Report problems in [GitHub issues](http://192.168.100.165:8929/vibe-bimer/revit-model-mcp/-/issues/new) and ask usage questions in [Discussions](http://192.168.100.165:8929/vibe-bimer/revit-model-mcp/-/issues/new). Remove model names and paths from logs and screenshots first.

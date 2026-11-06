@@ -6,7 +6,7 @@ description: "桥接洞口、配对平行 CAD 线并在一次撤销内连接基�
 
 `revit_walls_from_cad`
 
-<p class="facts"><span><b>分组</b> CAD 与 MEP</span><span><b>类型</b> 动作</span><span><b>基座与自研的区分</b> 基座（上游）</span><span><b>状态</b> 未发布（集成分支）</span><span><b>发布版版本</b> 1.0.0</span><span><b>来源分支</b> <code>integration/upstream-1.0</code></span><span><b>来源提交</b> <code>55d6ea51f5100b73faf6f02621b973642f12b08e</code></span><span><b>发布版有同名工具</b> 有，参数一致</span><span><b>本页契约适用于发布版</b> 否</span></p>
+<p class="facts"><span><b>分组</b> CAD 与 MEP</span><span><b>类型</b> 动作</span><span><b>基座与自研的区分</b> 基座（上游）</span><span><b>状态</b> 未发布（开发线）</span><span><b>发布版版本</b> 1.0.0</span><span><b>来源分支</b> <code>feat/gitlab-pages</code></span><span><b>来源提交</b> <code>50baa705e8da63327ab2bff1e544c76252fddbc9</code></span><span><b>发布版有同名工具</b> 有，参数一致</span><span><b>本页契约适用于发布版</b> 否</span></p>
 
 桥接洞口、配对平行 CAD 线并在一次撤销内连接基本墙；Revit 拒绝的连接会列出原因。
 
@@ -22,17 +22,17 @@ description: "桥接洞口、配对平行 CAD 线并在一次撤销内连接基�
 
 | 参数 {scope=col} | 必填 {scope=col} | 默认值 {scope=col} | 类型 {scope=col} | 说明 {scope=col} |
 | --- | :--: | --- | --- | --- |
-| `cad_id` | 是 | — | integer | （集成分支契约未提供说明） |
+| `cad_id` | 是 | — | integer | （开发线契约未提供说明） |
 | `dry_run` | 否 | `false` | boolean | 只排练：执行后回滚，返回同样的验证块。 |
-| `height_mm` | 否 | `3000` | number | （集成分支契约未提供说明） |
-| `join` | 否 | `true` | boolean | （集成分支契约未提供说明） |
-| `layers` | 是 | — | array | （集成分支契约未提供说明） |
-| `level` | 是 | — | string | （集成分支契约未提供说明） |
-| `max_gap_mm` | 否 | `3000` | number | （集成分支契约未提供说明） |
-| `max_thickness_mm` | 否 | `700` | number | （集成分支契约未提供说明） |
-| `min_length_mm` | 否 | `300` | number | （集成分支契约未提供说明） |
-| `min_thickness_mm` | 否 | `80` | number | （集成分支契约未提供说明） |
-| `wall_type` | 否 | `null` | any | （集成分支契约未提供说明） |
+| `height_mm` | 否 | `3000` | number | （开发线契约未提供说明） |
+| `join` | 否 | `true` | boolean | （开发线契约未提供说明） |
+| `layers` | 是 | — | array | （开发线契约未提供说明） |
+| `level` | 是 | — | string | （开发线契约未提供说明） |
+| `max_gap_mm` | 否 | `3000` | number | （开发线契约未提供说明） |
+| `max_thickness_mm` | 否 | `700` | number | （开发线契约未提供说明） |
+| `min_length_mm` | 否 | `300` | number | （开发线契约未提供说明） |
+| `min_thickness_mm` | 否 | `80` | number | （开发线契约未提供说明） |
+| `wall_type` | 否 | `null` | any | （开发线契约未提供说明） |
 
 </div>
 

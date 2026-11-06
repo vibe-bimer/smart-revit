@@ -6,11 +6,11 @@ description: "分页读取视图中的构件（可按类别过滤）"
 
 `revit_view_elements`
 
-<p class="facts"><span><b>分组</b> 视图与截图</span><span><b>类型</b> 读取（只读）</span><span><b>起始版本</b> 0.2.0</span><span><b>版本</b> 已发布 0.9.0</span><span><b>集成分支有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span></p>
+<p class="facts"><span><b>分组</b> 视图与截图</span><span><b>类型</b> 读取（只读）</span><span><b>起始版本</b> 0.2.0</span><span><b>版本</b> 已发布 1.0.0</span><span><b>开发线有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span></p>
 
 分页读取视图中的构件（可按类别过滤）
 
-[同名集成分支页面](../platform/revit_view_elements.md)
+[同名开发线页面](../platform/revit_view_elements.md)
 
 ## 可复制提示词 {#prompts}
 

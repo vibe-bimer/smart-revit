@@ -6,11 +6,11 @@ description: "Read a schema version 1 project snapshot for batch audits; closed 
 
 `revit_model_snapshot`
 
-<p class="facts"><span><b>Group</b> Export and checks</span><span><b>Kind</b> Read (read-only)</span><span><b>Since</b> 1.0.0</span><span><b>Version</b> Unreleased (1.0.0)</span><span><b>Same-name tool on the integration branch</b> Yes</span><span><b>This contract applies to the release</b> Yes</span></p>
+<p class="facts"><span><b>Group</b> Export and checks</span><span><b>Kind</b> Read (read-only)</span><span><b>Since</b> 1.0.0</span><span><b>Version</b> Released 1.0.0</span><span><b>Same-name tool on the development line</b> Yes</span><span><b>This contract applies to the release</b> Yes</span></p>
 
 Read a schema version 1 project snapshot for batch audits; closed worksets can leave it incomplete
 
-[Same-name integration branch page](../platform/revit_model_snapshot.md)
+[Same-name development line page](../platform/revit_model_snapshot.md)
 
 ## Copyable prompts {#prompts}
 
@@ -24,7 +24,7 @@ Export a model snapshot of the current project for a batch audit
 
 | Parameter {scope=col} | Required {scope=col} | Default {scope=col} | Type {scope=col} | Meaning {scope=col} |
 | --- | :--: | --- | --- | --- |
-| `parameter_rules` | No | `null` | `array<any> / null` | value rules applied to parameters in the snapshot |
+| `parameter_rules` | No | `null` | `array<object> / null` | value rules applied to parameters in the snapshot |
 | `process_id` | No | `null` | `integer / null` | Revit process ID; takes precedence over document. |
 
 </div>
@@ -51,7 +51,7 @@ Read a schema version 1 project snapshot for batch audits. Closed worksets can m
 
 | Revit year | Validation |
 | --- | --- |
-| 2020 | <span class="state part">Build only, not live-tested</span> |
+| 2020 | <span class="state ok">Validated live</span> |
 | 2026 | <span class="state part">Build only, not live-tested</span> |
 | 2022–2025 / 2027 | <span class="state part">Build only, not live-tested</span> |
 

@@ -1,56 +1,56 @@
 ---
-description: "集成分支（上游 1.0 基座加本仓库自研工具）的完整工具清单，按分组列出用途、参数与契约差异。"
+description: "开发线（上游 1.0 基座加本仓库自研工具）的完整工具清单，按分组列出用途、参数与契约差异。"
 ---
 
 # 新版基座工具目录
 
-这一节记录集成分支上的工具面，与「功能」一节的现有版本分开。分支上的工具尚未发布，其中 12 个自研工具还没移植，所以目录不是可交付清单，而是移植进度表。
+这一节记录当前开发线上的工具面，与「功能」一节的已发布版本分开。该线尚未发布：自研工具已全部接上，目录是这条开发线的完整清单。
 
-共 80 个工具：基座 79 个，自研 1 个；读取 34 个，动作 46 个。
+共 93 个工具：基座 79 个，自研 14 个；读取 35 个，动作 58 个。
 
 ## 版本入口 {#versions}
 
-两个目录各自记录一个版本：现有版本已经发布，集成分支尚未发布。下面的数量与状态都从注册表读取，不写死。
+两个目录各自记录一个版本：功能目录跟着当前代码树，开发线尚未发布。下面的数量与状态都从注册表读取，不写死。
 
-| | 现有版本 | 集成分支 |
+| | 功能目录 | 开发线 |
 | --- | --- | --- |
-| 状态 | 已发布 1.0.0 | 未发布（集成分支） |
-| 分支 | main | `integration/upstream-1.0` |
-| 工具数 | 92 | 80 |
+| 状态 | 已发布 1.0.0 | 未发布（开发线） |
+| 分支 | main | `feat/gitlab-pages` |
+| 工具数 | 93 | 93 |
 | 目录 | [功能总览](../features/index.md) | index.md |
 
 ## 两套工具面 {#catalogs}
 
-现有版本是已经发布的 1.0.0，集成分支是以上游一零版为底座的新线。两者的工具数量与清单都不同，不能混用。
+功能目录跟着当前代码树，平台目录记录当前开发线，以新版底座为起点，尚未发布。两栏都从同一棵树生成，工具集合因此重合；比发布版 1.0.0 晚加入的工具在各自页面上标为未发布。
 
-| | 现有版本 | 集成分支 |
+| | 功能目录 | 开发线 |
 | --- | --- | --- |
-| 工具数 | 92 | 80 |
-| 读取 | 35 | 34 |
-| 动作 | 57 | 46 |
+| 工具数 | 93 | 93 |
+| 读取 | 35 | 35 |
+| 动作 | 58 | 58 |
 | 已发布 | 已发布 | 未发布 |
-| 分支 | main | `integration/upstream-1.0` |
+| 分支 | main | `feat/gitlab-pages` |
 
 ## 基座与自研的区分 {#origin}
 
-每个工具在页面上都带来源标记：基座表示随上游底座而来，自研表示本仓库自己设计。自研工具在分支上目前只移植了 1 项。
+每个工具在页面上都带来源标记：基座表示随上游底座而来，自研表示本仓库自己设计。自研 14 项，其中 14 项已接上这条线。
 
 | 分组 | 基座（上游） | 自研（本仓库） |
 | --- | --- | --- |
 | 连接与实例 | 8 | 0 |
 | 查询与统计 | 12 | 0 |
-| 编辑原语 | 9 | 0 |
+| 编辑原语 | 9 | 12 |
 | 文档生命周期 | 6 | 0 |
 | 视图、图纸与明细表 | 21 | 1 |
 | 族 | 5 | 0 |
 | 链接与基准 | 3 | 0 |
 | CAD 与 MEP | 4 | 0 |
-| 导出与登记 | 4 | 0 |
+| 导出与登记 | 4 | 1 |
 | 批处理与报告 | 6 | 0 |
 | C# 逃生口 | 1 | 0 |
-| **合计** | **79** | **1** |
+| **合计** | **79** | **14** |
 
-[自研工具的移植状态](fork-tools.md) · [集成规格与决策记录](https://github.com/vibe-bimer/revit-model-mcp/issues/27)
+[自研工具的移植状态](fork-tools.md) · [集成规格与决策记录](http://192.168.100.165:8929/vibe-bimer/revit-model-mcp/-/issues/15)
 
 ## 分组统计 {#groups}
 
@@ -58,13 +58,13 @@ description: "集成分支（上游 1.0 基座加本仓库自研工具）的完�
 | --- | ---: | ---: | ---: |
 | [连接与实例](#group-core) | 8 | 6 | 2 |
 | [查询与统计](#group-read) | 12 | 12 | 0 |
-| [编辑原语](#group-actions) | 9 | 0 | 9 |
+| [编辑原语](#group-actions) | 21 | 0 | 21 |
 | [文档生命周期](#group-documents) | 6 | 0 | 6 |
 | [视图、图纸与明细表](#group-views-sheets) | 22 | 7 | 15 |
 | [族](#group-family) | 5 | 1 | 4 |
 | [链接与基准](#group-links) | 3 | 1 | 2 |
 | [CAD 与 MEP](#group-cad-mep) | 4 | 0 | 4 |
-| [导出与登记](#group-export) | 4 | 2 | 2 |
+| [导出与登记](#group-export) | 5 | 3 | 2 |
 | [批处理与报告](#group-batch) | 6 | 5 | 1 |
 | [C# 逃生口](#group-code) | 1 | 0 | 1 |
 
@@ -153,12 +153,24 @@ description: "集成分支（上游 1.0 基座加本仓库自研工具）的完�
 | --- | --- | --- |
 | [更改构件类型](revit_change_type.md)<br>`revit_change_type` | 动作 | <span class="state part">基座（上游）</span> |
 | [复制构件](revit_copy.md)<br>`revit_copy` | 动作 | <span class="state part">基座（上游）</span> |
+| [跨标高复制构件](revit_copy_elements.md)<br>`revit_copy_elements` | 动作 | <span class="state ok">自研（本仓库）</span> <span class="state ok">已移植</span> |
+| [创建梁](revit_create_beam.md)<br>`revit_create_beam` | 动作 | <span class="state ok">自研（本仓库）</span> <span class="state ok">已移植</span> |
+| [创建柱](revit_create_column.md)<br>`revit_create_column` | 动作 | <span class="state ok">自研（本仓库）</span> <span class="state ok">已移植</span> |
+| [创建楼板](revit_create_floor.md)<br>`revit_create_floor` | 动作 | <span class="state ok">自研（本仓库）</span> <span class="state ok">已移植</span> |
+| [创建轴网](revit_create_grid.md)<br>`revit_create_grid` | 动作 | <span class="state ok">自研（本仓库）</span> <span class="state ok">已移植</span> |
+| [创建标高](revit_create_level.md)<br>`revit_create_level` | 动作 | <span class="state ok">自研（本仓库）</span> <span class="state ok">已移植</span> |
 | [删除构件](revit_delete.md)<br>`revit_delete` | 动作 | <span class="state part">基座（上游）</span> |
+| [载入族文件](revit_load_family_file.md)<br>`revit_load_family_file` | 动作 | <span class="state ok">自研（本仓库）</span> <span class="state ok">已移植</span> |
+| [合并阶段](revit_merge_phases.md)<br>`revit_merge_phases` | 动作 | <span class="state ok">自研（本仓库）</span> <span class="state ok">已移植</span> |
 | [镜像构件](revit_mirror.md)<br>`revit_mirror` | 动作 | <span class="state part">基座（上游）</span> |
 | [移动构件](revit_move.md)<br>`revit_move` | 动作 | <span class="state part">基座（上游）</span> |
+| [放置宿主族](revit_place_hosted_family.md)<br>`revit_place_hosted_family` | 动作 | <span class="state ok">自研（本仓库）</span> <span class="state ok">已移植</span> |
+| [重建模型 ID](revit_rebuild_model_ids.md)<br>`revit_rebuild_model_ids` | 动作 | <span class="state ok">自研（本仓库）</span> <span class="state ok">已移植</span> |
+| [重置构件 ID](revit_reset_element_ids.md)<br>`revit_reset_element_ids` | 动作 | <span class="state ok">自研（本仓库）</span> <span class="state ok">已移植</span> |
 | [旋转构件](revit_rotate.md)<br>`revit_rotate` | 动作 | <span class="state part">基座（上游）</span> |
 | [批量执行动作](revit_run_actions.md)<br>`revit_run_actions` | 动作 | <span class="state part">基座（上游）</span> |
 | [设置参数](revit_set_parameter.md)<br>`revit_set_parameter` | 动作 | <span class="state part">基座（上游）</span> |
+| [设置阶段](revit_set_phase.md)<br>`revit_set_phase` | 动作 | <span class="state ok">自研（本仓库）</span> <span class="state ok">已移植</span> |
 | [批量更新参数](revit_update_parameters.md)<br>`revit_update_parameters` | 动作 | <span class="state part">基座（上游）</span> |
 
 ## 文档生命周期 {#group-documents}
@@ -231,6 +243,7 @@ description: "集成分支（上游 1.0 基座加本仓库自研工具）的完�
 | 工具数 | 类型 | 基座与自研的区分 |
 | --- | --- | --- |
 | [导出模型文件](revit_export.md)<br>`revit_export` | 动作 | <span class="state part">基座（上游）</span> |
+| [导出构件 ID 台账](revit_export_element_ids.md)<br>`revit_export_element_ids` | 读取 | <span class="state ok">自研（本仓库）</span> <span class="state ok">已移植</span> |
 | [导出 NWC](revit_export_nwc.md)<br>`revit_export_nwc` | 动作 | <span class="state part">基座（上游）</span> |
 | [生成问题登记表](revit_issue_register.md)<br>`revit_issue_register` | 读取 | <span class="state part">基座（上游）</span> |
 | [检查 NWC 设置](revit_nwc_settings_check.md)<br>`revit_nwc_settings_check` | 读取 | <span class="state part">基座（上游）</span> |
@@ -254,4 +267,4 @@ description: "集成分支（上游 1.0 基座加本仓库自研工具）的完�
 
 ## 状态说明 {#status}
 
-集成分支的工具已在 Python 注册表里注册，参数与描述直接来自注册表；C# 侧尚未在本机编译，真机也未验证。把这里的条目当成契约与进度，而不是「已可用」。
+这里的工具都已在 Python 注册表里注册，参数与描述直接来自注册表；C# 侧的每个自研工具都在 2020 与 2026 两个年份编译并真机验收过。契约以注册表为准，验收记录见「真机验收」。

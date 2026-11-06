@@ -6,11 +6,11 @@ description: "Inspect RVT, CAD and image link status, paths and instance counts"
 
 `revit_links_status`
 
-<p class="facts"><span><b>Group</b> Export and checks</span><span><b>Kind</b> Read (read-only)</span><span><b>Since</b> 0.2.0</span><span><b>Version</b> Released 0.9.0</span><span><b>Same-name tool on the integration branch</b> Yes</span><span><b>This contract applies to the release</b> Yes</span></p>
+<p class="facts"><span><b>Group</b> Export and checks</span><span><b>Kind</b> Read (read-only)</span><span><b>Since</b> 0.2.0</span><span><b>Version</b> Released 1.0.0</span><span><b>Same-name tool on the development line</b> Yes</span><span><b>This contract applies to the release</b> Yes</span></p>
 
 Inspect RVT, CAD and image link status, paths and instance counts
 
-[Same-name integration branch page](../platform/revit_links_status.md)
+[Same-name development line page](../platform/revit_links_status.md)
 
 ## Copyable prompts {#prompts}
 

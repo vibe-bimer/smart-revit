@@ -42,6 +42,7 @@ def test_every_fork_tool_is_registered():
         "revit_create_beam",
         "revit_load_family_file",
         "revit_place_hosted_family",
+        "revit_copy_elements",
         "revit_set_phase",
         "revit_merge_phases",
         "revit_reset_element_ids",
@@ -433,6 +434,60 @@ async def test_load_family_file_names_the_type_and_the_overwrite_answer_when_giv
 async def test_load_family_file_refuses_a_path_that_is_not_a_family_file():
     with pytest.raises(ToolError, match="must name a .rfa"):
         await tool("revit_load_family_file")(path=r"C:\lib\notes.txt")
+
+
+@pytest.mark.anyio
+async def test_copy_elements_sends_the_level_and_the_offsets_in_the_fork_bag():
+    seen: dict = {}
+
+    async def send(command: str, **payload):
+        seen["command"] = command
+        seen.update(payload)
+        return {"ok": True}
+
+    mcp = FakeMcp()
+    register_fork_actions(mcp, send)
+    function = mcp.tools["revit_copy_elements"][0]
+    await function(element_ids=[361713, 361714], target_level="2F", dx_mm=3000, dz_mm=500)
+
+    assert seen["command"] == "copy-elements"
+    assert seen["elementIds"] == [361713, 361714]
+    assert seen["fork"] == {"targetLevel": "2F", "dxMm": 3000, "dyMm": 0, "dzMm": 500}
+
+
+@pytest.mark.anyio
+async def test_copy_elements_zeroes_the_offsets_and_leaves_the_level_out_when_absent():
+    seen: dict = {}
+
+    async def send(command: str, **payload):
+        seen.update(payload)
+        return {"ok": True}
+
+    mcp = FakeMcp()
+    register_fork_actions(mcp, send)
+    function = mcp.tools["revit_copy_elements"][0]
+    await function(element_ids=[7])
+
+    assert seen["elementIds"] == [7]
+    assert seen["fork"] == {"dxMm": 0, "dyMm": 0, "dzMm": 0}
+
+
+@pytest.mark.anyio
+async def test_a_copy_step_sends_its_addresses_at_the_top_level():
+    from revit_model_mcp.fork_actions import step_payload
+
+    payload = step_payload(
+        "copy_elements",
+        {"element_ids": [361713, 361714], "target_level": "2F", "dz_mm": 4000, "dry_run": True},
+    )
+    # The step model fills the two zero offsets before this runs, so a real step carries them; a
+    # sparse dict here shows the payload builder leaves untouched keys untouched.
+    assert payload == {
+        "command": "copy-elements",
+        "elementIds": [361713, 361714],
+        "fork": {"targetLevel": "2F", "dzMm": 4000},
+        "dryRun": True,
+    }
 
 
 @pytest.mark.anyio

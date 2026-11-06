@@ -68,7 +68,10 @@ def changed_lines(
 def numstat(base: str, repository_root: Path = REPOSITORY_ROOT) -> str:
     result = subprocess.run(
         # --no-renames keeps the split free of `a/{old => new}/b` path artifacts.
-        ["git", "diff", "--numstat", "--no-renames", f"{base}...HEAD"],
+        # A single ref diffs the base against the working tree, so uncommitted
+        # work is measured too; the documented workflow runs this gate before
+        # committing, and `base...HEAD` would report the previous commit.
+        ["git", "diff", "--numstat", "--no-renames", base],
         cwd=repository_root,
         capture_output=True,
         text=True,
@@ -79,10 +82,55 @@ def numstat(base: str, repository_root: Path = REPOSITORY_ROOT) -> str:
     return result.stdout
 
 
+def head_commit(repository_root: Path = REPOSITORY_ROOT) -> str:
+    result = subprocess.run(
+        ["git", "rev-parse", "--short=7", "HEAD"],
+        cwd=repository_root,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        raise SystemExit(f"git rev-parse failed: {result.stderr.strip()}")
+    return result.stdout.strip()
+
+
+def untracked_files(repository_root: Path = REPOSITORY_ROOT) -> list[str]:
+    result = subprocess.run(
+        ["git", "ls-files", "--others", "--exclude-standard"],
+        cwd=repository_root,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        raise SystemExit(f"git ls-files failed: {result.stderr.strip()}")
+    return [line for line in result.stdout.splitlines() if line.strip()]
+
+
+def measurement_line(base: str, head: str, tracked: int, untracked: int) -> str:
+    """Name what the gate measured, so a green run never claims more than it saw."""
+    if tracked or untracked:
+        return (
+            f"measured {base[:7]}..{head} plus the working tree"
+            f" ({tracked} tracked, {untracked} untracked)"
+        )
+    return f"measured {base[:7]}..{head}, clean working tree"
+
+
 def main() -> int:
     config = load_config()
     base = config["base"]
     hooks, other, unowned, removed = changed_lines(numstat(base), config)
+    untracked = untracked_files()
+    untracked_unowned = sorted(
+        path for path in untracked if classify(path, config) == "unowned"
+    )
+    tracked_changed = len(hooks) + len(other) + len(unowned) + len(removed)
+    print(
+        measurement_line(base, head_commit(), tracked_changed, len(untracked)),
+        flush=True,
+    )
     budget = config["hookBudgetLines"]
     spent = sum(hooks.values())
 
@@ -102,10 +150,12 @@ def main() -> int:
         if (REPOSITORY_ROOT / path).exists():
             print(f"FAIL {path} is listed as removed but still exists")
             failed = True
-    if unowned:
+    if unowned or untracked_unowned:
         print("FAIL these changed files answer to no rule in build/fork.json:")
         for path in sorted(unowned):
             print(f"  {path}")
+        for path in untracked_unowned:
+            print(f"  {path} (untracked)")
         print(
             "Either move the change into a fork path, or add the file to the hooks or reads list with its reason."
         )

@@ -70,6 +70,10 @@ internal static class ForkReset
             {
                 var expectedCategory = document.GetElement(id)?.Category?.Name ?? string.Empty;
 
+                // Revit names a copy after the element it was copied from, so a load case called DL1
+                // comes back as DL1 (1). The original name is put back once the original is gone.
+                var originalName = document.GetElement(id)?.Name;
+
                 // Joins are not carried by a copy, so remember them and restore them after the exchange.
                 var joined = new List<ElementId>();
                 if (document.GetElement(id) is { } original)
@@ -105,6 +109,7 @@ internal static class ForkReset
 
                 joinsFound += joined.Count;
                 var copy = document.GetElement(created[0]);
+                RestoreName(copy, originalName);
                 foreach (var neighbour in joined)
                 {
                     var neighbourElement = document.GetElement(neighbour);
@@ -188,6 +193,26 @@ internal static class ForkReset
         }
 
         return members;
+    }
+
+    /// <summary>
+    /// Puts the original name back on the copy. Revit names a copy after its source, so a named element
+    /// would otherwise come back as "DL1 (1)" and gain another suffix on every further reset.
+    /// </summary>
+    private static void RestoreName(Element? copy, string? originalName)
+    {
+        if (copy is null || string.IsNullOrEmpty(originalName) ||
+            string.Equals(copy.Name, originalName, StringComparison.Ordinal))
+            return;
+
+        try
+        {
+            copy.Name = originalName;
+        }
+        catch (Exception)
+        {
+            // Elements without a settable name keep the copy's name; the id reset still stands.
+        }
     }
 
     /// <summary>Whether any MEP connector of the element is joined to something else.</summary>

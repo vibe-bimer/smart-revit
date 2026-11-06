@@ -6,11 +6,11 @@ description: "分页读取明细表表头与单元格显示文本"
 
 `revit_schedule_data`
 
-<p class="facts"><span><b>分组</b> 图纸与明细表</span><span><b>类型</b> 读取（只读）</span><span><b>起始版本</b> 1.0.0</span><span><b>版本</b> 未发布（1.0.0）</span><span><b>集成分支有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span></p>
+<p class="facts"><span><b>分组</b> 图纸与明细表</span><span><b>类型</b> 读取（只读）</span><span><b>起始版本</b> 1.0.0</span><span><b>版本</b> 已发布 1.0.0</span><span><b>开发线有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span></p>
 
 分页读取明细表表头与单元格显示文本
 
-[同名集成分支页面](../platform/revit_schedule_data.md)
+[同名开发线页面](../platform/revit_schedule_data.md)
 
 ## 可复制提示词 {#prompts}
 
@@ -56,7 +56,7 @@ description: "分页读取明细表表头与单元格显示文本"
 
 | Revit 年份 | 验证状态 |
 | --- | --- |
-| 2020 | <span class="state part">仅构建，未实测</span> |
+| 2020 | <span class="state ok">已实测</span> |
 | 2026 | <span class="state part">仅构建，未实测</span> |
 | 2022–2025 / 2027 | <span class="state part">仅构建，未实测</span> |
 

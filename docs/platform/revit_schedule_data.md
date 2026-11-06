@@ -6,7 +6,7 @@ description: "读取明细表显示的表头与单元格文本，支持分页。
 
 `revit_schedule_data`
 
-<p class="facts"><span><b>分组</b> 查询与统计</span><span><b>类型</b> 读取</span><span><b>基座与自研的区分</b> 基座（上游）</span><span><b>状态</b> 未发布（集成分支）</span><span><b>发布版版本</b> 1.0.0</span><span><b>来源分支</b> <code>integration/upstream-1.0</code></span><span><b>来源提交</b> <code>55d6ea51f5100b73faf6f02621b973642f12b08e</code></span><span><b>发布版有同名工具</b> 有，参数一致</span><span><b>本页契约适用于发布版</b> 否</span></p>
+<p class="facts"><span><b>分组</b> 查询与统计</span><span><b>类型</b> 读取</span><span><b>基座与自研的区分</b> 基座（上游）</span><span><b>状态</b> 未发布（开发线）</span><span><b>发布版版本</b> 1.0.0</span><span><b>来源分支</b> <code>feat/gitlab-pages</code></span><span><b>来源提交</b> <code>50baa705e8da63327ab2bff1e544c76252fddbc9</code></span><span><b>发布版有同名工具</b> 有，参数一致</span><span><b>本页契约适用于发布版</b> 否</span></p>
 
 读取明细表显示的表头与单元格文本，支持分页。
 
@@ -22,7 +22,7 @@ description: "读取明细表显示的表头与单元格文本，支持分页。
 
 | 参数 {scope=col} | 必填 {scope=col} | 默认值 {scope=col} | 类型 {scope=col} | 说明 {scope=col} |
 | --- | :--: | --- | --- | --- |
-| `max_rows` | 否 | `500` | integer | （集成分支契约未提供说明） |
+| `max_rows` | 否 | `500` | integer | （开发线契约未提供说明） |
 | `offset` | 否 | `0` | integer | 分页起始位置。 |
 | `schedule` | 是 | — | string | Exact schedule name or decimal Revit view ID. (Use the id when two schedules share a name.) |
 

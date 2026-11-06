@@ -6,14 +6,14 @@ description: "Align host grids and levels to a loaded link, with a dry-run rollb
 
 `revit_align_link_datums`
 
-<p class="facts"><span><b>Group</b> Links and coordination</span><span><b>Kind</b> Action (opt-in)</span><span><b>Since</b> 1.0.0</span><span><b>Version</b> Unreleased (1.0.0)</span><span><b>Same-name tool on the integration branch</b> Yes</span><span><b>This contract applies to the release</b> Yes</span><span><b>Effect</b> Model elements / parameters</span></p>
+<p class="facts"><span><b>Group</b> Links and coordination</span><span><b>Kind</b> Action (opt-in)</span><span><b>Since</b> 1.0.0</span><span><b>Version</b> Released 1.0.0</span><span><b>Same-name tool on the development line</b> Yes</span><span><b>This contract applies to the release</b> Yes</span><span><b>Effect</b> Model elements / parameters</span></p>
 
 Align host grids and levels to a loaded link, with a dry-run rollback preview
 
 !!! warning "Actions are allowed by default; read-only is explicit"
     Actions are allowed unless one of three switches is on: the machine policy `ReadOnly`, the workstation `read-only` file, or `REVIT_MCP_READ_ONLY=1`. A fresh install ships with the machine policy read-only. The action connection must address one Revit instance; use `document` when it has multiple open documents. Selection, navigation and isolation also require the target document to be active.
 
-[Same-name integration branch page](../platform/revit_align_link_datums.md)
+[Same-name development line page](../platform/revit_align_link_datums.md)
 
 ## Copyable prompts {#prompts}
 
@@ -64,7 +64,7 @@ Align host grids and levels to a loaded link, with optional creation and rollbac
 
 | Revit year | Validation |
 | --- | --- |
-| 2020 | <span class="state part">Build only, not live-tested</span> |
+| 2020 | <span class="state ok">Validated live</span> |
 | 2026 | <span class="state part">Build only, not live-tested</span> |
 | 2022–2025 / 2027 | <span class="state part">Build only, not live-tested</span> |
 

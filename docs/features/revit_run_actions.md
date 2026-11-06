@@ -6,14 +6,14 @@ description: "一次执行最多 50 个动作，共用一个撤销记录，首�
 
 `revit_run_actions`
 
-<p class="facts"><span><b>分组</b> 批量作业</span><span><b>类型</b> 动作（需授权）</span><span><b>起始版本</b> 1.0.0</span><span><b>版本</b> 未发布（1.0.0）</span><span><b>集成分支有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span><span><b>影响范围</b> 模型构件 / 参数</span></p>
+<p class="facts"><span><b>分组</b> 批量作业</span><span><b>类型</b> 动作（需授权）</span><span><b>起始版本</b> 1.0.0</span><span><b>版本</b> 已发布 1.0.0</span><span><b>开发线有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span><span><b>影响范围</b> 模型构件 / 参数</span></p>
 
 一次执行最多 50 个动作，共用一个撤销记录，首个失败整批回滚
 
 !!! warning "动作工具默认允许，只读需显式开启"
     动作默认允许；机器策略 `ReadOnly`、工作站 `read-only` 文件或 `REVIT_MCP_READ_ONLY=1` 三者任一打开即拒绝动作（全新安装的机器策略默认只读）。动作连接必须指向单一 Revit 实例；实例中有多个文档时，用 `document` 明确目标。选择、显示和隔离还要求目标文档处于活动状态。
 
-[同名集成分支页面](../platform/revit_run_actions.md)
+[同名开发线页面](../platform/revit_run_actions.md)
 
 ## 可复制提示词 {#prompts}
 
@@ -27,7 +27,7 @@ description: "一次执行最多 50 个动作，共用一个撤销记录，首�
 
 | 参数 {scope=col} | 必填 {scope=col} | 默认值 {scope=col} | 类型 {scope=col} | 说明 {scope=col} |
 | --- | :--: | --- | --- | --- |
-| `steps` | 是 | — | `array<any>` | 1–50 个动作步骤；任一步首次失败都整体回滚 |
+| `steps` | 是 | — | `array<object>` | 1–50 个动作步骤；任一步首次失败都整体回滚 |
 | `dry_run` | 否 | `false` | `boolean` | 彩排：执行后回滚，返回同样的校验块，不写模型 |
 
 </div>
@@ -54,7 +54,7 @@ description: "一次执行最多 50 个动作，共用一个撤销记录，首�
 
 | Revit 年份 | 验证状态 |
 | --- | --- |
-| 2020 | <span class="state part">仅构建，未实测</span> |
+| 2020 | <span class="state ok">已实测</span> |
 | 2026 | <span class="state part">仅构建，未实测</span> |
 | 2022–2025 / 2027 | <span class="state part">仅构建，未实测</span> |
 

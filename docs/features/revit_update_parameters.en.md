@@ -6,14 +6,14 @@ description: "Update a parameter on elements matching the same filters as revit_
 
 `revit_update_parameters`
 
-<p class="facts"><span><b>Group</b> Editing</span><span><b>Kind</b> Action (opt-in)</span><span><b>Since</b> 1.0.0</span><span><b>Version</b> Unreleased (1.0.0)</span><span><b>Same-name tool on the integration branch</b> Yes</span><span><b>This contract applies to the release</b> Yes</span><span><b>Effect</b> Model elements / parameters</span></p>
+<p class="facts"><span><b>Group</b> Editing</span><span><b>Kind</b> Action (opt-in)</span><span><b>Since</b> 1.0.0</span><span><b>Version</b> Released 1.0.0</span><span><b>Same-name tool on the development line</b> Yes</span><span><b>This contract applies to the release</b> Yes</span><span><b>Effect</b> Model elements / parameters</span></p>
 
 Update a parameter on elements matching the same filters as revit_query_elements; group members are skipped and dry_run predicts the outcome
 
 !!! warning "Actions are allowed by default; read-only is explicit"
     Actions are allowed unless one of three switches is on: the machine policy `ReadOnly`, the workstation `read-only` file, or `REVIT_MCP_READ_ONLY=1`. A fresh install ships with the machine policy read-only. The action connection must address one Revit instance; use `document` when it has multiple open documents. Selection, navigation and isolation also require the target document to be active.
 
-[Same-name integration branch page](../platform/revit_update_parameters.md)
+[Same-name development line page](../platform/revit_update_parameters.md)
 
 ## Copyable prompts {#prompts}
 
@@ -27,7 +27,7 @@ Set the Comments parameter to "to be checked" on all level 1 walls; predict the 
 
 | Parameter {scope=col} | Required {scope=col} | Default {scope=col} | Type {scope=col} | Meaning {scope=col} |
 | --- | :--: | --- | --- | --- |
-| `filters` | Yes | — | `any` | element filters in the same shape as revit_query_elements |
+| `filters` | Yes | — | `object` | element filters in the same shape as revit_query_elements |
 | `parameter` | Yes | — | `string` | parameter name as the model reports it |
 | `value` | Yes | — | `string / integer / number` | value to write; lengths in millimetres, areas in m², other doubles in internal units |
 | `dry_run` | No | `false` | `boolean` | rehearse: execute, return the same verification block, then roll back |
@@ -55,7 +55,7 @@ Update a parameter on elements matching the same filters as revit_query_elements
 
 | Revit year | Validation |
 | --- | --- |
-| 2020 | <span class="state part">Build only, not live-tested</span> |
+| 2020 | <span class="state ok">Validated live</span> |
 | 2026 | <span class="state part">Build only, not live-tested</span> |
 | 2022–2025 / 2027 | <span class="state part">Build only, not live-tested</span> |
 

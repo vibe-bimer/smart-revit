@@ -23,7 +23,7 @@ Other Revit years continue in the same run.
 `paths` is a nonempty list of absolute `.rvt` or `.rfa` local, UNC, or RSN paths.
 A `folder` discovers those extensions at its top level unless `recursive=true`.
 Blank entries, duplicate normalized paths, unsupported extensions, and both or neither source fail before a run is created.
-`years` is a distinct list of supported integers from 2022 through 2027 and limits the installed Revit versions available for routing.
+`years` is a distinct list of supported integers — 2020 or 2022 through 2027; Revit 2021 has no add-in build — and limits the installed Revit versions available for routing.
 `parameter_rules` is a list of nonblank `{category, parameter}` objects passed to `batch-snapshot`.
 The per-model open deadline is 30 minutes, or 45 minutes when the model is upgraded in memory from an older Revit year.
 An in-memory upgrade can take many minutes during open.

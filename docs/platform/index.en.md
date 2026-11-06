@@ -1,56 +1,56 @@
 ---
-description: "Complete tool list of the integration branch (the upstream 1.0 base plus this repository's fork tools), grouped with purpose, parameters and contract differences."
+description: "Complete tool list of the development line (the upstream 1.0 base plus this repository's fork tools), grouped with purpose, parameters and contract differences."
 ---
 
 # Platform tool catalog
 
-This section records the tool surface of the integration branch, kept apart from the released catalog under Features. The branch is unreleased and 12 fork tools are still missing from it, so the catalog is a migration scoreboard, not a delivery list.
+This section records the tool surface of the current development line, kept apart from the released catalog under Features. The line is unreleased: every fork tool is attached, so the catalog is the complete list for that line.
 
-80 tools: 79 base and 1 fork; 34 read and 46 action.
+93 tools: 79 base and 14 fork; 35 read and 58 action.
 
 ## Version entries {#versions}
 
-Each catalog records one version: the current release is published and the integration branch is not. The counts and statuses below are read from the registries, never written by hand.
+Each catalog follows a line: the feature catalog follows the working tree, and the development line is unreleased. The counts and statuses below are read from the registries, never written by hand.
 
-| | Current release | Integration branch |
+| | Features catalog | Development line |
 | --- | --- | --- |
-| Status | Released 1.0.0 | Unreleased (integration branch) |
-| Branch | main | `integration/upstream-1.0` |
-| Tools | 92 | 80 |
+| Status | Released 1.0.0 | Unreleased (development line) |
+| Branch | main | `feat/gitlab-pages` |
+| Tools | 93 | 93 |
 | Catalog | [Feature overview](../features/index.md) | index.md |
 
 ## Two catalogs {#catalogs}
 
-The current release is 1.0.0. The integration branch is the new line built on the upstream 1.0 base. Their tool counts and names differ, so they are not interchangeable.
+The feature catalog follows the working tree; the platform catalog records the current development line, built on the new base and not yet released. Both are generated from the same tree, so their tool sets coincide; a tool added after release 1.0.0 is marked unreleased on its own page.
 
-| | Current release | Integration branch |
+| | Features catalog | Development line |
 | --- | --- | --- |
-| Tools | 92 | 80 |
-| Read | 35 | 34 |
-| Action | 57 | 46 |
+| Tools | 93 | 93 |
+| Read | 35 | 35 |
+| Action | 58 | 58 |
 | Released | Released | Unreleased |
-| Branch | main | `integration/upstream-1.0` |
+| Branch | main | `feat/gitlab-pages` |
 
 ## Base and fork tools {#origin}
 
-Every page carries an origin marker: base means the tool came with the upstream base, fork means this repository designed it. Only 1 fork tool is grafted so far.
+Every page carries an origin marker: base means the tool came with the upstream base, fork means this repository designed it. Of the 14 fork tools, 14 are attached to this line.
 
 | Group | Base (upstream) | Fork (this repository) |
 | --- | --- | --- |
 | Connection and instances | 8 | 0 |
 | Query and totals | 12 | 0 |
-| Editing primitives | 9 | 0 |
+| Editing primitives | 9 | 12 |
 | Document lifecycle | 6 | 0 |
 | Views, sheets and schedules | 21 | 1 |
 | Families | 5 | 0 |
 | Links and datums | 3 | 0 |
 | CAD and MEP | 4 | 0 |
-| Export and registers | 4 | 0 |
+| Export and registers | 4 | 1 |
 | Batch and reports | 6 | 0 |
 | C# escape hatch | 1 | 0 |
-| **Total** | **79** | **1** |
+| **Total** | **79** | **14** |
 
-[Fork tool migration status](fork-tools.md) · [Integration specification and decision records](https://github.com/vibe-bimer/revit-model-mcp/issues/27)
+[Fork tool migration status](fork-tools.md) · [Integration specification and decision records](http://192.168.100.165:8929/vibe-bimer/revit-model-mcp/-/issues/15)
 
 ## Tools per group {#groups}
 
@@ -58,13 +58,13 @@ Every page carries an origin marker: base means the tool came with the upstream 
 | --- | ---: | ---: | ---: |
 | [Connection and instances](#group-core) | 8 | 6 | 2 |
 | [Query and totals](#group-read) | 12 | 12 | 0 |
-| [Editing primitives](#group-actions) | 9 | 0 | 9 |
+| [Editing primitives](#group-actions) | 21 | 0 | 21 |
 | [Document lifecycle](#group-documents) | 6 | 0 | 6 |
 | [Views, sheets and schedules](#group-views-sheets) | 22 | 7 | 15 |
 | [Families](#group-family) | 5 | 1 | 4 |
 | [Links and datums](#group-links) | 3 | 1 | 2 |
 | [CAD and MEP](#group-cad-mep) | 4 | 0 | 4 |
-| [Export and registers](#group-export) | 4 | 2 | 2 |
+| [Export and registers](#group-export) | 5 | 3 | 2 |
 | [Batch and reports](#group-batch) | 6 | 5 | 1 |
 | [C# escape hatch](#group-code) | 1 | 0 | 1 |
 
@@ -153,12 +153,24 @@ The view-related tools are split again by the model object they act on, so a rea
 | --- | --- | --- |
 | [Change Element Type](revit_change_type.md)<br>`revit_change_type` | Action | <span class="state part">Base (upstream)</span> |
 | [Copy Elements](revit_copy.md)<br>`revit_copy` | Action | <span class="state part">Base (upstream)</span> |
+| [Copy Elements](revit_copy_elements.md)<br>`revit_copy_elements` | Action | <span class="state ok">Fork (this repository)</span> <span class="state ok">Grafted</span> |
+| [Create Beam](revit_create_beam.md)<br>`revit_create_beam` | Action | <span class="state ok">Fork (this repository)</span> <span class="state ok">Grafted</span> |
+| [Create Column](revit_create_column.md)<br>`revit_create_column` | Action | <span class="state ok">Fork (this repository)</span> <span class="state ok">Grafted</span> |
+| [Create Floor](revit_create_floor.md)<br>`revit_create_floor` | Action | <span class="state ok">Fork (this repository)</span> <span class="state ok">Grafted</span> |
+| [Create Grid](revit_create_grid.md)<br>`revit_create_grid` | Action | <span class="state ok">Fork (this repository)</span> <span class="state ok">Grafted</span> |
+| [Create Level](revit_create_level.md)<br>`revit_create_level` | Action | <span class="state ok">Fork (this repository)</span> <span class="state ok">Grafted</span> |
 | [Delete Elements](revit_delete.md)<br>`revit_delete` | Action | <span class="state part">Base (upstream)</span> |
+| [Load Family File](revit_load_family_file.md)<br>`revit_load_family_file` | Action | <span class="state ok">Fork (this repository)</span> <span class="state ok">Grafted</span> |
+| [Merge Phases](revit_merge_phases.md)<br>`revit_merge_phases` | Action | <span class="state ok">Fork (this repository)</span> <span class="state ok">Grafted</span> |
 | [Mirror Elements](revit_mirror.md)<br>`revit_mirror` | Action | <span class="state part">Base (upstream)</span> |
 | [Move Elements](revit_move.md)<br>`revit_move` | Action | <span class="state part">Base (upstream)</span> |
+| [Place Hosted Family](revit_place_hosted_family.md)<br>`revit_place_hosted_family` | Action | <span class="state ok">Fork (this repository)</span> <span class="state ok">Grafted</span> |
+| [Rebuild Model Ids](revit_rebuild_model_ids.md)<br>`revit_rebuild_model_ids` | Action | <span class="state ok">Fork (this repository)</span> <span class="state ok">Grafted</span> |
+| [Reset Element Ids](revit_reset_element_ids.md)<br>`revit_reset_element_ids` | Action | <span class="state ok">Fork (this repository)</span> <span class="state ok">Grafted</span> |
 | [Rotate Elements](revit_rotate.md)<br>`revit_rotate` | Action | <span class="state part">Base (upstream)</span> |
 | [Run Actions](revit_run_actions.md)<br>`revit_run_actions` | Action | <span class="state part">Base (upstream)</span> |
 | [Set Parameter](revit_set_parameter.md)<br>`revit_set_parameter` | Action | <span class="state part">Base (upstream)</span> |
+| [Set Phase](revit_set_phase.md)<br>`revit_set_phase` | Action | <span class="state ok">Fork (this repository)</span> <span class="state ok">Grafted</span> |
 | [Update Parameters](revit_update_parameters.md)<br>`revit_update_parameters` | Action | <span class="state part">Base (upstream)</span> |
 
 ## Document lifecycle {#group-documents}
@@ -231,6 +243,7 @@ The view-related tools are split again by the model object they act on, so a rea
 | Tools | Kind | Base and fork tools |
 | --- | --- | --- |
 | [Export Model Files](revit_export.md)<br>`revit_export` | Action | <span class="state part">Base (upstream)</span> |
+| [Export Element Ids](revit_export_element_ids.md)<br>`revit_export_element_ids` | Read | <span class="state ok">Fork (this repository)</span> <span class="state ok">Grafted</span> |
 | [Export Navisworks NWC](revit_export_nwc.md)<br>`revit_export_nwc` | Action | <span class="state part">Base (upstream)</span> |
 | [Issue Register](revit_issue_register.md)<br>`revit_issue_register` | Read | <span class="state part">Base (upstream)</span> |
 | [Check NWC Settings](revit_nwc_settings_check.md)<br>`revit_nwc_settings_check` | Read | <span class="state part">Base (upstream)</span> |
@@ -254,4 +267,4 @@ The view-related tools are split again by the model object they act on, so a rea
 
 ## What the status means {#status}
 
-Every tool here is registered in the Python registry, and its parameters and description come from that registry. The C# side has not been compiled locally and nothing has been validated on a live workstation. Read these pages as contracts and progress, not as <q>available now</q>.
+Every tool here is registered in the Python registry, and its parameters and description come from that registry. Every fork tool is compiled and validated on a live workstation on both Revit 2020 and 2026. The registry is the contract; the acceptance records live under live validation.

@@ -6,14 +6,14 @@ description: "Open each model in the interactive session, run steps and C# code,
 
 `revit_process_models`
 
-<p class="facts"><span><b>Group</b> Editing</span><span><b>Kind</b> Action (opt-in)</span><span><b>Since</b> 1.0.0</span><span><b>Version</b> Unreleased (1.0.0)</span><span><b>Same-name tool on the integration branch</b> Yes</span><span><b>This contract applies to the release</b> Yes</span><span><b>Effect</b> Model elements / parameters</span></p>
+<p class="facts"><span><b>Group</b> Editing</span><span><b>Kind</b> Action (opt-in)</span><span><b>Since</b> 1.0.0</span><span><b>Version</b> Released 1.0.0</span><span><b>Same-name tool on the development line</b> Yes</span><span><b>This contract applies to the release</b> Yes</span><span><b>Effect</b> Model elements / parameters</span></p>
 
 Open each model in the interactive session, run steps and C# code, and export or save as requested; in-place saves and code need a confirm_token
 
 !!! warning "Actions are allowed by default; read-only is explicit"
     Actions are allowed unless one of three switches is on: the machine policy `ReadOnly`, the workstation `read-only` file, or `REVIT_MCP_READ_ONLY=1`. A fresh install ships with the machine policy read-only. The action connection must address one Revit instance; use `document` when it has multiple open documents. Selection, navigation and isolation also require the target document to be active.
 
-[Same-name integration branch page](../platform/revit_process_models.md)
+[Same-name development line page](../platform/revit_process_models.md)
 
 ## Copyable prompts {#prompts}
 
@@ -27,18 +27,18 @@ Batch-open the models under D:/models, export PNGs and save as new files instead
 
 | Parameter {scope=col} | Required {scope=col} | Default {scope=col} | Type {scope=col} | Meaning {scope=col} |
 | --- | :--: | --- | --- | --- |
-| `code` | No | `null` | `any / null` | C# code to run in each model, with its transaction mode |
+| `code` | No | `null` | `object / null` | C# code to run in each model, with its transaction mode |
 | `confirm_token` | No | `null` | `string / null` | token returned by the first call, sent in the second confirming call |
 | `dry_run` | No | `false` | `boolean` | rehearse: execute, return the same verification block, then roll back |
-| `exports` | No | `null` | `array<any> / null` | Export requests applied to each processed model. |
+| `exports` | No | `null` | `array<object> / null` | Export requests applied to each processed model. |
 | `folder` | No | `null` | `string / null` | folder of models to process |
-| `open` | No | `null` | `any / null` | how each model is opened, with mode and workset settings |
+| `open` | No | `null` | `object / null` | how each model is opened, with mode and workset settings |
 | `paths` | No | `null` | `array<string> / null` | paths of the models to process |
 | `pattern` | No | `"*.rvt"` | `string` | File name pattern ending in .rvt. |
 | `process_id` | No | `null` | `integer / null` | Revit process ID of the instance to process |
 | `recursive` | No | `false` | `boolean` | whether subfolders of the folder are included |
-| `save` | No | `null` | `any / null` | save settings: `none`, `output_dir` or `in_place` |
-| `steps` | No | `null` | `array<any> / null` | one to fifty action steps; the batch rolls back when a step fails |
+| `save` | No | `null` | `object / null` | save settings: `none`, `output_dir` or `in_place` |
+| `steps` | No | `null` | `array<object> / null` | one to fifty action steps; the batch rolls back when a step fails |
 | `stop_on_error` | No | `false` | `boolean` | Whether processing stops at the first error. |
 
 </div>
@@ -61,7 +61,7 @@ Open each model in the interactive session, run steps and C# code, export, save 
 
 | Revit year | Validation |
 | --- | --- |
-| 2020 | <span class="state part">Build only, not live-tested</span> |
+| 2020 | <span class="state ok">Validated live</span> |
 | 2026 | <span class="state part">Build only, not live-tested</span> |
 | 2022–2025 / 2027 | <span class="state part">Build only, not live-tested</span> |
 

@@ -6,6 +6,7 @@ from copy import deepcopy
 from pathlib import Path
 from unittest.mock import patch
 
+import catalogs
 import check_site
 import generate_features
 import landing
@@ -286,16 +287,39 @@ class FeatureGeneratorTests(unittest.TestCase):
             self.capabilities,
             self.contracts,
         )
-        self.assertIn("已发布 0.9.0", page)
+        self.assertIn(f"已发布 {catalogs.release().released_version}", page)
+        # A tool that only exists in the tree: the branch is reachable whenever a
+        # capability's `since` sits above the published version, so build that case
+        # from the fixture instead of relying on the real catalog being mid-release.
         unreleased = next(item for item in self.tools if item["name"] == "revit_jobs")
+        ahead = deepcopy(self.capabilities["tools"][unreleased["name"]])
+        ahead["since"] = "99.0.0"
         page = generate_features.tool_page(
             unreleased,
-            self.capabilities["tools"][unreleased["name"]],
+            ahead,
             "zh",
             self.capabilities,
             self.contracts,
         )
-        self.assertIn("未发布（1.0.0）", page)
+        self.assertIn(f"未发布（{generate_features.RELEASE_VERSION}）", page)
+
+    def test_a_tool_added_after_the_release_says_unreleased(self):
+        """A tool that shipped in no release must not wear a release badge.
+
+        The version fact comes from `since`. A tool added after the tag has to carry a
+        `since` above the published version, or its page claims a release that never
+        carried it.
+        """
+        name = "revit_copy_elements"
+        tool = next(item for item in self.tools if item["name"] == name)
+        page = generate_features.tool_page(
+            tool,
+            self.capabilities["tools"][name],
+            "zh",
+            self.capabilities,
+            self.contracts,
+        )
+        self.assertIn(f"未发布（{generate_features.RELEASE_VERSION}）", page)
 
     def test_released_page_links_and_diffs_its_integration_twin(self):
         platform_tools, _ = platform_catalog.load_platform()
@@ -310,15 +334,18 @@ class FeatureGeneratorTests(unittest.TestCase):
             integration["revit_export_view"],
         )
         self.assertIn("(../platform/revit_export_view.md)", page)
-        # The main server and the integration branch now agree on this contract, so the
+        # The main server and the development line now agree on this contract, so the
         # auto diff section is not required; the twin link still has to be.
-        self.assertIn("集成分支有同名工具", page)
+        self.assertIn("开发线有同名工具", page)
         self.assertIn("output_path", page)
 
     def test_released_page_without_twin_has_no_diff_section(self):
-        platform_tools, _ = platform_catalog.load_platform()
-        integration = {t["name"] for t in platform_tools}
-        tool = next(t for t in self.tools if t["name"] not in integration)
+        """A released tool that the integration line does not carry gets no diff section.
+
+        The two lines carry the same tools today, so the case is constructed rather than
+        looked for: a snapshot that dropped one tool still has to leave that page plain.
+        """
+        tool = self.tools[0]
         page = generate_features.tool_page(
             tool,
             self.capabilities["tools"][tool["name"]],
@@ -327,6 +354,22 @@ class FeatureGeneratorTests(unittest.TestCase):
             self.contracts,
         )
         self.assertNotIn("{#contract-diff}", page)
+
+        # Passing the twin in is what turns the section on, so the case above is only
+        # meaningful while this half holds: a twin with a different schema gets a diff.
+        twin = {
+            "name": tool["name"],
+            "inputSchema": {"type": "object", "properties": {"x": {"type": "string"}}},
+        }
+        with_twin = generate_features.tool_page(
+            tool,
+            self.capabilities["tools"][tool["name"]],
+            "zh",
+            self.capabilities,
+            self.contracts,
+            twin,
+        )
+        self.assertIn("{#contract-diff}", with_twin)
 
     def test_regenerated_navigation_covers_each_tool_once(self):
         nav = generate_features.nav_block(self.tools, self.capabilities)
@@ -418,6 +461,80 @@ class FrontmatterDescriptionTests(unittest.TestCase):
     def test_home_page_requires_the_branch_count(self):
         with self.assertRaises(TypeError):
             landing.home_page(self.tools, self.capabilities, "9.9.9", "zh")
+
+    def test_development_section_states_the_migration_as_landed(self):
+        # Issue 53: the three development bullets claimed the fork actions were
+        # still pending; the eight original actions shipped with the fork layer
+        # and are live-validated on both Revit 2020 and 2026, and the
+        # development line has merged into main as 1.0.0.
+        for lang, landed, validated, stale, link in (
+            (
+                "zh",
+                "已在主线合流，1.0.0 已发布",
+                "两个年份都完成了验收",
+                "尚待完成",
+                "http://192.168.100.165:8929/vibe-bimer/revit-model-mcp/-/issues/15",
+            ),
+            (
+                "en",
+                "merged into main and 1.0.0 has shipped",
+                "live-validated on both Revit 2020 and 2026",
+                "remain outstanding",
+                "http://192.168.100.165:8929/vibe-bimer/revit-model-mcp/-/issues/15",
+            ),
+        ):
+            with self.subTest(lang=lang):
+                html = landing.render_development(lang, 93, 80)
+                self.assertIn(landed, html)
+                self.assertIn(validated, html)
+                self.assertNotIn(stale, html)
+                self.assertNotIn(
+                    "仍待移植" if lang == "zh" else "remain to be migrated", html
+                )
+                self.assertIn(link, html)
+                self.assertNotIn(
+                    "github.com/vibe-bimer/revit-model-mcp/issues/27", html
+                )
+
+
+class SchemaTypeTests(unittest.TestCase):
+    """A parameter declared as a $ref must report the type it points at.
+
+    `revit_update_parameters.filters` is `{"$ref": "#/$defs/UpdateFilters"}`. Without
+    following it the type cell reads `any`, which is wrong twice: it is an object, and
+    `any` tells a reader the contract places no constraint on it.
+    """
+
+    def test_a_ref_parameter_reports_its_target_type(self):
+        schema = {
+            "$defs": {"Inner": {"type": "object"}},
+            "properties": {"f": {"$ref": "#/$defs/Inner"}},
+        }
+        self.assertEqual(
+            generate_features.schema_type(schema["properties"]["f"], schema["$defs"]),
+            "object",
+        )
+
+    def test_a_ref_without_a_target_keeps_the_old_answer(self):
+        schema = {"$defs": {}, "properties": {"f": {"$ref": "#/$defs/Missing"}}}
+        self.assertEqual(
+            generate_features.schema_type(schema["properties"]["f"], schema["$defs"]),
+            "any",
+        )
+
+    def test_the_shipped_feature_page_shows_the_filters_type(self):
+        for suffix in ("", ".en"):
+            path = (
+                platform_catalog.ROOT
+                / "docs"
+                / "features"
+                / f"revit_update_parameters{suffix}.md"
+            )
+            page = path.read_text(encoding="utf-8")
+            row = next(
+                line for line in page.splitlines() if line.startswith("| `filters`")
+            )
+            self.assertIn("`object`", row, row)
 
 
 if __name__ == "__main__":

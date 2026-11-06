@@ -6,7 +6,7 @@ description: "按参数名写值（长度 mm、面积 m²，其余按内部单�
 
 `revit_set_parameter`
 
-<p class="facts"><span><b>分组</b> 编辑</span><span><b>类型</b> 动作（需授权）</span><span><b>起始版本</b> 0.1.0</span><span><b>版本</b> 已发布 0.9.0</span><span><b>集成分支有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span><span><b>影响范围</b> 模型构件 / 参数</span></p>
+<p class="facts"><span><b>分组</b> 编辑</span><span><b>类型</b> 动作（需授权）</span><span><b>起始版本</b> 0.1.0</span><span><b>版本</b> 已发布 1.0.0</span><span><b>开发线有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span><span><b>影响范围</b> 模型构件 / 参数</span></p>
 
 按参数名写值（长度 mm、面积 m²，其余按内部单位）
 
@@ -16,7 +16,7 @@ description: "按参数名写值（长度 mm、面积 m²，其余按内部单�
 !!! note "使用提示"
     支持 dry_run
 
-[同名集成分支页面](../platform/revit_set_parameter.md)
+[同名开发线页面](../platform/revit_set_parameter.md)
 
 ## 可复制提示词 {#prompts}
 

@@ -6,7 +6,7 @@ description: "按两点建直线轴网，或给中点走三点定弧（mm）"
 
 `revit_create_grid`
 
-<p class="facts"><span><b>分组</b> 编辑</span><span><b>类型</b> 动作（需授权）</span><span><b>起始版本</b> 0.10.0</span><span><b>版本</b> 未发布（1.0.0）</span><span><b>集成分支有同名工具</b> 没有</span><span><b>本页契约适用于发布版</b> 是</span><span><b>影响范围</b> 模型构件 / 参数</span><span><b>来源</b> 自研（本仓库）</span></p>
+<p class="facts"><span><b>分组</b> 编辑</span><span><b>类型</b> 动作（需授权）</span><span><b>起始版本</b> 0.10.0</span><span><b>版本</b> 已发布 1.0.0</span><span><b>开发线有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span><span><b>影响范围</b> 模型构件 / 参数</span><span><b>来源</b> 自研（本仓库）</span></p>
 
 按两点建直线轴网，或给中点走三点定弧（mm）
 
@@ -15,6 +15,8 @@ description: "按两点建直线轴网，或给中点走三点定弧（mm）"
 
 !!! note "使用提示"
     同名轴网被拒绝；曲线固定在水平面上，共线三点建不了弧
+
+[同名开发线页面](../platform/revit_create_grid.md)
 
 ## 可复制提示词 {#prompts}
 
@@ -58,7 +60,7 @@ description: "按两点建直线轴网，或给中点走三点定弧（mm）"
 | Revit 年份 | 验证状态 |
 | --- | --- |
 | 2020 | <span class="state ok">已实测</span> |
-| 2026 | <span class="state part">仅构建，未实测</span> |
+| 2026 | <span class="state ok">已实测</span> |
 | 2022–2025 / 2027 | <span class="state part">仅构建，未实测</span> |
 
 已实测表示记录过真机执行；仅构建表示通过编译，不代表已完成真机功能验证。Revit 2021 不在本项目构建范围。

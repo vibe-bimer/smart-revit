@@ -6,11 +6,11 @@ description: "List every open document in one Revit process, including backgroun
 
 `revit_documents`
 
-<p class="facts"><span><b>Group</b> Documents and processes</span><span><b>Kind</b> Read (read-only)</span><span><b>Since</b> 1.0.0</span><span><b>Version</b> Unreleased (1.0.0)</span><span><b>Same-name tool on the integration branch</b> Yes</span><span><b>This contract applies to the release</b> Yes</span></p>
+<p class="facts"><span><b>Group</b> Documents and processes</span><span><b>Kind</b> Read (read-only)</span><span><b>Since</b> 1.0.0</span><span><b>Version</b> Released 1.0.0</span><span><b>Same-name tool on the development line</b> Yes</span><span><b>This contract applies to the release</b> Yes</span></p>
 
 List every open document in one Revit process, including background documents
 
-[Same-name integration branch page](../platform/revit_documents.md)
+[Same-name development line page](../platform/revit_documents.md)
 
 ## Copyable prompts {#prompts}
 
@@ -51,7 +51,7 @@ List every open document in one Revit process, including background documents. L
 
 | Revit year | Validation |
 | --- | --- |
-| 2020 | <span class="state part">Build only, not live-tested</span> |
+| 2020 | <span class="state ok">Validated live</span> |
 | 2026 | <span class="state part">Build only, not live-tested</span> |
 | 2022–2025 / 2027 | <span class="state part">Build only, not live-tested</span> |
 

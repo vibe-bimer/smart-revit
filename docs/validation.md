@@ -1,6 +1,6 @@
 # 验证证据
 
-以下为截至 2026-10-02 的验证状态；✅ 表示检查已完成，— 表示没有该项检查的验证证据。
+以下为截至 2026-11-04 的验证状态；✅ 表示检查已完成，— 表示没有该项检查的验证证据。
 CI 证据包括 v0.1.0 发布时的 R22–R26 构建，以及 R22 / R26 / R27 的 CI 构建。
 本地构建证据包括 `Release.R26`、`Release.R27`，以及通过 `install.ps1 -Source Build` 完成的 Revit 2024 构建。
 
@@ -15,8 +15,8 @@ CI 证据包括 v0.1.0 发布时的 R22–R26 构建，以及 R22 / R26 / R27 �
 | 2027 | ✅ | ✅ | — | — | — |
 
 真机检查使用 Revit 2026.4 和 Autodesk 的 `Snowdon Towers Sample Architectural.rvt`，由 macOS 通过 SSH 传输调用。
-19 个读取工具中有 18 个已经过真机验证，包括全部四个协调工具；`revit_export_element_ids` 仅在 2020 上验证。
-真机动作检查覆盖 16 个动作中的 9 个：`select`、`show`、`isolate`、`move`、`create_wall`、`create_level`、`set_parameter`、`delete` 和 `batch`；支持试运行的动作同时检查了试运行与真实写入。`revit_reset_element_ids` 和 `revit_rebuild_model_ids` 仅在 2020 上验证。
+工具集目前是 35 个读取工具与 58 个动作工具，共 93 个；2026 上真机验证过 18 个读取工具与 17 个动作工具（含七件首批建模工具），其余只有构建证据。
+2020 上的覆盖见下文「Revit 2020 全功能实测」与「Revit 2020 补测」：93 个工具全部至少调用过一次，其中 92 个已在 2020 真机上验证；`revit_sync_document` 仍只有构建证据，2020 侧的模型不是工作共享，调用按预期拒绝。
 安装器检查覆盖：2024 和 2026 上带 `-SignThumbprint` 的 `-Source Build`、2024 上从 v0.1.0 安装的 `-Source Release`，以及 `-Uninstall`。
 在这一轮验证中，Revit 2022–2025 和 2027 的插件行为只有构建证据，没有这些年份的真机读取或动作验证。
 
@@ -35,7 +35,7 @@ Revit 批处理（`revit_run_actions`）在撤销菜单中的标签无法通过 
 两个年份上：`dry_run` 回滚后 `isModified` 仍为 `false`；真实写入建出标高并回报 `verification.after = { id, category: "标高", name, elevationMm }`；同名标高被拒绝并回报 `Level '1F' already exists at 0 mm.`；`create_view=true` 使视图数从 52 增到 53。
 两个年份的真实写入之后，模型文件的大小与 mtime 都没有变化——动作没有保存模型。
 
-`revit_create_grid`（2026-11-02）在 Revit 2026 上完成了真机验收，使用 `mcp-verify-2026.rvt`，由 Linux 经 SSH 通道调用；2020 没有对应验收——这一版尚未在 2020 真机上跑过；R20 构建配置已于 2026-11-03 加回并通过构建，2020 的整体状态见下文「Revit 2020 适配与 2020 真机验收」。
+`revit_create_grid`（2026-11-02）在 Revit 2026 上完成了真机验收，使用 `mcp-verify-2026.rvt`，由 Linux 经 SSH 通道调用；2020 的验收见下文「Revit 2020 适配与 2020 真机验收」（`G2020T`，试运行 id 361713、真实写入 id 361715）。
 在干净模型上 `dry_run` 回滚后 `isModified` 仍为 `false`，回报 `verification.after = { id, category: "轴网", fork: { name } }` 与 `wouldCreate: true`；真实写入建出轴网并留下一条撤销记录 `MCP (mcp): Created a grid in mcp-verify-2026`；同名轴号被拒绝并回报 `Grid 'MCP-VERIFY-GRID' already exists.`；`mid_mm` 三点建出弧轴网；共线三点回报 `start_mm, mid_mm and end_mm must not be collinear: an arc needs a mid point off the start-end line.`；两端点重合回报 `start_mm and end_mm must not be the same point.`。
 轴网是基准面，模型里没有包围盒，所以 `verification.after` 用 `fork.name` 标识建出的轴号，而不是 `boundingBoxMinMm`／`boundingBoxMaxMm`。
 全部写入之后，模型文件的大小（19,918,848 字节）与 mtime（2026-10-02T12:08:34）都没有变化——动作没有保存模型。
@@ -44,7 +44,7 @@ Revit 批处理（`revit_run_actions`）在撤销菜单中的标签无法通过 
 `dry_run` 回滚后回报 `fork = { state: "new", familyName: "入口门厅", familyTypes: [{ id, name: "3200 x 3000mm" }] }` 与 `wouldCreate: true`；真实写入载入整族并留下撤销记录；同一文件再载入一次回报 `state: "existing"`、`committed: false`，摘要是 `It changed nothing, so no undo entry was kept.`，既没有重复载入，也没有覆盖模型里已有的参数值；路径写错时回报 `Family file '…\入口门.rfa' was not found. Closest: 入口门厅.rfa.`；`type_name` 不在族里时回报 `Type 'NO-SUCH-TYPE' is not in family '入口门厅'. Available types: 3200 x 3000mm.`。
 同样，全部写入之后模型文件的大小与 mtime 都没有变化。
 
-`revit_create_column`（2026-11-02）在 Revit 2026 上完成了真机验收，模型与通道同上，柱族用 2020 中文库的 `混凝土 - 正方形 - 柱.rfa`（四个类型 `300 x 300mm`…`750 x 750mm`），先由 `revit_load_family_file` 载入；2020 同样没有验收：这一版没在 2020 真机上跑过，原因不是构建不支持（R20 现已可构建），见下文「Revit 2020 适配与 2020 真机验收」。
+`revit_create_column`（2026-11-02）在 Revit 2026 上完成了真机验收，模型与通道同上，柱族用 2020 中文库的 `混凝土 - 正方形 - 柱.rfa`（四个类型 `300 x 300mm`…`750 x 750mm`），先由 `revit_load_family_file` 载入；2020 的验收见下文「Revit 2020 适配与 2020 真机验收」（试运行 id 362629、真实写入 id 362632）。
 只给底标高与 `height_mm`：`dry_run` 回报 `rolledBack: true`、`wouldCreate: true` 与 `verification.after = { id, category: "结构柱", level: "1F", type: "300 x 300mm", boundingBoxMinMm: [11850, -150, 0], boundingBoxMaxMm: [12150, 150, 3000] }`，回滚后该 id 用 `revit_element_details` 查不到；真实写入建出柱子（`id 364295`），读回 `底部标高 = 1F`、`顶部标高 = 1F`、`顶部偏移 = 3000 mm`，即柱顶高程等于底部标高加底部偏移加高度。
 给 `top_level`：`top_level = "3F"` 的柱子包围盒高度到 7600 mm，与 3F 的标高一致；给 `base_offset_mm = 500`、`rotation_deg = 45` 的 `600 x 600mm` 柱子包围盒为 `[-424.3, 5575.7, 4300]`–`[424.3, 6424.3, 7300]`，偏移与旋转都落到了模型里。
 `type_name` 不存在时回报 `Type 'NO-SUCH-TYPE' was not found in family '混凝土 - 正方形 - 柱'. Available types: 300 x 300mm, 450 x 450mm, 600 x 600mm, 750 x 750mm.`；族不存在时回报 `Family 'NO-SUCH-FAMILY' was not found. Use revit_load_family_file to load it first.`。
@@ -74,6 +74,22 @@ Revit 2020 的同一组用例给出一致的结果：会话开始时 `isModified
 拒绝路径：类型不存在时回报 `Type '300*999' was not found in family '混凝土 - 矩形梁'. Available types: 200*300, 240*300, 240*400, 240*500, 240*600, 300*1000, 300*400, 300*600, 300*800.`；起点与终点重合时回报 `start_mm and end_mm must not be the same point.`。
 全部写入之后，模型文件的大小（19,918,848 字节）与 mtime（2026-10-02T12:08:34）都没有变化——动作没有保存模型。
 
+`structural_usage` 生效与非法值拒绝（2026-11-05 补验，两个年份各一遍）：传 `structural_usage = "Girder"` 时 `dry_run` 回报 `rolledBack: true`、`wouldCreate: true` 与 `verification.after.fork = { structuralUsage: "Girder" }`，回滚后 `isModified` 仍为 `false`；真实写入之后另用 `revit_element_details` 读回同一实例，参数 `结构用途` 为 `大梁`（`internalValue: 3`）——不是只看工具自己回报的事实块，构件上的参数确实变了。2026 上 `dry_run` 为 `id 363389`、真实写入 `id 363392`（`undoName = "MCP (mcp): Created a beam in mcp-verify-2026"`）；2020 上 `dry_run` 为 `id 361716`、真实写入 `id 361720`。传非法值 `NotAUsage` 时两年同一句拒绝：`structuralUsage 'NotAUsage' is not a structural usage. Use one of: Undefined, Wall, Column, Girder, Joist, Purlin, Other, Brace, HorizontalBracing, KickerBracing, Automatic, TrussChord, TrussWeb.`。两次会话开始时 `isModified` 均为 `false`；全部写入之后模型文件仍是 2026 的 19,918,848 字节 / `2026-10-02T12:08:34` 与 2020 的 23,449,600 字节 / `2026-09-28T21:04:22`——动作没有保存模型。
+
+`revit_copy_elements`（2026-11-05）在 Revit 2026 与 Revit 2020 上都完成了验收，两个年份各用同一对宿主取证：墙 `357469` 与挂在它上面的门 `357611`（两个模型里 id 相同，`mcp-verify-2026.rvt` 就是 `建筑结构.rvt` 的升级另存）。会话开始时 `activeDocument.isModified` 为 `false`。
+`dry_run` 传 `element_ids = [357469, 357611]`、`dx_mm = 3000`：2026 回报 `count: 2`、`rolledBack: true`、`fork = { idMapping: [{ old: 357469, new: 363383 }, { old: 357611, new: 363388 }], idMappingVerified: true }`，2020 回报 `[{ 357469, 361715 }, { 357611, 361720 }]`；回滚之后两个 id 都查不到，`isModified` 仍为 `false`。
+只给门不给宿主时两年同一句拒绝：`elementIds must also hold the host of every hosted element: 357611 (hosted on 357469). A hosted copy that cannot find its host is deleted when the paste finishes.`
+真实复制（不带 `dry_run`）：2026 得到 `[{ 357469, 363391 }, { 357611, 363396 }]`，2020 得到 `[{ 357469, 361723 }, { 357611, 361728 }]`，两年 `idMappingVerified: true`；再用 `revit_element_details` 读回复制出来的那扇门，它的 `主体 ID` 正是复制出来的那面墙（2026 是 `363396 → 363391`，2020 是 `361728 → 361723`），说明重宿主的重载真的生效，不是把门摘下来重贴。
+`target_level = "2F"` 把标高差换成竖向位移：2026 真实写入得到墙 `363409` 与门 `363414`，2020 得到墙 `361741` 与门 `361746`，两年 `idMappingVerified: true`；墙的包围盒从 z 的 `0–3800` 抬到 `3800–7600`，门跟着落到 `3800–6500` 且仍挂在新墙下。
+一批跨两个标高（`357458` 在 `1F`、`357896` 在 `2F`）再给 `target_level = "2F"`：两年都成功，2026 得 `[{ 357458, 363422 }, { 357896, 363439 }]`，2020 得 `[{ 357458, 361754 }, { 357896, 361771 }]`，`idMappingVerified: true`——每个构件按自己所在标高的高差位移，变换仍是纯平移，所以没有整批拒绝这一条。
+配对失败是可能发生的，所以 `fork.idMappingVerified` 不是常量：判据按类别、类型与位置逐个一对一配对，配不准就回报 `false` 并把差额写进 `mappingMismatches`。真机上踩到的坑是竖向位移——墙的定位线始终留在它所在标高的平面上，`dz_mm` 只体现在包围盒里，早先的实现拿「端点加位移」去比定位线，于是竖向复制一律配不上（`count` 少了、`mappingMismatches` 非零）；判据改成只比平面坐标后，零位移、`dx_mm`、`dy_mm`、`dz_mm`、`target_level` 五种情形在两个年份都回报 `true`。
+界面取证：两个年份的活动面板都把同一批动作逐条列出——2026 是 `Copied elements 2 elements` 五条加一条 `Copying elements 2 elements … (dry run)`，2020 另有红色失败那条 `elements must also hold the hos…`；截图存于 `output/acceptance/copy-elements/copy-2026-ui-01.png` 与 `copy-2020-ui-01.png`、`copy-2020-ui-02.png`（不进仓库）。撤销菜单里的标签本轮没有逐条读回（`windows_computer_use_find` 的 UI 树在这台机器上超时），撤销名与 `summary` 同源，此处只以接口回报与活动面板为据。
+全部写入之后，模型文件都没有变化：2026 仍是 19,918,848 字节 / `2026-10-02T12:08:34`，2020 仍是 23,449,600 字节 / `2026-09-28T21:04:22`——动作没有保存模型。
+
+整批规模与「配不准就标 false」的真实样本（2026-11-05，`mcp-verify-2026.rvt`）：取 `1F` 上的 30 面墙（`357458` 起）作一批向东复制 `dx_mm = 20000`，`dry_run` 与真实复制的 `count` 都是 30、各耗时约 2 秒；真实复制回报 `idMapping` 29 对、`mappingMismatches: 2`、`idMappingVerified: false`——一批里有一面墙没能一对一配上，工具如实把校验结果标成 false，没有假装映射可靠，其余 29 对照旧逐条回报。
+同一批里取 5 面墙复制到已经被墙占满的 `2F`：`count: 5`、`idMappingVerified: true`，说明跨标高落位本身没问题。
+把 30 面墙整批拖到 `2F`（那层本来就有 74 面墙）：Revit 在重新生成时拒绝，工具回报错误原文 `不能生成墙。`，事务被丢弃，失败之后 `isModified` 仍为 `false`——写入一个也没留下，模型文件与会话开始时一致。这是 Revit 对重叠几何的拒绝，不是工具自己编的规则；同一条路径上事务提交放在 `try` 里面，重新生成期抛出的错误也按构件记进 `fork.ineligible`，不会越出请求边界。
+
 Revit 2020 适配与 2020 真机验收（2026-11-03）。本树原先只有 R22–R27 构建配置，2020 既不能构建也没有验收。现在 `src/RevitModelMcp.Addin/RevitModelMcp.Addin.csproj:18-19` 的 `Configurations` 含 `Debug.R20` 与 `Release.R20`，`src/RevitModelMcp.Core/RevitModelMcp.Core.csproj` 的目标框架为 `net47;net48;net8.0`；Debug.R20 与 R22–R27 共七个配置全部构建通过，Release.R20 也通过（114 条警告、0 错误，警告来自 net47 的 ILRepack 合并）。
 条件编译改用 csproj 在求值期定义的 `REVIT2020_BUILD`，不再用 SDK 在 target 阶段注入的 `REVIT2021_OR_GREATER`：WPF 的 `_wpftmp` 临时工程收不到 target 期常量，2020 的兼容层会被编进 2021 及以上的构建。全部 13 处 `#if`（分布在 10 个文件里）都换成了它。
 `src/RevitModelMcp.Addin/Fork/ForkUnitTypes.cs` 与 `src/RevitModelMcp.Addin/Fork/ForkLegacyApi.cs` 在 2020 下补齐 2021 的公开面（`ForgeTypeId`、`UnitTypeId`、`SpecTypeId`、`GroupTypeId`、`UnitUtils.IsMeasurableSpec`、`View.GetIsFilterEnabled`、`IndependentTag.GetTaggedLocalElementIds`），调用点零改动；标识串的派生抽到 `src/RevitModelMcp.Core/Fork/UnitSpecNames.cs`，由 `UnitSpecNamesTests` 的 7 条测试脱离 Revit 验证。不可 shim 的走 `#if REVIT2020_BUILD`：PDF 导出在 2020 明确拒绝、图像加载状态留空、基点裁剪标志返回未知、拆除顺序校验交给 Revit、`Floor.Create` 改走 `Document.Create.NewFloor`、`ElementIdSetFilter` 换成 id 集合。
@@ -92,6 +108,57 @@ Revit 2020 适配与 2020 真机验收（2026-11-03）。本树原先只有 R22�
 - `revit_create_column`：`dry_run` 用族 `混凝土 - 正方形 - 柱`、类型 `450 x 450mm`、`1F`、`(8000, 8000)`，回报 `{ id: 362629, rolledBack: true, level: "1F", verification.after: { category: "结构柱", type: "450 x 450mm", boundingBoxMinMm: [7775, 7775, 0], boundingBoxMaxMm: [8225, 8225, 3000] } }`；真实写入 `top_level = "2F"` 得到 `id 362632`、包围盒 z 抬到 0–3800，`revit_element_details` 回报类别 `结构柱`、类型 `450 x 450mm`、标高 `1F`；类型不存在时回报 `Type '9999 x 9999mm' was not found in family '混凝土 - 正方形 - 柱'. Available types: 300 x 300mm, 450 x 450mm, 600 x 600mm, 750 x 750mm.`；`revit_element_details(362629)` 回报 `Element with id 362629 was not found.`。
 
 2020 的模型事实：`建筑结构.rvt` 里没有结构柱族（只有标记族 `标记_结构柱`）也没有家具族，所以 `revit_create_column` 的用例先用 `revit_load_family_file` 载入 2020 库的柱族，`revit_place_family` 用模型自带的 `常规模型 2`。四个工具的真实写入都不保存模型：验收前后模型文件都是 23,449,600 字节、mtime `2026-09-28 21:04:22`；会话结束时 `isModified` 为 `true`（真实写入所致），属正常。
+
+`revit_reset_element_ids`（2026-11-04）在 Revit 2020 20.0.0.377 上做了五份副本的重复验收，用 `E:\desktop\test\test.rvt`（13,719 个构件、13 个视图、非工作共享），副本为 `E:\desktop\test\idreset\copy-1.rvt` … `copy-5.rvt`，各 14,495,744 字节、md5 与原模型一致，通过本地通道（`REVIT_MCP_HOST=local`）调用，五份副本的回报逐字相同。
+会话开始时 `activeDocument.isModified` 为 `false`。`dry_run` 传 `[33262, 33264]`（结构荷载工况 DL1、LL1）：`count: 2`、`rolledBack: true`、`idMapping = [{ old: 33262, new: 8271429 }, { old: 33264, new: 8271430 }]`、`summary = "Would reset the ids of 2 elements in copy-N."`；回滚之后 `revit_element_details(33262)` 仍回报 `name = "DL1"`，而 `revit_element_details(8271429)` 回报 `Element with id 8271429 was not found.`，`isModified` 仍为 `false`。
+真实写入传 `[33262, 33264, 33266, 33268]`（DL1、LL1、WIND1、SNOW1）：`count: 4`、`idMapping = [{ 33262, 8271431 }, { 33264, 8271432 }, { 33266, 8271433 }, { 33268, 8271434 }]`、`summary = "Reset the ids of 4 elements in copy-N."`、`undoName = "MCP (idreset-verify): Reset the ids of 4 elements in copy-N"`；四个旧 ID 用 `revit_element_details` 全部回报 `Element with id … was not found.`，四个新 ID 分别读回 `DL1`、`LL1`、`WIND1`、`SNOW1`，类别都是 `结构荷载工况`——身份、名称、类别都跟着走到了新 ID 上。
+拒绝矩阵（真实写入，逐字回报）：结构柱 8257365 → `No selected element can be reset. 8257365: 1 dependent element(s) would be deleted with it: 8257366 (分析柱).`；结构基础 8223570 → `No selected element can be reset. 8223570: The element belongs to a group; ungroup it before resetting.`；详图线 4579899 → `Refusing to keep a partial reset: 1 of 1 elements could not be replaced. 4579899: Revit could not replace this element: Some of the elements cannot be copied, because they are view-specific. Parameter name: elementsToCopy`；标高 339 → `No selected element can be reset. 339: Datum elements such as grids, levels and reference planes are excluded.`；类型 8255740（`PM-格构柱`）→ `No selected element can be reset. 8255740: Element types are not reset; select instances.`；不存在的 33346 → `The document contains no element with the id 33346.`。
+全有或全无：真实写入传 `[8271431, 8257365]`（已重置的荷载工况 + 带分析构件依赖的结构柱）回报 `Refusing to reset 1 of 2 elements while others are ineligible. 8257365: 1 dependent element(s) would be deleted with it: 8257366 (分析柱).`，事后 `8271431` 仍在、名称仍为 `DL1`，模型没有半途改动。
+五份副本跑完，模型文件始终 14,495,744 字节，每一份都是 `fileUnchanged = true`——动作没有保存模型；`isModified` 在每次 `dry_run` 之后仍为 `false`，真实写入之后为 `true`，与「写入只在内存里」一致。这一轮里五份的 mtime 都停在 `2026-11-04 01:01:48`；`copy-1` 后来被一次误触的 Ctrl+S 保存过（Revit journal 里是 `ID_REVIT_FILE_SAVE`，与任何动作无关），已用原模型覆盖恢复，md5 回到 `4335a00d6fd83747f48d871ebf52d831`，所以它现在的 mtime 是 `2026-11-04 07:17:25`。
+新 ID 由文档内的分配器给出：起点是文档当前最大 ID + 1，`dry_run` 回滚但不回收号段，所以同一份文件先 `dry_run` 再真实写入，两段号段相邻（本轮为 `8271429`–`8271432` 与 `8271433`–`8271436`）；内容相同、操作序列相同的五份副本因此得到逐一相同的映射。
+这一轮验收查出并修掉两个缺陷：
+`ActionCommandExecutor.cs:1123-1134` 的 `BuildSummary` 按命令名取计数，`reset-element-ids` 落进 `_ => 0`，于是 `count: 4` 而 `summary` 与 `undoName` 都写「0 elements」（修复前逐字为 `Reset the ids of 0 elements in copy-1.`）；现在与 `load-family` 等命令同列，取 `data.Count ?? 0`，`rebuild-model-ids` 一并补上。
+`ForkReset.cs` 的复制路径会带着 Revit 的复制命名规则：原件还在时副本被命名成 `DL1 (1)`，删掉原件后名字不再回退，反复重置会累积成 `DL1 (1) (1)`（修复前在 copy-5 上实测两次重置得到该名称）。现在复制前记下原件 `Name`，删除原件后由 `RestoreName` 写回；写不回去的构件（没有可写 Name）静默保留副本名称，ID 重置照常成立。
+这个模型里能真正重置的只有 8 个结构荷载工况：768 个结构基础全在组 `围护桩` 内，350 个结构柱与 4 个结构框架都带分析构件依赖，6 个楼板带 598/423 个草图依赖，66 条线、62 个文字注释与 4 个常规注释是视图专有构件——即拒绝矩阵不是构造出来的边界，而是这个模型的真实构成。
+全部用例都会在真实写入后关闭文档（`save: false`，已修改的文档先拿 `confirm_token` 再关），所以五份副本在磁盘上始终是打开前的样子。
+
+`revit_duplicate_view`（2026-11-04）在 Revit 2020 上只有 `mode: dependent` 可用（374 ms，得到视图 364605）；默认模式每复制一次就弹一个「重复类型」模态框，连续触发 150 个以上之后 Revit 主窗口失去响应、MCP 通道 120 s 超时，最后连窗口都消失——2020 上默认模式不能无人值守跑。
+
+`revit_set_view_lighting`（2026-11-04）在 Revit 2020 的默认三维视图 `{三维}` 上曾对任何参数都抛 `The document contains no element with the id -1.`。根因是 `ForkLighting.cs` 读 `settings.GroundPlaneLevelId` 时，三维视图没有地面标高、该值是 -1，Nice3point 的 ElementId 查找对未设置的 id 抛 `InvalidOperationException`，而 `ReadIfAvailable` 只捕获了两种 `Autodesk.Revit.Exceptions`。现在 `ReadIfAvailable` 也吞 `InvalidOperationException`，`ResolveForLighting` 整体守卫 `SunAndShadowSettings`，3D 视图上 `shadow_intensity = 75` 回报 `changedSettings: ["shadow_intensity"]`、`shadows = true` 回报 `["shadows"]`、`ground_plane` 无变化并给 `It changed nothing, so no undo entry was kept.`；`1F` 上的阴影与日光参数照旧可用。
+
+Revit 2020 全功能实测（2026-11-04，`base-2020.rvt` 23,449,600 字节、md5 `7d7cf51d4149b6194026ebdc7ee63ba4`，本地通道，Revit 2020 20.0.0.377）
+这一轮把 92 个工具全部至少调用一次，共 246 次调用分五批：只读 40 次、`dry_run` 118 次、真实写入三批 25 / 38 / 25 次。失败项逐条判读后，除下面列出的环境限界外都是我的参数错误或工具给出的正确拒绝。
+`dry_run` 批的每一条都在调用前后查 `isModified`，全部为 `false`，没有一条留下改动；每一批结束时模型文件的大小与 md5 都与开工时相同——动作从未保存模型。
+查出并修掉六个缺陷，都在 2020 真机上复验过：
+- `revit_delete` 对任何 id 都回报 `The document contains no element with the id …`。根因不在删除本身（`execute_code` 里 `ctx.Document.Delete` 正常删掉墙和 21 个依赖构件），而是 `ActionVerifier` 的 `CaptureAfter` 在事务提交前用 `CreateId(id).ToElement(document)` 判存活，构件已在事务内被删，该扩展抛 `InvalidOperationException`。新增 `Survives(document, id)` 把这类异常读成「已不在」，`case "delete"` 改用它；复验 `dry_run` 回报 `count: 733`、`rolledBack: true`、`stillPresent: []`，新建标高 361787 后真实删除回报 `summary = "Deleted 1 element in base-2020."`、`changed: [361787]`。
+- `revit_set_phase` 的 `count` 正确但 `summary` 写「Set the phase of 0 elements」，原因是 `BuildSummary` 的按命令名取计数分支缺 `set-phase`；补上之后墙 357458/357459 回报 `count: 2`、`summary = "Set the phase of 2 elements in base-2020."`。
+- `revit_merge_phases` 从 `现有类型` 合并到 `新构造` 时抛 `The referenced object is not valid…`，因为删掉 source phase 之后还在读这个已删除的 `Phase` 的 `Name` 与引用数。现在先存下两个 phase 的名字、删除后不再数引用，逐个改 phase 时把 Revit 拒绝的构件记为跳过并在 `notes` 里列出前十个 id；复验真实合并 `新构造 → 现有类型` 移动 871 个构件、跳过 355 个 Revit 不允许改 phase 的构件、删除 source phase，`revit_undo_last` 之后两个 phase 都回来了（`现有类型` 12589、`新构造` 0）。
+- `revit_run_actions` 的批处理步骤不认 fork 动作，回报 `Unknown batch step.`，因为 `ActionJobParser` 的内层白名单只列经典命令；现在末尾加 `|| Fork.ForkRegistry.IsAction(stepCommand)`，`create_level` 步骤在 `dry_run` 下回报 step 1 success。（同一次尝试里把 `show`、`place-views-on-sheet`、`tag-elements`、`create-schedule` 也加进白名单会让四条既有测试失败，已回退，只保留 fork 扩展。）
+- `revit_batch_start` 在 2020 上回报 `No configured Revit executable is installed.`，因为 `BatchCommands` 的监督器只扫 2022–2027；改成 2020–2027 后，配合 `REVIT_MCP_REVIT_EXE_2020` 指向 `D:\Program Files\Autodesk\Revit 2020\Revit.exe`，回报 `{"runId": "7270eced…", "acceptedModels": 1}`。默认路径仍然只看 `%ProgramFiles%`，Revit 装在别的盘时必须设这个环境变量。
+- `revit_set_view_lighting` 在三维视图上的 id -1 缺陷，见上一段。
+
+2020 的环境限界（不是缺陷）：`revit_export` 的 `format: pdf` 回报 `PDF export needs Revit 2021 or later`；`format: csv` 只接受明细表，传别的目标回报 `CSV targets must be schedules.`；`revit_export_nwc` 回报 Navisworks 导出器未安装；`revit_sync_document` 回报 `This document has no central model to synchronize.`；`revit_apply_view_template` 对类型不匹配的样板给出明确理由；`revit_reset_element_ids` 在依赖构件会被连带删除时拒绝；`revit_move` 对受约束的墙回报 `1 constrained and unchanged`。这些都按预期拒绝，没有发生半途写入。
+
+这一轮没有跑通的项与原因：`revit_rebuild_model_ids`（`dry_run` 也要整模型复制，而这个模型有 733 个族类型、大量 CAD 导入的重名类型，每遇一个重名就弹一个模态框，十分钟内把通道彻底堵死，只能结束进程——与 `duplicate_view` 默认模式同一类风险：2020 上撞到重名就不能无人值守跑）；`revit_link_cad`、`revit_walls_from_cad`、`revit_compare_link_datums`、`revit_align_link_datums`（`E:\desktop\考题16\1F.dwg` 不存在，只走到失败路径）；`revit_nwc_settings_check` 与 `revit_export_nwc`（本机没装 Navisworks 导出器与其设置 XML）；`revit_sync_document`（模型非工作共享）；`revit_batch_fetch`（取结果要求批处理已结束，本轮那个 run 因为模型已在目标会话里打开而一直 `pending`）。
+`revit_create_mep_run` 实际上通了：`dry_run` 回报 `count: 1`、`rolledBack: true`、`summary = "Would create 1 segment of pipe in base-2020."`，所以 2020 没有 MEP 样本模型也能走通 MEP 这条路径。
+界面取证（computer use，`windows_computer_use_*`）：Revit 2020 主窗口 2560×1389、pid 13112；右侧 MCP activity 面板逐字显示 `Created level 1 level`、`mcp · base-2020`、时间 17:39，与接口返回的 `summary = "Created a level in base-2020."`、`undoName = "MCP (mcp): Created a level in base-2020"` 一致；项目浏览器里 `UI-EVIDENCE` 标高在列表中出现，`revit_list_catalog(levels)` 也读回它。点击快速访问工具栏的撤销下拉没有展开列表（坐标点击落在按钮本体上，动作未回退——`UI-EVIDENCE` 仍在），所以撤销菜单标签没能从界面读出，与本页已有的「撤销菜单中的标签无法通过 API 验证」一致。截图 `output/acceptance/2020/ui-activity-created-level.png` 与 `ui-window-after-click.png`。
+证据在 `output/acceptance/2020/`（各批 JSON、`capture-wall.png`、`view-3d.png`、`ui-3d-view-after-merge.png`、`model-health.xlsx`、`element-ids.xlsx` 与模态框截图），汇总报告是 `output/acceptance/2020-full-report.md`。
+
+Revit 2020 补测：只有构建证据的九个工具（2026-11-05，`test.rvt` 71,217,152 字节、md5 `f3042220f41b13763bb03d088df106ce`，本地通道，Revit 2020 20.0.0.377）
+上一轮留下的九个工具这一轮逐条跑过，八个推到真机已验证，一个如实记阻塞。开工前 `isModified` 为 `false`，收工时模型文件仍是 71,217,152 字节、md5 `f3042220f41b13763bb03d088df106ce`、mtime 停在 20:39——整轮没有保存过模型。
+- `revit_link_cad` 载入 `E:\desktop\test\东区-B2-ST.dwg`（935,200 字节）到 `1F建`：1193 ms，回报链接 id 1431368、39 个图层（`A_WALL_1` 611 条、`BEAM` 3626 条、`0_RFJ_砼墙` 370 条），范围 `[[7105.9, -95260.5], [347424, 128015.5]]`。
+- `revit_walls_from_cad` 用 `A_WALL` 与 `A_WALL_1` 两个图层在 `1F建` 上建墙：2534 ms，回报 `count: 128`、`summary = "Created 128 walls from CAD in test."`、`joinedEnds: 208`、`mergedSegments: 250`、`skippedShortSegments: 97`、`unpairedLines: 38`、`unjoinedEnds: 0`，`verification.changed` 是从 1431502 起的 128 个 id。
+- `revit_compare_link_datums` 与 `revit_align_link_datums` 需要 rvt 链接（`src/RevitModelMcp.Addin/Capture/LinkDatumReader.cs` 只收 `RevitLinkInstance`，CAD 链接不参与）。为这一轮造了链接源：`revit_new_document` 建两个标高 `LINK-L1`(0)/`LINK-L2`(4000) 与两条轴线 `LINK-G1`/`LINK-G2`，`revit_save_document` 存成 `E:\desktop\test\link-source.rvt`（5,345,280 字节），再用 `execute_code` 在 `test.rvt` 里建链接（类型 1431639、实例 1431640、`loadStatus: LinkLoaded`）。`compare` 128 ms，条目里 `status: aligned`（`matchedBy: geometry`、`nameDiffers: true`）与 `missing_in_host` 都出现；`align` 的 `dry_run` 252 ms 回报 `rolledBack: true`，真实写入 220 ms 回报 `datumSummary { aligned: 1, created: 9, hostOnly: 120, moved: 0, skipped: 0, unsupported: 0 }`、130 个条目、`undoName = "MCP (mcp): Aligned link datums in test"`。
+- `revit_nwc_settings_check` 用一份手写的 914 字节设置 XML（`E:\desktop\test\nwc-settings.xml`，含 `int32`/`bool`/`float`/`wstring` 混编的 `data` 节点）：40 ms，`mapping` 认出 `section_extract → scope`、`element_params → parameters`、`coordinates → coordinates`、`element_ids → export_element_ids`，`ignored` 收到一个无关选项，`invalid` 收到 `nwexportrevit_room`（`notabool`，理由 `unsupported or malformed NWC settings XML data value`）。
+- `revit_export_nwc` 用同一份 XML 导出整模型：10,820 ms，`bytes: 847419`、`exporterAvailable: true`，写出 `E:\desktop\test\out-test.nwc`，回显 `coordinates: shared`、`exportElementIds: true`、`divideFileIntoLevels: true`、`convertLinkedCadFormats: true`。
+- `revit_cancel_job` 需要一个真正在跑的作业：`revit_execute_code` 里 `Thread.Sleep(120000)` 配 `timeout_seconds: 30`，30,026 ms 时回报 `{"status": "running", "jobId": "62f6c9f68d004130bb9bc652a221f7c6"}`（`jobId` 在顶层，不在 `data` 里），随后 `revit_cancel_job` 267 ms 回报 `{"state": "running", "cancelled": false, "message": "A running command cannot be interrupted; it will finish."}`；换一个 150 s 的睡眠作业重试，文案相同。即「运行中的单个 Revit 操作不可中断」是设计行为，工具照实回报，没有假装取消成功。
+- `revit_batch_fetch` 走通了取结果这一段，但用的是合成的终态 run：监督器起不来（见下面的 D8），所以在 `%LOCALAPPDATA%\RevitModelMcp\runs\aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\` 手写了 `run.json`（`status: 2`、`models[0].status: 2`、`snapshotFile: snapshot_0001.json`）与 `snapshot_0001.json`。`revit_batch_status` 回报 `{"status": "completed"}`；`revit_batch_fetch` 回报 `runId`、`localPaths: ["E:\\desktop\\test\\batch\\fetch\\snapshot_0001.json"]` 与逐模型的 `status: completed`；重复调用被正确拒绝，原文 `Local batch snapshot already exists: snapshot_0001.json`。这条只能证明「读终态、下载快照、拒绝覆盖」这三段，不能证明监督器跑出来的 run 能被取回。
+- `revit_sync_document` 保持只有构建证据：`test.rvt` 的 `isWorkshared` 是 `false`、`worksets` 为空，调用 38 ms 后回报 `This document has no central model to synchronize.`。要让这个工具真机通过，得先在工作站上建中心文件、再开本地副本，本轮没有这么做，所以不把它算作已验证。
+
+补测查出的缺陷 D8：`revit_batch_start` 的服务端年份校验只允许 2022–2027（`server/revit_model_mcp/batch.py` 的 `_years`），而插件侧监督器上一轮已改成扫 2020–2027。结果是：只装了 Revit 2020 的机器上，传 `years: [2020]` 会被服务端拒绝（原文 `years must contain distinct Revit years from 2022 through 2027.`），不传年份则监督器报 `No configured Revit executable is installed.`——批处理在 2020 上整条链路仍然不可用。验收轮次本身没改代码；用户拍板后当天修复：`_years` 改用 `BATCH_YEARS = frozenset((2020, *range(2022, 2028)))`，接受 2020 与 2022–2027、继续拒绝 2021，报错文案改为 `years must contain distinct supported Revit years: 2020 or 2022 through 2027.`；`docs/batch.md` 与 `server/README.md` 的年份说明同步，测试补了 `years=[2020]` 正例与 2019、`[2020, 2021]` 反例。修复后的通道实测：`years: [2020]` 通过年份校验、走到实例检查才停下（当时 Revit 已退出，回报 `Running instances: none running.`），`[2021]` 与 `[2020, 2021]` 仍被新文案拒绝，证据 `output/acceptance/2020b/b9q-d8fix.json`。
+
+界面取证（computer use）：Revit 2020 主窗口 2560×1389、pid 12212；跑一条 `revit_create_level(name: UI-2020B, elevation_mm: 23456)` 后，右侧 MCP activity 面板逐条显示 `Created level 1 level`、`Ran execute-code`、`Synchronizing with central … This document has no central…`（`failed` 标记）、`Exported NWC +7`、`Aligned datums to link +9`、`Aligning datums to link dry run`、`Closed the document`，与本轮接口回报的 `summary`、`+9`（新建 9 个基准）、`failed` 一一对得上。面板文案是英文，且是刻意的：`src/RevitModelMcp.Addin/Activity/PaneText.cs` 的类型注释写明 `Activity pane and ribbon text; English in every Revit UI language.`，所以 Revit 界面语言是中文时面板仍显示英文，本轮没有改动这一点。截图 `output/acceptance/2020b/ui-activity-panel.png`。
+证据在 `output/acceptance/2020b/`（`b9a-link.json` 到 `b9p-cancel.json`、`ui-activity-panel.png`），汇总报告是 `output/acceptance/2020b/2020b-report.md`。
 
 !!! note "历史记录，不是本次新增验证"
     本页保留英文原文的日期、构建与真机检查范围。翻译工作没有执行新的 Revit 验证，也不将构建通过等同于真机行为已验证。

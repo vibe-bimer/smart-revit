@@ -41,7 +41,25 @@ internal static class ForkLighting
     internal static View ResolveForLighting(Document document, string? reference)
     {
         var view = Resolve(document, reference);
-        if (ReadSunSettings(view) is null)
+        SunAndShadowSettings? settings = null;
+        try
+        {
+            settings = view.SunAndShadowSettings;
+        }
+        catch (Autodesk.Revit.Exceptions.ArgumentException)
+        {
+            // Revit 2020 hands back a settings element whose id is -1 for a default 3D view; touching it raises
+            // "The document contains no element with the id -1." instead of a reason a caller can act on.
+            throw new ArgumentException(
+                $"View '{view.Name}' carries sun and shadow settings that Revit does not store as an element, " +
+                "so this workstation cannot change its lighting through the API.");
+        }
+        catch (Autodesk.Revit.Exceptions.InvalidOperationException)
+        {
+            settings = null;
+        }
+
+        if (settings is null)
         {
             throw new ArgumentException(
                 $"View '{view.Name}' is a {view.ViewType} view and has no sun and shadow settings to change.");
@@ -110,9 +128,10 @@ internal static class ForkLighting
         var settings = ReadSunSettings(view);
         if (settings is not null)
         {
-            var type = settings.SunAndShadowType;
+            var type = SunAndShadowType.Lighting;
+            ReadIfAvailable(() => type = settings.SunAndShadowType);
             facts.SunType = type.ToString();
-            facts.SunSettingsShared = settings.SharesSettings;
+            ReadIfAvailable(() => facts.SunSettingsShared = settings.SharesSettings);
             ReadIfAvailable(() => facts.Shadows = settings.Visible);
             ReadIfAvailable(() =>
             {
@@ -436,6 +455,11 @@ internal static class ForkLighting
         }
         catch (Autodesk.Revit.Exceptions.ArgumentException)
         {
+        }
+        catch (System.InvalidOperationException)
+        {
+            // Nice3point's ElementId lookup raises for an unset id (a 3D view has no ground plane level, so the
+            // stored id is -1), and an optional reading must stay absent rather than fail the whole call.
         }
     }
 

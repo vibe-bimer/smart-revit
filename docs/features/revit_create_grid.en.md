@@ -6,7 +6,7 @@ description: "Create a straight grid from two points, or a three-point arc throu
 
 `revit_create_grid`
 
-<p class="facts"><span><b>Group</b> Editing</span><span><b>Kind</b> Action (opt-in)</span><span><b>Since</b> 0.10.0</span><span><b>Version</b> Unreleased (1.0.0)</span><span><b>Same-name tool on the integration branch</b> No</span><span><b>This contract applies to the release</b> Yes</span><span><b>Effect</b> Model elements / parameters</span><span><b>Origin</b> Fork (this repository)</span></p>
+<p class="facts"><span><b>Group</b> Editing</span><span><b>Kind</b> Action (opt-in)</span><span><b>Since</b> 0.10.0</span><span><b>Version</b> Released 1.0.0</span><span><b>Same-name tool on the development line</b> Yes</span><span><b>This contract applies to the release</b> Yes</span><span><b>Effect</b> Model elements / parameters</span><span><b>Origin</b> Fork (this repository)</span></p>
 
 Create a straight grid from two points, or a three-point arc through a mid point
 
@@ -15,6 +15,8 @@ Create a straight grid from two points, or a three-point arc through a mid point
 
 !!! note "Usage notes"
     A grid with the same name is refused; the curve stays on the horizontal plane and three collinear points cannot form an arc
+
+[Same-name development line page](../platform/revit_create_grid.md)
 
 ## Copyable prompts {#prompts}
 
@@ -59,7 +61,7 @@ verification block without changing the model.
 | Revit year | Validation |
 | --- | --- |
 | 2020 | <span class="state ok">Validated live</span> |
-| 2026 | <span class="state part">Build only, not live-tested</span> |
+| 2026 | <span class="state ok">Validated live</span> |
 | 2022–2025 / 2027 | <span class="state part">Build only, not live-tested</span> |
 
 Validated live means an execution was recorded on a real workstation. Build only means compilation passed, not live functional validation. Revit 2021 is outside this project's build targets.

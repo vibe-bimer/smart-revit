@@ -6,7 +6,7 @@ description: "Read displayed schedule header and body cell text, with paging. A 
 
 `revit_schedule_data`
 
-<p class="facts"><span><b>Group</b> Query and totals</span><span><b>Kind</b> Read</span><span><b>Base and fork tools</b> Base (upstream)</span><span><b>Status</b> Unreleased (integration branch)</span><span><b>Release version</b> 1.0.0</span><span><b>Source branch</b> <code>integration/upstream-1.0</code></span><span><b>Source commit</b> <code>55d6ea51f5100b73faf6f02621b973642f12b08e</code></span><span><b>Same-name tool in the release</b> Yes, with identical parameters</span><span><b>This contract applies to the release</b> No</span></p>
+<p class="facts"><span><b>Group</b> Query and totals</span><span><b>Kind</b> Read</span><span><b>Base and fork tools</b> Base (upstream)</span><span><b>Status</b> Unreleased (development line)</span><span><b>Release version</b> 1.0.0</span><span><b>Source branch</b> <code>feat/gitlab-pages</code></span><span><b>Source commit</b> <code>50baa705e8da63327ab2bff1e544c76252fddbc9</code></span><span><b>Same-name tool in the release</b> Yes, with identical parameters</span><span><b>This contract applies to the release</b> No</span></p>
 
 [Same-name release page](../features/revit_schedule_data.md)
 
@@ -20,8 +20,8 @@ The same-name tool has an identical contract to release 1.0.0.
 
 | Parameter {scope=col} | Required {scope=col} | Default {scope=col} | Type {scope=col} | Meaning {scope=col} |
 | --- | :--: | --- | --- | --- |
-| `max_rows` | No | `500` | integer | (not documented in the branch contract) |
-| `offset` | No | `0` | integer | (not documented in the branch contract) |
+| `max_rows` | No | `500` | integer | (not documented in the development-line contract) |
+| `offset` | No | `0` | integer | (not documented in the development-line contract) |
 | `schedule` | Yes | — | string | Exact schedule name or decimal Revit view ID. (Use the id when two schedules share a name.) |
 
 </div>

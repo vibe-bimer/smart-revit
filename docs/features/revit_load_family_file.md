@@ -6,7 +6,7 @@ description: "从工作站载入一个族文件：整族，或只载入指定类
 
 `revit_load_family_file`
 
-<p class="facts"><span><b>分组</b> 族</span><span><b>类型</b> 动作（需授权）</span><span><b>起始版本</b> 0.10.0</span><span><b>版本</b> 未发布（1.0.0）</span><span><b>集成分支有同名工具</b> 没有</span><span><b>本页契约适用于发布版</b> 是</span><span><b>影响范围</b> 模型构件 / 参数</span><span><b>来源</b> 自研（本仓库）</span></p>
+<p class="facts"><span><b>分组</b> 族</span><span><b>类型</b> 动作（需授权）</span><span><b>起始版本</b> 0.10.0</span><span><b>版本</b> 已发布 1.0.0</span><span><b>开发线有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span><span><b>影响范围</b> 模型构件 / 参数</span><span><b>来源</b> 自研（本仓库）</span></p>
 
 从工作站载入一个族文件：整族，或只载入指定类型
 
@@ -15,6 +15,8 @@ description: "从工作站载入一个族文件：整族，或只载入指定类
 
 !!! note "使用提示"
     总是带族载入选项，不会弹出 Revit 自己的对话框；已有族复用，参数值默认不覆盖；路径不存在时报最近匹配。底座另有批量的 `revit_load_family`（收 `paths` 列表），本工具是单文件、可只取一个类型
+
+[同名开发线页面](../platform/revit_load_family_file.md)
 
 ## 可复制提示词 {#prompts}
 
@@ -62,7 +64,7 @@ description: "从工作站载入一个族文件：整族，或只载入指定类
 | Revit 年份 | 验证状态 |
 | --- | --- |
 | 2020 | <span class="state ok">已实测</span> |
-| 2026 | <span class="state part">仅构建，未实测</span> |
+| 2026 | <span class="state ok">已实测</span> |
 | 2022–2025 / 2027 | <span class="state part">仅构建，未实测</span> |
 
 已实测表示记录过真机执行；仅构建表示通过编译，不代表已完成真机功能验证。Revit 2021 不在本项目构建范围。

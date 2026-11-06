@@ -32,6 +32,8 @@ public static class ForkRegistry
             $"{(context.DryRun ? "Would create" : "Created")} a beam in {Subject(context)}.");
         Register("place-hosted-family", "Placed hosted family", "Placing hosted family", "family", "families",
             context => $"{(context.DryRun ? "Would place" : "Placed")} a hosted family in {Subject(context)}.");
+        Register("copy-elements", "Copied elements", "Copying elements", "element", "elements", context =>
+            $"{(context.DryRun ? "Would copy" : "Copied")} {Plural(context.Count, "element")} in {Subject(context)}.");
         Register("set-phase", "Set element phase", "Setting element phase", "element", "elements", context =>
             $"{(context.DryRun ? "Would set" : "Set")} the phase of {Plural(context.Count, "element")} in {Subject(context)}.");
         Register("merge-phases", "Merged phases", "Merging phases", null, null, context =>

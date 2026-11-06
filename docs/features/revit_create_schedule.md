@@ -6,14 +6,14 @@ description: "为单个类别按命名字段和顺序创建明细表，支持筛
 
 `revit_create_schedule`
 
-<p class="facts"><span><b>分组</b> 图纸与明细表</span><span><b>类型</b> 动作（需授权）</span><span><b>起始版本</b> 1.0.0</span><span><b>版本</b> 未发布（1.0.0）</span><span><b>集成分支有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span><span><b>影响范围</b> 模型构件 / 参数</span></p>
+<p class="facts"><span><b>分组</b> 图纸与明细表</span><span><b>类型</b> 动作（需授权）</span><span><b>起始版本</b> 1.0.0</span><span><b>版本</b> 已发布 1.0.0</span><span><b>开发线有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span><span><b>影响范围</b> 模型构件 / 参数</span></p>
 
 为单个类别按命名字段和顺序创建明细表，支持筛选与排序分组；dry_run 会回滚
 
 !!! warning "动作工具默认允许，只读需显式开启"
     动作默认允许；机器策略 `ReadOnly`、工作站 `read-only` 文件或 `REVIT_MCP_READ_ONLY=1` 三者任一打开即拒绝动作（全新安装的机器策略默认只读）。动作连接必须指向单一 Revit 实例；实例中有多个文档时，用 `document` 明确目标。选择、显示和隔离还要求目标文档处于活动状态。
 
-[同名集成分支页面](../platform/revit_create_schedule.md)
+[同名开发线页面](../platform/revit_create_schedule.md)
 
 ## 可复制提示词 {#prompts}
 
@@ -30,10 +30,10 @@ description: "为单个类别按命名字段和顺序创建明细表，支持筛
 | `category` | 是 | — | `string` | 要创建明细表的构件类别名称 |
 | `fields` | 是 | — | `array<string>` | 要返回或写入的字段；缺省用该工具的常用字段 |
 | `dry_run` | 否 | `false` | `boolean` | 彩排：执行后回滚，返回同样的校验块，不写模型 |
-| `filters` | 否 | `null` | `array<any> / null` | 明细表筛选条件列表，按字段、运算符和值 |
+| `filters` | 否 | `null` | `array<object> / null` | 明细表筛选条件列表，按字段、运算符和值 |
 | `itemized` | 否 | `true` | `boolean` | 是否将相同行逐条列出 |
 | `name` | 否 | `null` | `string / null` | 新明细表的名称 |
-| `sort` | 否 | `null` | `array<any> / null` | 排序与分组规则列表，含字段与升降序 |
+| `sort` | 否 | `null` | `array<object> / null` | 排序与分组规则列表，含字段与升降序 |
 
 </div>
 
@@ -64,7 +64,7 @@ description: "为单个类别按命名字段和顺序创建明细表，支持筛
 
 | Revit 年份 | 验证状态 |
 | --- | --- |
-| 2020 | <span class="state part">仅构建，未实测</span> |
+| 2020 | <span class="state ok">已实测</span> |
 | 2026 | <span class="state part">仅构建，未实测</span> |
 | 2022–2025 / 2027 | <span class="state part">仅构建，未实测</span> |
 

@@ -251,7 +251,10 @@ public static class ActionJobParser
                 foreach (var step in job.Steps!)
                 {
                     var stepCommand = step?.Command ?? string.Empty;
-                    Require(stepCommand is "move" or "rotate" or "copy" or "mirror" or "change-type" or "update-parameters" or "place-family" or "load-family" or "create-wall" or "create-mep-run" or "set-parameter" or "delete" or "select" or "isolate" or "override-graphics" or "create-view" or "duplicate-view" or "apply-view-template" or "create-sheet",
+                    // Fork actions are batch steps too: the registry is the single list of them (adr/0004),
+                    // so the batch keeps no second copy that can fall behind.
+                    Require(stepCommand is "move" or "rotate" or "copy" or "mirror" or "change-type" or "update-parameters" or "place-family" or "load-family" or "place-families" or "create-wall" or "create-mep-run" or "set-parameter" or "delete" or "select" or "isolate" or "override-graphics" or "create-view" or "duplicate-view" or "apply-view-template" or "create-sheet"
+                        || Fork.ForkRegistry.IsAction(stepCommand),
                         "Unknown batch step.");
                     var parsed = Parse(stepCommand, step!, trustedNetworkRoots);
                     Require(parsed.Error is null, $"Step {action.Steps.Count}: {parsed.Error}");

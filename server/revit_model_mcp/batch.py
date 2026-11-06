@@ -35,6 +35,8 @@ from revit_model_mcp.ssh_host import RemoteCommandError, SshPowerShellHost
 
 BATCH_TOOL = ToolAnnotations(readOnlyHint=True, destructiveHint=False, idempotentHint=False)
 RUN_ID = re.compile(r"[0-9a-f]{32}\Z")
+# The add-in ships R20 and R22 through R27; 2021 has no build, so the supervisor never finds it.
+BATCH_YEARS = frozenset((2020, *range(2022, 2028)))
 
 
 def _file_host(host: object) -> SshPowerShellHost:
@@ -86,10 +88,12 @@ def _years(years: list[int] | None) -> list[int]:
     if (
         not isinstance(years, list)
         or not years
-        or any(type(year) is not int or year < 2022 or year > 2027 for year in years)
+        or any(type(year) is not int or year not in BATCH_YEARS for year in years)
         or len(set(years)) != len(years)
     ):
-        raise ToolError("years must contain distinct Revit years from 2022 through 2027.")
+        raise ToolError(
+            "years must contain distinct supported Revit years: 2020 or 2022 through 2027."
+        )
     return years
 
 

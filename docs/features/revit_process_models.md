@@ -6,14 +6,14 @@ description: "在交互会话中逐个打开模型执行步骤和 C# 代码并�
 
 `revit_process_models`
 
-<p class="facts"><span><b>分组</b> 编辑</span><span><b>类型</b> 动作（需授权）</span><span><b>起始版本</b> 1.0.0</span><span><b>版本</b> 未发布（1.0.0）</span><span><b>集成分支有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span><span><b>影响范围</b> 模型构件 / 参数</span></p>
+<p class="facts"><span><b>分组</b> 编辑</span><span><b>类型</b> 动作（需授权）</span><span><b>起始版本</b> 1.0.0</span><span><b>版本</b> 已发布 1.0.0</span><span><b>开发线有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span><span><b>影响范围</b> 模型构件 / 参数</span></p>
 
 在交互会话中逐个打开模型执行步骤和 C# 代码并按需导出保存；原地保存与代码需 confirm_token 确认
 
 !!! warning "动作工具默认允许，只读需显式开启"
     动作默认允许；机器策略 `ReadOnly`、工作站 `read-only` 文件或 `REVIT_MCP_READ_ONLY=1` 三者任一打开即拒绝动作（全新安装的机器策略默认只读）。动作连接必须指向单一 Revit 实例；实例中有多个文档时，用 `document` 明确目标。选择、显示和隔离还要求目标文档处于活动状态。
 
-[同名集成分支页面](../platform/revit_process_models.md)
+[同名开发线页面](../platform/revit_process_models.md)
 
 ## 可复制提示词 {#prompts}
 
@@ -27,18 +27,18 @@ description: "在交互会话中逐个打开模型执行步骤和 C# 代码并�
 
 | 参数 {scope=col} | 必填 {scope=col} | 默认值 {scope=col} | 类型 {scope=col} | 说明 {scope=col} |
 | --- | :--: | --- | --- | --- |
-| `code` | 否 | `null` | `any / null` | 要在每个模型中运行的 C# 代码，含事务方式 |
+| `code` | 否 | `null` | `object / null` | 要在每个模型中运行的 C# 代码，含事务方式 |
 | `confirm_token` | 否 | `null` | `string / null` | 首次调用返回的令牌，用于第二次确认调用 |
 | `dry_run` | 否 | `false` | `boolean` | 彩排：执行后回滚，返回同样的校验块，不写模型 |
-| `exports` | 否 | `null` | `array<any> / null` | 对每个模型执行的导出请求列表 |
+| `exports` | 否 | `null` | `array<object> / null` | 对每个模型执行的导出请求列表 |
 | `folder` | 否 | `null` | `string / null` | 要处理的模型文件夹 |
-| `open` | 否 | `null` | `any / null` | 打开每个模型的方式，含模式与工作集设置 |
+| `open` | 否 | `null` | `object / null` | 打开每个模型的方式，含模式与工作集设置 |
 | `paths` | 否 | `null` | `array<string> / null` | 要处理的模型路径列表 |
 | `pattern` | 否 | `"*.rvt"` | `string` | 文件名匹配模式，以 `.rvt` 结尾 |
 | `process_id` | 否 | `null` | `integer / null` | 在多个运行实例中选定的目标 Revit 进程 ID |
 | `recursive` | 否 | `false` | `boolean` | 是否递归处理文件夹中的子目录 |
-| `save` | 否 | `null` | `any / null` | 保存设置，模式为 `none`、`output_dir` 或 `in_place` |
-| `steps` | 否 | `null` | `array<any> / null` | 1–50 个动作步骤；任一步首次失败都整体回滚 |
+| `save` | 否 | `null` | `object / null` | 保存设置，模式为 `none`、`output_dir` 或 `in_place` |
+| `steps` | 否 | `null` | `array<object> / null` | 1–50 个动作步骤；任一步首次失败都整体回滚 |
 | `stop_on_error` | 否 | `false` | `boolean` | 遇到错误时是否停止处理 |
 
 </div>
@@ -66,7 +66,7 @@ description: "在交互会话中逐个打开模型执行步骤和 C# 代码并�
 
 | Revit 年份 | 验证状态 |
 | --- | --- |
-| 2020 | <span class="state part">仅构建，未实测</span> |
+| 2020 | <span class="state ok">已实测</span> |
 | 2026 | <span class="state part">仅构建，未实测</span> |
 | 2022–2025 / 2027 | <span class="state part">仅构建，未实测</span> |
 

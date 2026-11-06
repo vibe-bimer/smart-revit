@@ -6,11 +6,11 @@ description: "Read displayed schedule header and body cell text, with paging"
 
 `revit_schedule_data`
 
-<p class="facts"><span><b>Group</b> Sheets and schedules</span><span><b>Kind</b> Read (read-only)</span><span><b>Since</b> 1.0.0</span><span><b>Version</b> Unreleased (1.0.0)</span><span><b>Same-name tool on the integration branch</b> Yes</span><span><b>This contract applies to the release</b> Yes</span></p>
+<p class="facts"><span><b>Group</b> Sheets and schedules</span><span><b>Kind</b> Read (read-only)</span><span><b>Since</b> 1.0.0</span><span><b>Version</b> Released 1.0.0</span><span><b>Same-name tool on the development line</b> Yes</span><span><b>This contract applies to the release</b> Yes</span></p>
 
 Read displayed schedule header and body cell text, with paging
 
-[Same-name integration branch page](../platform/revit_schedule_data.md)
+[Same-name development line page](../platform/revit_schedule_data.md)
 
 ## Copyable prompts {#prompts}
 
@@ -52,7 +52,7 @@ Read displayed schedule header and body cell text, with paging. A non-empty skip
 
 | Revit year | Validation |
 | --- | --- |
-| 2020 | <span class="state part">Build only, not live-tested</span> |
+| 2020 | <span class="state ok">Validated live</span> |
 | 2026 | <span class="state part">Build only, not live-tested</span> |
 | 2022–2025 / 2027 | <span class="state part">Build only, not live-tested</span> |
 

@@ -1579,6 +1579,25 @@
       "networkAccess": "none"
     },
     {
+      "name": "revit_copy_elements",
+      "description": "Copy elements into the same model, keeping their hosts.\n\ntarget_level copies onto that level's height instead of the vertical offset; the horizontal\noffsets always add on top. A hosted element needs its host in element_ids, because the copy\nis one batch and this server never leaves a hosted element without a host.",
+      "toolset": "actions",
+      "access": "modifying",
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false
+      },
+      "irreversible": false,
+      "confirmation": {
+        "required": "never"
+      },
+      "fileSystem": {
+        "access": "none"
+      },
+      "networkAccess": "none"
+    },
+    {
       "name": "revit_set_phase",
       "description": "Set the creation and demolition phase of elements.\n\nAn empty string clears a phase and null leaves it alone; at least one must be given.\ndry_run returns the same verification block without changing the model.",
       "toolset": "actions",

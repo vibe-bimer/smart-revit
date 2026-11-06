@@ -23,8 +23,8 @@ Upstream is the base. The fork is a thin layer on top of it.
 1. The base is the upstream commit `760bb7c`, the tip of `upstream/main` at the time of this decision. It carries v1.0.0 plus eleven post-release fixes, three of which sit on error paths used daily. The base is recorded as a full SHA, never a branch name.
 2. The eight fork actions are rewritten against the upstream contracts. They are not merged, not cherry-picked, and not ported file by file.
 3. Fork code lives only in `src/RevitModelMcp.Core/Fork/`, `src/RevitModelMcp.Addin/Fork/` and `server/revit_model_mcp/fork_actions.py`.
-4. The fork touches upstream files only at seven named dispatch hooks plus one Python registration line.
-5. "Thin" is a number, not a feeling: at most 80 changed lines across those hooks. The prototype measured the anchor set at 35, so 80 leaves a factor of two.
+4. The fork touches upstream files only at the nine named hook sites plus one Python registration line (amended by ADR 0008: two read-side sites joined the original seven dispatch hooks).
+5. "Thin" is a number, not a feeling: at most 119 changed lines across those hooks. The bound started at 80 — the prototype measured the anchor set at 35 — rose to 94 when the Revit 2020 build added the 2020-only PDF-export refusal and the element-id set filter inside `Control/ActionCommandExecutor.cs` (4f161e7), and to 119 when the batch validator and supervisor were ruled part of the layer (ef67187; see the 2026-11-05 update in ADR 0008).
 6. Re-syncing means merging upstream into the fork. With the fork confined to fallback branches, conflicts land in the hooks and nowhere else.
 
 ## Consequences

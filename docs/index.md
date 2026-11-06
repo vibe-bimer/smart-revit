@@ -16,7 +16,7 @@ hide:
       <p class="rmc-hero__lede">把 Autodesk Revit 模型接到 AI 助手上：查参数与几何、统计构件、检查模型、导出清单、编辑构件，以及复制模型并换新 ID。默认只读，动作需要双门禁。</p>
       <p class="rmc-hero__actions">
         <a class="rmc-btn rmc-btn--primary" href="server/">开始安装</a>
-        <a class="rmc-btn" href="features/">浏览 92 个功能</a>
+        <a class="rmc-btn" href="features/">浏览 93 个功能</a>
       </p>
     </div>
     <div class="rmc-hero__art"><svg class="rmc-frame" xmlns="http://www.w3.org/2000/svg" viewBox="8 52 620 400" role="img" aria-labelledby="rmc-frame-title">
@@ -84,7 +84,7 @@ hide:
     </div>
     <div class="rmc-spec__cell">
       <dt>动作工具</dt>
-      <dd>57</dd>
+      <dd>58</dd>
       <p>需双门禁授权</p>
     </div>
     <div class="rmc-spec__cell">
@@ -104,14 +104,14 @@ hide:
   <header class="rmc-section__head">
     <span class="rmc-section__num" aria-hidden="true">↗</span>
     <h2 class="rmc-section__title">新版底座与移植进展</h2>
-    <p class="rmc-section__lede">当前网站的 92 个工具对应现有版本。新版正在独立分支上集成，尚未作为当前版本发布。</p>
-    <a class="rmc-section__link" href="platform/">按基座与自研查阅 80 个工具</a>
-    <a class="rmc-section__link" href="https://github.com/vibe-bimer/revit-model-mcp/issues/27">查看集成规格与进展</a>
+    <p class="rmc-section__lede">当前网站的 93 个工具取自当前代码树；上游 1.0 底座与 fork 层已在主线合流，1.0.0 已发布，跨标高复制这类后续工具还在往主线合。</p>
+    <a class="rmc-section__link" href="platform/">按基座与自研查阅 93 个工具</a>
+    <a class="rmc-section__link" href="http://192.168.100.165:8929/vibe-bimer/revit-model-mcp/-/issues/15">查看集成规格与进展</a>
   </header>
   <ul class="rmc-development">
-    <li>上游底座包含文档管理、视图与图纸、族和链接、模型导出、批处理等能力；集成分支的工具清单目前有 80 项。</li>
-    <li>视图光照工具已完成 Python 工具注册和测试；C# 编译与 Revit 真机验证尚待完成。</li>
-    <li>楼板、标高、阶段设置与合并、构件 ID 导出、重置和模型重建仍待移植。Revit 2020 和 2026 均为目标工作站年份。</li>
+    <li>上游底座包含文档管理、视图与图纸、族和链接、模型导出、批处理等能力；平台目录的 93 项工具快照取自当前开发线，该线尚未发布。</li>
+    <li>视图光照工具在 Revit 2020 与 2026 两个年份都完成了验收。</li>
+    <li>楼板、标高、阶段设置与合并、构件 ID 导出、重置和模型重建八条动作已随 fork 层移植，并在这两个年份完成验收；此后又新增轴网、载入族、结构柱、宿主族、梁与跨标高复制。</li>
   </ul>
 </section>
 
@@ -179,7 +179,7 @@ hide:
   <header class="rmc-section__head">
     <span class="rmc-section__num" aria-hidden="true">02</span>
     <h2 class="rmc-section__title">能力范围</h2>
-    <p class="rmc-section__lede">按场景分成 13 组，共 92 个工具。每个工具页都有用途、参数、返回结果与限制。</p>
+    <p class="rmc-section__lede">按场景分成 13 组，共 93 个工具。每个工具页都有用途、参数、返回结果与限制。</p>
     <a class="rmc-section__link" href="features/">功能总览</a>
   </header>
   <div class="rmc-caps">
@@ -229,7 +229,7 @@ hide:
           <span class="rmc-cap__name">编辑</span>
           <span class="rmc-cap__desc">在 Revit 线程编译运行 C#，自动模式下自管一个事务与撤销记录</span>
         </span>
-        <span class="rmc-cap__count">21</span>
+        <span class="rmc-cap__count">22</span>
       </a>
       <a class="rmc-cap" href="features/#group-phases">
         <span class="rmc-cap__num" aria-hidden="true">07</span>
