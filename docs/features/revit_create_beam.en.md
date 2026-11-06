@@ -6,7 +6,7 @@ description: "Place a structural beam on a level along a given axis, with an opt
 
 `revit_create_beam`
 
-<p class="facts"><span><b>Group</b> Editing</span><span><b>Kind</b> Action (opt-in)</span><span><b>Since</b> 1.1.0</span><span><b>Version</b> Unreleased (1.0.0)</span><span><b>Same-name tool on the integration branch</b> Yes</span><span><b>This contract applies to the release</b> Yes</span><span><b>Effect</b> Model elements / parameters</span><span><b>Origin</b> Fork (this repository)</span></p>
+<p class="facts"><span><b>Group</b> Editing</span><span><b>Kind</b> Action (opt-in)</span><span><b>Since</b> 1.1.0</span><span><b>Version</b> Unreleased (1.0.0)</span><span><b>Same-name tool on the development line</b> Yes</span><span><b>This contract applies to the release</b> Yes</span><span><b>Effect</b> Model elements / parameters</span><span><b>Origin</b> Fork (this repository)</span></p>
 
 Place a structural beam on a level along a given axis, with an optional structural usage and vertical offset
 
@@ -16,7 +16,7 @@ Place a structural beam on a level along a given axis, with an optional structur
 !!! note "Usage notes"
     The curve-and-level overload is used and the axis is not snapped; the offset goes through the family's elevation parameters, counts only when the bounding box rises, moves the instance otherwise, and fails rather than leaving the beam on its level
 
-[Same-name integration branch page](../platform/revit_create_beam.md)
+[Same-name development line page](../platform/revit_create_beam.md)
 
 ## Copyable prompts {#prompts}
 

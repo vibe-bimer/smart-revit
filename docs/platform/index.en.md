@@ -1,5 +1,5 @@
 ---
-description: "Complete tool list of the integration branch (the upstream 1.0 base plus this repository's fork tools), grouped with purpose, parameters and contract differences."
+description: "Complete tool list of the development line (the upstream 1.0 base plus this repository's fork tools), grouped with purpose, parameters and contract differences."
 ---
 
 # Platform tool catalog

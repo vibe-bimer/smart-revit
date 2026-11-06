@@ -2,7 +2,7 @@
 """Declarative catalog manifest: version, status, provenance, ownership and language coverage.
 
 The documentation publishes two tool catalogs side by side: the released surface under
-docs/features and the unreleased integration branch under docs/platform. Everything that
+docs/features and the unreleased development line under docs/platform. Everything that
 distinguishes them is data in tools/site/content/catalogs.yaml, so no generator or checker
 hard-codes a version string, a branch name, a tool count or a fork tool name.
 
@@ -236,7 +236,7 @@ def audit(root: Path | None = None) -> None:
     prov = provenance(root)
     if integration_catalog.branch != prov.get("branch"):
         raise SystemExit(
-            f"catalogs.yaml integration branch {integration_catalog.branch!r} "
+            f"catalogs.yaml development line {integration_catalog.branch!r} "
             f"disagrees with platform-tools.json provenance {prov.get('branch')!r}"
         )
     commit = str(prov.get("commit", ""))

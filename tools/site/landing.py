@@ -281,7 +281,7 @@ def _prompt_card(text: dict, capabilities: dict, name: str, kind: str) -> str:
 
 
 def render_development(lang: str, released_count: int, branch_count: int) -> str:
-    """Describe the integration branch separately from the released tool catalog."""
+    """Describe the development line separately from the released tool catalog."""
     if lang == "zh":
         title = "新版底座与移植进展"
         intro = f"当前网站的 {released_count} 个工具取自当前代码树；上游 1.0 底座与 fork 层已在主线合流，1.0.0 已发布，跨标高复制这类后续工具还在往主线合。"
@@ -296,7 +296,7 @@ def render_development(lang: str, released_count: int, branch_count: int) -> str
         base = f"The upstream platform adds document management, views and sheets, families and links, export, and batch processing; the {branch_count}-tool snapshot in the platform catalog comes from the current development line, which no release carries yet."
         sample = "The view-lighting tool is live-validated on both Revit 2020 and 2026."
         pending = "The eight original actions — floor, level, phase setting and merging, element ID export and reset, and model rebuilding — shipped with the fork layer and are live-validated on both years; grid, family loading, column, hosted family, beam and cross-level copy followed."
-        source = "View the integration specification and progress"
+        source = "View the development line specification and progress"
         catalog = f"Browse the {branch_count} tools by origin"
     catalog_href = "platform/"
     return f'''<section class="rmc-section rmc-reveal" id="development-status">
@@ -488,7 +488,7 @@ def home_page(
 ) -> str:
     """Return the landing page for one language, ending with the literal text of its anchors.
 
-    ``branch_count`` is the number of tools on the integration branch. It is required
+    ``branch_count`` is the number of tools on the development line. It is required
     because the page states that count as a fact; defaulting it to this release's tool
     count would quietly claim the branch ships the same set.
     """

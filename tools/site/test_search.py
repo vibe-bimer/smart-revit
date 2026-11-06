@@ -222,7 +222,7 @@ class SearchIndexEnrichmentTests(unittest.TestCase):
                             {
                                 "location": "platform/revit_export_view/",
                                 "title": "导出视图为 PNG",
-                                "text": "未发布（集成分支）",
+                                "text": "未发布（开发线）",
                             },
                             {
                                 "location": "features/#group-views",

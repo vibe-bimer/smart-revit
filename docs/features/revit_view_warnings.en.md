@@ -6,11 +6,11 @@ description: "Read warnings involving elements present in a selected view"
 
 `revit_view_warnings`
 
-<p class="facts"><span><b>Group</b> Views and snapshots</span><span><b>Kind</b> Read (read-only)</span><span><b>Since</b> 0.4.0</span><span><b>Version</b> Released 1.0.0</span><span><b>Same-name tool on the integration branch</b> Yes</span><span><b>This contract applies to the release</b> Yes</span></p>
+<p class="facts"><span><b>Group</b> Views and snapshots</span><span><b>Kind</b> Read (read-only)</span><span><b>Since</b> 0.4.0</span><span><b>Version</b> Released 1.0.0</span><span><b>Same-name tool on the development line</b> Yes</span><span><b>This contract applies to the release</b> Yes</span></p>
 
 Read warnings involving elements present in a selected view
 
-[Same-name integration branch page](../platform/revit_view_warnings.md)
+[Same-name development line page](../platform/revit_view_warnings.md)
 
 ## Copyable prompts {#prompts}
 

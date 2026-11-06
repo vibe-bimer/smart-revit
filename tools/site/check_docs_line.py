@@ -27,7 +27,7 @@ REQUIRED_FILES: tuple[tuple[str, str], ...] = (
     ("docs/overrides/main.html", "the metadata overrides"),
     ("docs/index.md", "the site landing page"),
     ("docs/features/index.md", "the released tool index"),
-    ("docs/platform/index.md", "the integration branch tool index"),
+    ("docs/platform/index.md", "the development line tool index"),
     ("docs/requirements.txt", "the hashed documentation dependencies"),
     ("tools/site/check_site.py", "the site auditor"),
     ("tools/site/generate_features.py", "the page generator"),

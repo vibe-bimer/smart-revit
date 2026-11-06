@@ -334,9 +334,9 @@ class FeatureGeneratorTests(unittest.TestCase):
             integration["revit_export_view"],
         )
         self.assertIn("(../platform/revit_export_view.md)", page)
-        # The main server and the integration branch now agree on this contract, so the
+        # The main server and the development line now agree on this contract, so the
         # auto diff section is not required; the twin link still has to be.
-        self.assertIn("集成分支有同名工具", page)
+        self.assertIn("开发线有同名工具", page)
         self.assertIn("output_path", page)
 
     def test_released_page_without_twin_has_no_diff_section(self):
@@ -466,7 +466,7 @@ class FrontmatterDescriptionTests(unittest.TestCase):
         # Issue 53: the three development bullets claimed the fork actions were
         # still pending; the eight original actions shipped with the fork layer
         # and are live-validated on both Revit 2020 and 2026, and the
-        # integration branch has merged into main as 1.0.0.
+        # development line has merged into main as 1.0.0.
         for lang, landed, validated, stale, link in (
             (
                 "zh",

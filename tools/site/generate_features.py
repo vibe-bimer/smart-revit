@@ -79,8 +79,8 @@ LABELS = {
         "entry": "目录",
         "platform_page": "新版基座工具目录",
         "objects": "按模型对象浏览",
-        "objects_intro": "视图相关工具按操作的模型对象再分一次：视图、图纸、明细表与视口显示。现有版本没有覆盖的对象组会指向集成分支的同类工具。",
-        "branch_tools": "集成分支有 {count} 个同类工具",
+        "objects_intro": "视图相关工具按操作的模型对象再分一次：视图、图纸、明细表与视口显示。现有版本没有覆盖的对象组会指向开发线的同类工具。",
+        "branch_tools": "开发线有 {count} 个同类工具",
         "index": "功能总览",
         "matrix": "版本支持矩阵",
         "prompts_page": "提示词库",
@@ -98,15 +98,15 @@ LABELS = {
         "version": "版本",
         "released": "已发布",
         "unreleased": "未发布",
-        "twin_fact": "集成分支有同名工具",
+        "twin_fact": "开发线有同名工具",
         "applies_fact": "本页契约适用于发布版",
         "applies_yes": "是",
         "twin_yes": "有",
         "twin_no": "没有",
-        "twin_link": "同名集成分支页面",
-        "contract_diff": "与集成分支的契约差异",
+        "twin_link": "同名开发线页面",
+        "contract_diff": "与开发线的契约差异",
         "contract_diff_intro": "下表由注册表 inputSchema 自动比较得出，不是手写清单。",
-        "contract_diff_note": "本页是发布版 {version} 的契约；集成分支上的同名工具参数不同，请勿混用。",
+        "contract_diff_note": "本页是发布版 {version} 的契约；开发线上的同名工具参数不同，请勿混用。",
         "legend": "已实测表示记录过真机执行；仅构建表示通过编译，不代表已完成真机功能验证。Revit 2021 不在本项目构建范围。",
         "index_desc": "当前发布版全部工具的功能总览，按分组列出每个工具的用途、参数与 Revit 年份支持。",
         "matrix_desc": "读取工具与动作工具在 Revit 2020、2026 及 2022–2027 上的验证状态矩阵。",
@@ -146,7 +146,7 @@ LABELS = {
         "platform_page": "Platform tool catalog",
         "objects": "Browse by model object",
         "objects_intro": "The view-related tools are split again by the model object they act on: views, sheets, schedules and viewport display. A row whose tools the release does not carry points at the same-named tools on the development line.",
-        "branch_tools": "The integration branch has {count} tools of this kind",
+        "branch_tools": "The development line has {count} tools of this kind",
         "index": "Feature overview",
         "matrix": "Version support matrix",
         "prompts_page": "Prompt library",
@@ -164,15 +164,15 @@ LABELS = {
         "version": "Version",
         "released": "Released",
         "unreleased": "Unreleased",
-        "twin_fact": "Same-name tool on the integration branch",
+        "twin_fact": "Same-name tool on the development line",
         "applies_fact": "This contract applies to the release",
         "applies_yes": "Yes",
         "twin_yes": "Yes",
         "twin_no": "No",
-        "twin_link": "Same-name integration branch page",
-        "contract_diff": "Contract differences from the integration branch",
+        "twin_link": "Same-name development line page",
+        "contract_diff": "Contract differences from the development line",
         "contract_diff_intro": "The list below is computed from the registry inputSchema; it is not a hand-written list.",
-        "contract_diff_note": "This page is the contract of release {version}; the same-name tool on the integration branch takes different parameters, so do not mix them.",
+        "contract_diff_note": "This page is the contract of release {version}; the same-name tool on the development line takes different parameters, so do not mix them.",
         "legend": "Validated live means an execution was recorded on a real workstation. Build only means compilation passed, not live functional validation. Revit 2021 is outside this project's build targets.",
         "index_desc": "Feature overview of every tool in the current release, grouped with each tool's purpose, parameters and Revit year support.",
         "matrix_desc": "Validation status matrix for read and action tools across Revit 2020, 2026 and 2022–2027.",
@@ -547,12 +547,12 @@ def index_page(
         branch_count = platform_catalog.snapshot()["count"]
     if lang == "zh":
         pointer = (
-            f"这一节是现有版本的 {len(tools)} 个工具。集成分支的 {branch_count} 个工具按基座与自研分开，见"
+            f"这一节是现有版本的 {len(tools)} 个工具。开发线的 {branch_count} 个工具按基座与自研分开，见"
             " [新版基座工具目录](../platform/index.md)。"
         )
     else:
         pointer = (
-            f"This section covers the {len(tools)} tools of the current release. The integration branch's"
+            f"This section covers the {len(tools)} tools of the current release. The development line's"
             f" {branch_count} tools, split into base and fork, are in the"
             " [platform tool catalog](../platform/index.md)."
         )

@@ -6,7 +6,7 @@ description: "Feature overview of every tool in the current release, grouped wit
 
 35 read + 58 action tools, 93 in total
 
-This section covers the 93 tools of the current release. The integration branch's 93 tools, split into base and fork, are in the [platform tool catalog](../platform/index.md).
+This section covers the 93 tools of the current release. The development line's 93 tools, split into base and fork, are in the [platform tool catalog](../platform/index.md).
 
 ## Version entries {#versions}
 

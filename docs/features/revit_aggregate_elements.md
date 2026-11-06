@@ -6,14 +6,14 @@ description: "按 1–2 个字段分组统计数量，可附加求和与平均�
 
 `revit_aggregate_elements`
 
-<p class="facts"><span><b>分组</b> 查询与统计</span><span><b>类型</b> 读取（只读）</span><span><b>起始版本</b> 0.1.0</span><span><b>版本</b> 已发布 1.0.0</span><span><b>集成分支有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span></p>
+<p class="facts"><span><b>分组</b> 查询与统计</span><span><b>类型</b> 读取（只读）</span><span><b>起始版本</b> 0.1.0</span><span><b>版本</b> 已发布 1.0.0</span><span><b>开发线有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span></p>
 
 按 1–2 个字段分组统计数量，可附加求和与平均（mm / m² / m³）
 
 !!! note "使用提示"
     回答“有多少”的首选，比逐条取明细快得多
 
-[同名集成分支页面](../platform/revit_aggregate_elements.md)
+[同名开发线页面](../platform/revit_aggregate_elements.md)
 
 ## 可复制提示词 {#prompts}
 

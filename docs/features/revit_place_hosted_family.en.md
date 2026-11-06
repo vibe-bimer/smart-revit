@@ -6,7 +6,7 @@ description: "Place a door or window on a wall, named or found nearby, and repor
 
 `revit_place_hosted_family`
 
-<p class="facts"><span><b>Group</b> Editing</span><span><b>Kind</b> Action (opt-in)</span><span><b>Since</b> 0.10.0</span><span><b>Version</b> Released 1.0.0</span><span><b>Same-name tool on the integration branch</b> Yes</span><span><b>This contract applies to the release</b> Yes</span><span><b>Effect</b> Model elements / parameters</span><span><b>Origin</b> Fork (this repository)</span></p>
+<p class="facts"><span><b>Group</b> Editing</span><span><b>Kind</b> Action (opt-in)</span><span><b>Since</b> 0.10.0</span><span><b>Version</b> Released 1.0.0</span><span><b>Same-name tool on the development line</b> Yes</span><span><b>This contract applies to the release</b> Yes</span><span><b>Effect</b> Model elements / parameters</span><span><b>Origin</b> Fork (this repository)</span></p>
 
 Place a door or window on a wall, named or found nearby, and report which wall it hangs on
 
@@ -16,7 +16,7 @@ Place a door or window on a wall, named or found nearby, and report which wall i
 !!! note "Usage notes"
     The nearby search only looks at walls of the placement level; a host that is not a wall, a point outside host_search_radius_mm or two equally near walls are refused with the candidates; level-based families belong to revit_place_family; rotation_deg is only 0, flip_facing turns the family around; nothing is attached
 
-[Same-name integration branch page](../platform/revit_place_hosted_family.md)
+[Same-name development line page](../platform/revit_place_hosted_family.md)
 
 ## Copyable prompts {#prompts}
 

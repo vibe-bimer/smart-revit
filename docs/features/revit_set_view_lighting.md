@@ -6,7 +6,7 @@ description: "设置视图的阴影、太阳位置与强度、地面平面、背
 
 `revit_set_view_lighting`
 
-<p class="facts"><span><b>分组</b> 视图与截图</span><span><b>类型</b> 动作（需授权）</span><span><b>起始版本</b> 0.10.0</span><span><b>版本</b> 已发布 1.0.0</span><span><b>集成分支有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span><span><b>影响范围</b> 模型构件 / 参数</span><span><b>来源</b> 自研（本仓库）</span></p>
+<p class="facts"><span><b>分组</b> 视图与截图</span><span><b>类型</b> 动作（需授权）</span><span><b>起始版本</b> 0.10.0</span><span><b>版本</b> 已发布 1.0.0</span><span><b>开发线有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span><span><b>影响范围</b> 模型构件 / 参数</span><span><b>来源</b> 自研（本仓库）</span></p>
 
 设置视图的阴影、太阳位置与强度、地面平面、背景和渲染光源方案
 
@@ -16,7 +16,7 @@ description: "设置视图的阴影、太阳位置与强度、地面平面、背
 !!! note "使用提示"
     阳光与阴影设置属于视图；共享设置时改动会传递到共享该设置的其他视图，阴影开关在共享设置下不可用
 
-[同名集成分支页面](../platform/revit_set_view_lighting.md)
+[同名开发线页面](../platform/revit_set_view_lighting.md)
 
 ## 可复制提示词 {#prompts}
 

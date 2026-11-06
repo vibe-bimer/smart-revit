@@ -6,14 +6,14 @@ description: "Load .rfa family files on the workstation in a single undo entry"
 
 `revit_load_family`
 
-<p class="facts"><span><b>Group</b> Families</span><span><b>Kind</b> Action (opt-in)</span><span><b>Since</b> 1.0.0</span><span><b>Version</b> Released 1.0.0</span><span><b>Same-name tool on the integration branch</b> Yes</span><span><b>This contract applies to the release</b> Yes</span><span><b>Effect</b> Model elements / parameters</span></p>
+<p class="facts"><span><b>Group</b> Families</span><span><b>Kind</b> Action (opt-in)</span><span><b>Since</b> 1.0.0</span><span><b>Version</b> Released 1.0.0</span><span><b>Same-name tool on the development line</b> Yes</span><span><b>This contract applies to the release</b> Yes</span><span><b>Effect</b> Model elements / parameters</span></p>
 
 Load .rfa family files on the workstation in a single undo entry
 
 !!! warning "Actions are allowed by default; read-only is explicit"
     Actions are allowed unless one of three switches is on: the machine policy `ReadOnly`, the workstation `read-only` file, or `REVIT_MCP_READ_ONLY=1`. A fresh install ships with the machine policy read-only. The action connection must address one Revit instance; use `document` when it has multiple open documents. Selection, navigation and isolation also require the target document to be active.
 
-[Same-name integration branch page](../platform/revit_load_family.md)
+[Same-name development line page](../platform/revit_load_family.md)
 
 ## Copyable prompts {#prompts}
 

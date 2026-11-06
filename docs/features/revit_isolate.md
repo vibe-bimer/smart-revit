@@ -6,7 +6,7 @@ description: "临时隔离显示（reset=true 恢复）"
 
 `revit_isolate`
 
-<p class="facts"><span><b>分组</b> 选中与显示</span><span><b>类型</b> 动作（需授权）</span><span><b>起始版本</b> 0.2.0</span><span><b>版本</b> 已发布 1.0.0</span><span><b>集成分支有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span><span><b>影响范围</b> 选择 / 视图状态</span></p>
+<p class="facts"><span><b>分组</b> 选中与显示</span><span><b>类型</b> 动作（需授权）</span><span><b>起始版本</b> 0.2.0</span><span><b>版本</b> 已发布 1.0.0</span><span><b>开发线有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span><span><b>影响范围</b> 选择 / 视图状态</span></p>
 
 临时隔离显示（reset=true 恢复）
 
@@ -16,7 +16,7 @@ description: "临时隔离显示（reset=true 恢复）"
 !!! note "使用提示"
     临时效果，不写模型
 
-[同名集成分支页面](../platform/revit_isolate.md)
+[同名开发线页面](../platform/revit_isolate.md)
 
 ## 可复制提示词 {#prompts}
 

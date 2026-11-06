@@ -6,7 +6,7 @@ description: "Copy elements inside one model and keep their hosts; every element
 
 `revit_copy_elements`
 
-<p class="facts"><span><b>Group</b> Editing</span><span><b>Kind</b> Action (opt-in)</span><span><b>Since</b> 1.1.0</span><span><b>Version</b> Unreleased (1.0.0)</span><span><b>Same-name tool on the integration branch</b> Yes</span><span><b>This contract applies to the release</b> Yes</span><span><b>Effect</b> Model elements / parameters</span><span><b>Origin</b> Fork (this repository)</span></p>
+<p class="facts"><span><b>Group</b> Editing</span><span><b>Kind</b> Action (opt-in)</span><span><b>Since</b> 1.1.0</span><span><b>Version</b> Unreleased (1.0.0)</span><span><b>Same-name tool on the development line</b> Yes</span><span><b>This contract applies to the release</b> Yes</span><span><b>Effect</b> Model elements / parameters</span><span><b>Origin</b> Fork (this repository)</span></p>
 
 Copy elements inside one model and keep their hosts; every element reports its old id to its new id
 
@@ -16,7 +16,7 @@ Copy elements inside one model and keep their hosts; every element reports its o
 !!! note "Usage notes"
     A hosted element needs its host in the same request or the batch is refused with both ids, because Revit deletes a hosted copy that finds no host; copying destroys nothing, so a refusal is reported per element; CopyElements promises no order, so pairs are proven by category, type and position and the mapping is marked unverified when a pair cannot be proven
 
-[Same-name integration branch page](../platform/revit_copy_elements.md)
+[Same-name development line page](../platform/revit_copy_elements.md)
 
 ## Copyable prompts {#prompts}
 

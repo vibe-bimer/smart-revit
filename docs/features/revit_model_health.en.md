@@ -6,11 +6,11 @@ description: "Check file size, model counts, units and frequent warnings"
 
 `revit_model_health`
 
-<p class="facts"><span><b>Group</b> Export and checks</span><span><b>Kind</b> Read (read-only)</span><span><b>Since</b> 0.2.0</span><span><b>Version</b> Released 1.0.0</span><span><b>Same-name tool on the integration branch</b> Yes</span><span><b>This contract applies to the release</b> Yes</span></p>
+<p class="facts"><span><b>Group</b> Export and checks</span><span><b>Kind</b> Read (read-only)</span><span><b>Since</b> 0.2.0</span><span><b>Version</b> Released 1.0.0</span><span><b>Same-name tool on the development line</b> Yes</span><span><b>This contract applies to the release</b> Yes</span></p>
 
 Check file size, model counts, units and frequent warnings
 
-[Same-name integration branch page](../platform/revit_model_health.md)
+[Same-name development line page](../platform/revit_model_health.md)
 
 ## Copyable prompts {#prompts}
 

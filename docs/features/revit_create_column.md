@@ -6,7 +6,7 @@ description: "在指定标高的点上放一根结构柱，柱顶给标高或给
 
 `revit_create_column`
 
-<p class="facts"><span><b>分组</b> 编辑</span><span><b>类型</b> 动作（需授权）</span><span><b>起始版本</b> 0.10.0</span><span><b>版本</b> 已发布 1.0.0</span><span><b>集成分支有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span><span><b>影响范围</b> 模型构件 / 参数</span><span><b>来源</b> 自研（本仓库）</span></p>
+<p class="facts"><span><b>分组</b> 编辑</span><span><b>类型</b> 动作（需授权）</span><span><b>起始版本</b> 0.10.0</span><span><b>版本</b> 已发布 1.0.0</span><span><b>开发线有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span><span><b>影响范围</b> 模型构件 / 参数</span><span><b>来源</b> 自研（本仓库）</span></p>
 
 在指定标高的点上放一根结构柱，柱顶给标高或给高度（mm）
 
@@ -16,7 +16,7 @@ description: "在指定标高的点上放一根结构柱，柱顶给标高或给
 !!! note "使用提示"
     顶底标高与偏移由工具自己写（set_parameter 拒绝 ElementId 参数）；不做附着，柱顶只能给标高或高度
 
-[同名集成分支页面](../platform/revit_create_column.md)
+[同名开发线页面](../platform/revit_create_column.md)
 
 ## 可复制提示词 {#prompts}
 

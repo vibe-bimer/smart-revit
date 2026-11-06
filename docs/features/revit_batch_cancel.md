@@ -6,11 +6,11 @@ description: "持久化取消状态，阻止批量任务中未启动的模型继
 
 `revit_batch_cancel`
 
-<p class="facts"><span><b>分组</b> 批量作业</span><span><b>类型</b> 读取（只读）</span><span><b>起始版本</b> 1.0.0</span><span><b>版本</b> 已发布 1.0.0</span><span><b>集成分支有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span></p>
+<p class="facts"><span><b>分组</b> 批量作业</span><span><b>类型</b> 读取（只读）</span><span><b>起始版本</b> 1.0.0</span><span><b>版本</b> 已发布 1.0.0</span><span><b>开发线有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span></p>
 
 持久化取消状态，阻止批量任务中未启动的模型继续运行
 
-[同名集成分支页面](../platform/revit_batch_cancel.md)
+[同名开发线页面](../platform/revit_batch_cancel.md)
 
 ## 可复制提示词 {#prompts}
 

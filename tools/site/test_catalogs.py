@@ -1,7 +1,7 @@
 """Tests for the declarative catalog manifest: versions, status, provenance, ownership, languages.
 
 The manifest is the single place that knows which catalog is released, which one is the
-integration branch, where the release version lives and which pages are promised in which
+development line, where the release version lives and which pages are promised in which
 languages. The generators and the site checker only consume it, so a drift here is a quiet
 wrong page, which is exactly what these tests guard.
 """

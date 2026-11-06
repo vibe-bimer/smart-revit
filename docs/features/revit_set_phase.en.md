@@ -6,7 +6,7 @@ description: "Assign created/demolished phases; an empty string clears and null 
 
 `revit_set_phase`
 
-<p class="facts"><span><b>Group</b> Phases</span><span><b>Kind</b> Action (opt-in)</span><span><b>Since</b> 0.3.0</span><span><b>Version</b> Released 1.0.0</span><span><b>Same-name tool on the integration branch</b> Yes</span><span><b>This contract applies to the release</b> Yes</span><span><b>Effect</b> Model elements / parameters</span><span><b>Origin</b> Fork (this repository)</span></p>
+<p class="facts"><span><b>Group</b> Phases</span><span><b>Kind</b> Action (opt-in)</span><span><b>Since</b> 0.3.0</span><span><b>Version</b> Released 1.0.0</span><span><b>Same-name tool on the development line</b> Yes</span><span><b>This contract applies to the release</b> Yes</span><span><b>Effect</b> Model elements / parameters</span><span><b>Origin</b> Fork (this repository)</span></p>
 
 Assign created/demolished phases; an empty string clears and null leaves unchanged
 
@@ -16,7 +16,7 @@ Assign created/demolished phases; an empty string clears and null leaves unchang
 !!! note "Usage notes"
     The phase order API exists from 2022; 2020 uses a fallback. Phase names are Revit UI strings, so in the example demolished_phase="现有" the value is the Chinese label of the Existing phase.
 
-[Same-name integration branch page](../platform/revit_set_phase.md)
+[Same-name development line page](../platform/revit_set_phase.md)
 
 ## Copyable prompts {#prompts}
 

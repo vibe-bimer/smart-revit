@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the platform catalog: the integration branch, split by origin.
+"""Generate the platform catalog: the development line, split by origin.
 
 The released tool pages under docs/features come from tools.json, which is dumped from the
 released server. This module documents the other catalog: the tool surface of branch
@@ -67,7 +67,7 @@ GROUP_LABELS = {
     },
 }
 
-# Chinese page content for every tool on the integration branch. The English page uses the
+# Chinese page content for every tool on the development line. The English page uses the
 # tool's own description, which is the authoritative text the server ships.
 ZH = {
     "revit_change_type": (
@@ -444,7 +444,7 @@ ZH = {
     ),
 }
 
-# Tools this fork owns. Only the grafted ones exist on the integration branch.
+# Tools this fork owns. Only the grafted ones exist on the development line.
 FORK_TOOLS = catalogs.fork_tools()
 
 LABELS = {
@@ -599,7 +599,7 @@ LABELS = {
         "group_index": "Browse by group",
         "fork_status": "Migration status",
         "count_line": "{total} tools: {base} base and {fork} fork; {read} read and {action} action.",
-        "index_desc": "Complete tool list of the integration branch (the upstream 1.0 base plus this repository's fork tools), grouped with purpose, parameters and contract differences.",
+        "index_desc": "Complete tool list of the development line (the upstream 1.0 base plus this repository's fork tools), grouped with purpose, parameters and contract differences.",
         "fork_desc": "Migration status of this repository's {total} fork tools onto the new base: {grafted} attached, {pending} queued.",
     },
 }
