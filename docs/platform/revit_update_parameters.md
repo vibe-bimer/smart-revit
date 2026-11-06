@@ -23,7 +23,7 @@ description: "对符合同一查询条件的构件更新同一个参数，组成
 | 参数 {scope=col} | 必填 {scope=col} | 默认值 {scope=col} | 类型 {scope=col} | 说明 {scope=col} |
 | --- | :--: | --- | --- | --- |
 | `dry_run` | 否 | `false` | boolean | 只排练：执行后回滚，返回同样的验证块。 |
-| `filters` | 是 | — |  | （开发线契约未提供说明） |
+| `filters` | 是 | — | object | （开发线契约未提供说明） |
 | `include_type_parameters` | 否 | `false` | boolean | （开发线契约未提供说明） |
 | `max_elements` | 否 | `5000` | integer | （开发线契约未提供说明） |
 | `parameter` | 是 | — | string | （开发线契约未提供说明） |

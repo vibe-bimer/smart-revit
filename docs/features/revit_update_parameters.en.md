@@ -27,7 +27,7 @@ Set the Comments parameter to "to be checked" on all level 1 walls; predict the 
 
 | Parameter {scope=col} | Required {scope=col} | Default {scope=col} | Type {scope=col} | Meaning {scope=col} |
 | --- | :--: | --- | --- | --- |
-| `filters` | Yes | — | `any` | element filters in the same shape as revit_query_elements |
+| `filters` | Yes | — | `object` | element filters in the same shape as revit_query_elements |
 | `parameter` | Yes | — | `string` | parameter name as the model reports it |
 | `value` | Yes | — | `string / integer / number` | value to write; lengths in millimetres, areas in m², other doubles in internal units |
 | `dry_run` | No | `false` | `boolean` | rehearse: execute, return the same verification block, then roll back |

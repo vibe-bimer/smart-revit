@@ -27,7 +27,7 @@ description: "一次执行最多 50 个动作，共用一个撤销记录，首�
 
 | 参数 {scope=col} | 必填 {scope=col} | 默认值 {scope=col} | 类型 {scope=col} | 说明 {scope=col} |
 | --- | :--: | --- | --- | --- |
-| `steps` | 是 | — | `array<any>` | 1–50 个动作步骤；任一步首次失败都整体回滚 |
+| `steps` | 是 | — | `array<object>` | 1–50 个动作步骤；任一步首次失败都整体回滚 |
 | `dry_run` | 否 | `false` | `boolean` | 彩排：执行后回滚，返回同样的校验块，不写模型 |
 
 </div>

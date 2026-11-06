@@ -24,7 +24,7 @@ description: "读取 schema v1 项目快照用于批量审计（只读；关闭�
 
 | 参数 {scope=col} | 必填 {scope=col} | 默认值 {scope=col} | 类型 {scope=col} | 说明 {scope=col} |
 | --- | :--: | --- | --- | --- |
-| `parameter_rules` | 否 | `null` | `array<any> / null` | 快照中参数的取值规则 |
+| `parameter_rules` | 否 | `null` | `array<object> / null` | 快照中参数的取值规则 |
 | `process_id` | 否 | `null` | `integer / null` | 多个运行实例中选定的目标 Revit 进程 |
 
 </div>

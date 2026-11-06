@@ -30,10 +30,10 @@ Create a schedule for the Doors category with fields Mark, Level, Count in that 
 | `category` | Yes | — | `string` | category name the schedule is created for |
 | `fields` | Yes | — | `array<string>` | fields to return or write; the tool picks its usual ones by default |
 | `dry_run` | No | `false` | `boolean` | rehearse: execute, return the same verification block, then roll back |
-| `filters` | No | `null` | `array<any> / null` | schedule filters by field, operator and value |
+| `filters` | No | `null` | `array<object> / null` | schedule filters by field, operator and value |
 | `itemized` | No | `true` | `boolean` | Whether identical rows are kept separate. |
 | `name` | No | `null` | `string / null` | name of the new schedule |
-| `sort` | No | `null` | `array<any> / null` | sort and grouping rules, each with a field and a direction |
+| `sort` | No | `null` | `array<object> / null` | sort and grouping rules, each with a field and a direction |
 
 </div>
 

@@ -24,7 +24,7 @@ Export a model snapshot of the current project for a batch audit
 
 | Parameter {scope=col} | Required {scope=col} | Default {scope=col} | Type {scope=col} | Meaning {scope=col} |
 | --- | :--: | --- | --- | --- |
-| `parameter_rules` | No | `null` | `array<any> / null` | value rules applied to parameters in the snapshot |
+| `parameter_rules` | No | `null` | `array<object> / null` | value rules applied to parameters in the snapshot |
 | `process_id` | No | `null` | `integer / null` | Revit process ID; takes precedence over document. |
 
 </div>

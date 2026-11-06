@@ -27,18 +27,18 @@ description: "在交互会话中逐个打开模型执行步骤和 C# 代码并�
 
 | 参数 {scope=col} | 必填 {scope=col} | 默认值 {scope=col} | 类型 {scope=col} | 说明 {scope=col} |
 | --- | :--: | --- | --- | --- |
-| `code` | 否 | `null` | `any / null` | 要在每个模型中运行的 C# 代码，含事务方式 |
+| `code` | 否 | `null` | `object / null` | 要在每个模型中运行的 C# 代码，含事务方式 |
 | `confirm_token` | 否 | `null` | `string / null` | 首次调用返回的令牌，用于第二次确认调用 |
 | `dry_run` | 否 | `false` | `boolean` | 彩排：执行后回滚，返回同样的校验块，不写模型 |
-| `exports` | 否 | `null` | `array<any> / null` | 对每个模型执行的导出请求列表 |
+| `exports` | 否 | `null` | `array<object> / null` | 对每个模型执行的导出请求列表 |
 | `folder` | 否 | `null` | `string / null` | 要处理的模型文件夹 |
-| `open` | 否 | `null` | `any / null` | 打开每个模型的方式，含模式与工作集设置 |
+| `open` | 否 | `null` | `object / null` | 打开每个模型的方式，含模式与工作集设置 |
 | `paths` | 否 | `null` | `array<string> / null` | 要处理的模型路径列表 |
 | `pattern` | 否 | `"*.rvt"` | `string` | 文件名匹配模式，以 `.rvt` 结尾 |
 | `process_id` | 否 | `null` | `integer / null` | 在多个运行实例中选定的目标 Revit 进程 ID |
 | `recursive` | 否 | `false` | `boolean` | 是否递归处理文件夹中的子目录 |
-| `save` | 否 | `null` | `any / null` | 保存设置，模式为 `none`、`output_dir` 或 `in_place` |
-| `steps` | 否 | `null` | `array<any> / null` | 1–50 个动作步骤；任一步首次失败都整体回滚 |
+| `save` | 否 | `null` | `object / null` | 保存设置，模式为 `none`、`output_dir` 或 `in_place` |
+| `steps` | 否 | `null` | `array<object> / null` | 1–50 个动作步骤；任一步首次失败都整体回滚 |
 | `stop_on_error` | 否 | `false` | `boolean` | 遇到错误时是否停止处理 |
 
 </div>

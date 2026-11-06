@@ -27,7 +27,7 @@ Export these 20 views to PDF in one go
 
 | Parameter {scope=col} | Required {scope=col} | Default {scope=col} | Type {scope=col} | Meaning {scope=col} |
 | --- | :--: | --- | --- | --- |
-| `steps` | Yes | — | `array<any>` | one to fifty action steps; the batch rolls back when a step fails |
+| `steps` | Yes | — | `array<object>` | one to fifty action steps; the batch rolls back when a step fails |
 | `dry_run` | No | `false` | `boolean` | rehearse: execute, return the same verification block, then roll back |
 
 </div>

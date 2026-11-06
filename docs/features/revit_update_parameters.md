@@ -27,7 +27,7 @@ description: "按与 revit_query_elements 相同的筛选条件更新图元参�
 
 | 参数 {scope=col} | 必填 {scope=col} | 默认值 {scope=col} | 类型 {scope=col} | 说明 {scope=col} |
 | --- | :--: | --- | --- | --- |
-| `filters` | 是 | — | `any` | 与 `revit_query_elements` 相同的构件筛选条件 |
+| `filters` | 是 | — | `object` | 与 `revit_query_elements` 相同的构件筛选条件 |
 | `parameter` | 是 | — | `string` | 参数名（本地化名称） |
 | `value` | 是 | — | `string / integer / number` | 要写入的值（长度 mm、面积 m²，其余按内部单位） |
 | `dry_run` | 否 | `false` | `boolean` | 彩排：执行后回滚，返回同样的校验块，不写模型 |

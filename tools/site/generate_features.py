@@ -295,11 +295,23 @@ def parameter_meaning(
     raise SystemExit(f"Missing {lang} parameter meaning: {tool['name']}.{name}")
 
 
-def schema_type(spec: dict) -> str:
+def schema_type(spec: dict, defs: dict | None = None) -> str:
+    """The type a parameter table shows, following a `$ref` into the tool's own `$defs`.
+
+    A pydantic model arrives as `{"$ref": "#/$defs/Name"}` and carries no inline `type`;
+    answering `any` for it says the contract places no constraint, which is false.
+    """
+    if "$ref" in spec:
+        target = (defs or {}).get(str(spec["$ref"]).rsplit("/", 1)[-1])
+        return schema_type(target, defs) if isinstance(target, dict) else "any"
     if "anyOf" in spec:
-        return " / ".join(schema_type(item) for item in spec["anyOf"])
+        return " / ".join(schema_type(item, defs) for item in spec["anyOf"])
     kind = spec.get("type", "any")
-    return f"array<{schema_type(spec.get('items', {}))}>" if kind == "array" else kind
+    return (
+        f"array<{schema_type(spec.get('items', {}), defs)}>"
+        if kind == "array"
+        else kind
+    )
 
 
 def table_rows(tool: dict, common: bool, capabilities: dict, lang: str) -> list[str]:
@@ -322,7 +334,7 @@ def table_rows(tool: dict, common: bool, capabilities: dict, lang: str) -> list[
             "|", "\\|"
         )
         rows.append(
-            f"| `{name}` | {labels['yes'] if name in required else labels['no']} | {default} | `{schema_type(spec)}` | {meaning} |"
+            f"| `{name}` | {labels['yes'] if name in required else labels['no']} | {default} | `{schema_type(spec, schema.get('$defs'))}` | {meaning} |"
         )
     return rows
 

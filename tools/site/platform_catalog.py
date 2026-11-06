@@ -749,6 +749,23 @@ def parameter_meaning(name: str, spec: dict, lang: str) -> str:
     return " ".join(str(meaning).split())
 
 
+def schema_kind(spec: dict, defs: dict) -> str:
+    """The type a parameter table shows, following a `$ref` into the tool's own `$defs`.
+
+    A pydantic model arrives as `{"$ref": "#/$defs/Name"}`, which carries no inline `type`;
+    reading only that field left the cell empty, and empty reads as "no type" rather than
+    "object". A `$ref` that cannot be resolved still shows nothing, since guessing would be
+    worse than the gap.
+    """
+    if "$ref" in spec:
+        name = str(spec["$ref"]).rsplit("/", 1)[-1]
+        target = defs.get(name)
+        return schema_kind(target, defs) if isinstance(target, dict) else ""
+    if "anyOf" in spec:
+        return "any"
+    return spec.get("type") or ""
+
+
 def _parameter_rows(tool: dict, common: bool, lang: str) -> tuple[list[str], bool]:
     """Render the rows and report whether any of them carries a real Meaning text.
 
@@ -765,7 +782,7 @@ def _parameter_rows(tool: dict, common: bool, lang: str) -> tuple[list[str], boo
         required = "是" if lang == "zh" else "Yes"
         if name not in tool["inputSchema"].get("required", []):
             required = "否" if lang == "zh" else "No"
-        kind = spec.get("type") or ("any" if "anyOf" in spec else "")
+        kind = schema_kind(spec, tool["inputSchema"].get("$defs", {}))
         cells.append(
             (
                 name,

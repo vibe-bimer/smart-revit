@@ -497,5 +497,45 @@ class FrontmatterDescriptionTests(unittest.TestCase):
                 )
 
 
+class SchemaTypeTests(unittest.TestCase):
+    """A parameter declared as a $ref must report the type it points at.
+
+    `revit_update_parameters.filters` is `{"$ref": "#/$defs/UpdateFilters"}`. Without
+    following it the type cell reads `any`, which is wrong twice: it is an object, and
+    `any` tells a reader the contract places no constraint on it.
+    """
+
+    def test_a_ref_parameter_reports_its_target_type(self):
+        schema = {
+            "$defs": {"Inner": {"type": "object"}},
+            "properties": {"f": {"$ref": "#/$defs/Inner"}},
+        }
+        self.assertEqual(
+            generate_features.schema_type(schema["properties"]["f"], schema["$defs"]),
+            "object",
+        )
+
+    def test_a_ref_without_a_target_keeps_the_old_answer(self):
+        schema = {"$defs": {}, "properties": {"f": {"$ref": "#/$defs/Missing"}}}
+        self.assertEqual(
+            generate_features.schema_type(schema["properties"]["f"], schema["$defs"]),
+            "any",
+        )
+
+    def test_the_shipped_feature_page_shows_the_filters_type(self):
+        for suffix in ("", ".en"):
+            path = (
+                platform_catalog.ROOT
+                / "docs"
+                / "features"
+                / f"revit_update_parameters{suffix}.md"
+            )
+            page = path.read_text(encoding="utf-8")
+            row = next(
+                line for line in page.splitlines() if line.startswith("| `filters`")
+            )
+            self.assertIn("`object`", row, row)
+
+
 if __name__ == "__main__":
     unittest.main()

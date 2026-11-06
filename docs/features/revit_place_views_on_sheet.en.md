@@ -28,7 +28,7 @@ Place the Level 1 Plan view on sheet A101 at (300, 200)
 | Parameter {scope=col} | Required {scope=col} | Default {scope=col} | Type {scope=col} | Meaning {scope=col} |
 | --- | :--: | --- | --- | --- |
 | `sheet` | Yes | — | `string` | name of the sheet that receives the views |
-| `views` | Yes | — | `array<any>` | Views to place, each with a view reference and sheet coordinates. |
+| `views` | Yes | — | `array<object>` | Views to place, each with a view reference and sheet coordinates. |
 | `dry_run` | No | `false` | `boolean` | rehearse: execute, return the same verification block, then roll back |
 
 </div>

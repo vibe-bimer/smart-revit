@@ -332,3 +332,48 @@ class ParameterDefaultTests(unittest.TestCase):
             if "| None |" in content
         ]
         self.assertEqual(offenders, [])
+
+
+class ParameterTypeTests(unittest.TestCase):
+    """A parameter declared as a $ref must still show its type.
+
+    `revit_update_parameters.filters` points at `#/$defs/UpdateFilters`. Reading only the
+    inline `type` left the cell empty, which a reader takes as "no type" rather than
+    "object"; the features page guessed `any` for the same reason.
+    """
+
+    def synthetic(self):
+        return {
+            "name": "revit_synthetic",
+            "inputSchema": {
+                "$defs": {
+                    "Inner": {"type": "object", "properties": {"a": {"type": "string"}}}
+                },
+                "properties": {"filters": {"$ref": "#/$defs/Inner"}},
+                "required": ["filters"],
+            },
+        }
+
+    def test_a_ref_parameter_reports_the_type_it_points_at(self):
+        rows = platform_catalog.parameter_rows(
+            self.synthetic(), common=False, lang="en"
+        )
+        self.assertEqual(len(rows), 1)
+        self.assertIn("| object |", rows[0], rows[0])
+
+    def test_the_real_page_shows_the_filters_type(self):
+        files = platform_catalog.generate()
+        for lang in ("en", "zh"):
+            suffix = ".en" if lang == "en" else ""
+            page = files[
+                platform_catalog.ROOT
+                / "docs"
+                / "platform"
+                / f"revit_update_parameters{suffix}.md"
+            ]
+            row = next(
+                line for line in page.splitlines() if line.startswith("| `filters`")
+            )
+            self.assertIn(
+                "| object |", row, f"{lang} page lost the filters type: {row}"
+            )

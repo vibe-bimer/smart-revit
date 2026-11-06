@@ -28,7 +28,7 @@ description: "把视图和明细表布置到图纸上，坐标为图纸毫米"
 | 参数 {scope=col} | 必填 {scope=col} | 默认值 {scope=col} | 类型 {scope=col} | 说明 {scope=col} |
 | --- | :--: | --- | --- | --- |
 | `sheet` | 是 | — | `string` | 要放置视图的图纸名称 |
-| `views` | 是 | — | `array<any>` | 要放置的视图列表，含视图引用与图纸坐标 |
+| `views` | 是 | — | `array<object>` | 要放置的视图列表，含视图引用与图纸坐标 |
 | `dry_run` | 否 | `false` | `boolean` | 彩排：执行后回滚，返回同样的校验块，不写模型 |
 
 </div>

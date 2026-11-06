@@ -27,18 +27,18 @@ Batch-open the models under D:/models, export PNGs and save as new files instead
 
 | Parameter {scope=col} | Required {scope=col} | Default {scope=col} | Type {scope=col} | Meaning {scope=col} |
 | --- | :--: | --- | --- | --- |
-| `code` | No | `null` | `any / null` | C# code to run in each model, with its transaction mode |
+| `code` | No | `null` | `object / null` | C# code to run in each model, with its transaction mode |
 | `confirm_token` | No | `null` | `string / null` | token returned by the first call, sent in the second confirming call |
 | `dry_run` | No | `false` | `boolean` | rehearse: execute, return the same verification block, then roll back |
-| `exports` | No | `null` | `array<any> / null` | Export requests applied to each processed model. |
+| `exports` | No | `null` | `array<object> / null` | Export requests applied to each processed model. |
 | `folder` | No | `null` | `string / null` | folder of models to process |
-| `open` | No | `null` | `any / null` | how each model is opened, with mode and workset settings |
+| `open` | No | `null` | `object / null` | how each model is opened, with mode and workset settings |
 | `paths` | No | `null` | `array<string> / null` | paths of the models to process |
 | `pattern` | No | `"*.rvt"` | `string` | File name pattern ending in .rvt. |
 | `process_id` | No | `null` | `integer / null` | Revit process ID of the instance to process |
 | `recursive` | No | `false` | `boolean` | whether subfolders of the folder are included |
-| `save` | No | `null` | `any / null` | save settings: `none`, `output_dir` or `in_place` |
-| `steps` | No | `null` | `array<any> / null` | one to fifty action steps; the batch rolls back when a step fails |
+| `save` | No | `null` | `object / null` | save settings: `none`, `output_dir` or `in_place` |
+| `steps` | No | `null` | `array<object> / null` | one to fifty action steps; the batch rolls back when a step fails |
 | `stop_on_error` | No | `false` | `boolean` | Whether processing stops at the first error. |
 
 </div>

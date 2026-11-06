@@ -28,7 +28,7 @@ Create a floor plan named Level 3 Plan at scale 1:100
 | Parameter {scope=col} | Required {scope=col} | Default {scope=col} | Type {scope=col} | Meaning {scope=col} |
 | --- | :--: | --- | --- | --- |
 | `kind` | Yes | — | `string` | view kind: `floor_plan`, `ceiling_plan`, `structural_plan`, `section`, `3d` or `drafting` |
-| `box` | No | `null` | `any / null` | View box with min_mm and max_mm model coordinates. |
+| `box` | No | `null` | `object / null` | View box with min_mm and max_mm model coordinates. |
 | `detail_level` | No | `null` | `string / null` | detail level of the new view |
 | `display_style` | No | `null` | `string / null` | display style of the view: hidden_line, shaded, consistent_colors or realistic |
 | `dry_run` | No | `false` | `boolean` | rehearse: execute, return the same verification block, then roll back |

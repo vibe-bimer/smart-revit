@@ -21,7 +21,7 @@ The same-name tool has an identical contract to release 1.0.0.
 | Parameter {scope=col} | Required {scope=col} | Default {scope=col} | Type {scope=col} |
 | --- | :--: | --- | --- |
 | `dry_run` | No | `false` | boolean |
-| `filters` | Yes | — |  |
+| `filters` | Yes | — | object |
 | `include_type_parameters` | No | `false` | boolean |
 | `max_elements` | No | `5000` | integer |
 | `parameter` | Yes | — | string |

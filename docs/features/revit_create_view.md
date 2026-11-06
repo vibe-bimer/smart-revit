@@ -28,7 +28,7 @@ description: "创建平面、剖面、三维或详图视图；包围盒坐标为
 | 参数 {scope=col} | 必填 {scope=col} | 默认值 {scope=col} | 类型 {scope=col} | 说明 {scope=col} |
 | --- | :--: | --- | --- | --- |
 | `kind` | 是 | — | `string` | 视图类型：`floor_plan` 或 `ceiling_plan` 或 `structural_plan` 或 `section` 或 `3d` 或 `drafting` |
-| `box` | 否 | `null` | `any / null` | 视图裁剪框，含 `min_mm` 与 `max_mm` 模型坐标 |
+| `box` | 否 | `null` | `object / null` | 视图裁剪框，含 `min_mm` 与 `max_mm` 模型坐标 |
 | `detail_level` | 否 | `null` | `string / null` | 新视图的详细程度 |
 | `display_style` | 否 | `null` | `string / null` | 视图显示样式，如 `hidden_line` 或 `shaded` |
 | `dry_run` | 否 | `false` | `boolean` | 彩排：执行后回滚，返回同样的校验块，不写模型 |

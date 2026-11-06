@@ -27,10 +27,10 @@ description: "加载可选族并在一个事务与撤销项中放置实例"
 
 | 参数 {scope=col} | 必填 {scope=col} | 默认值 {scope=col} | 类型 {scope=col} | 说明 {scope=col} |
 | --- | :--: | --- | --- | --- |
-| `at_rooms` | 否 | `null` | `any / null` | 按房间放置族实例的规则，含族、类型、标高与房间 |
+| `at_rooms` | 否 | `null` | `object / null` | 按房间放置族实例的规则，含族、类型、标高与房间 |
 | `dry_run` | 否 | `false` | `boolean` | 彩排：执行后回滚，返回同样的校验块，不写模型 |
 | `load` | 否 | `null` | `array<string> / null` | 要加载的族文件 |
-| `placements` | 否 | `null` | `array<any> / null` | 要放置的族实例列表，含族名、类型与坐标 |
+| `placements` | 否 | `null` | `array<object> / null` | 要放置的族实例列表，含族名、类型与坐标 |
 | `stop_on_error` | 否 | `true` | `boolean` | 出错时是否停止继续放置 |
 
 </div>

@@ -27,10 +27,10 @@ Load the Double Door family, then place two instances in the meeting room
 
 | Parameter {scope=col} | Required {scope=col} | Default {scope=col} | Type {scope=col} | Meaning {scope=col} |
 | --- | :--: | --- | --- | --- |
-| `at_rooms` | No | `null` | `any / null` | Placement of one family instance per room, with family, type, level and rooms. |
+| `at_rooms` | No | `null` | `object / null` | Placement of one family instance per room, with family, type, level and rooms. |
 | `dry_run` | No | `false` | `boolean` | rehearse: execute, return the same verification block, then roll back |
 | `load` | No | `null` | `array<string> / null` | family file to load |
-| `placements` | No | `null` | `array<any> / null` | family instances to place, each with family, type and coordinates |
+| `placements` | No | `null` | `array<object> / null` | family instances to place, each with family, type and coordinates |
 | `stop_on_error` | No | `true` | `boolean` | stop placing instances at the first error |
 
 </div>
