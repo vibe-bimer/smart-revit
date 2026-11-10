@@ -23,7 +23,7 @@ No compatibility alias is added. A user who calls `revit_batch` gets a missing t
 
 The base's behaviour on batch semantics is now upstream's to define. If upstream changes the step limit or the rollback rule, the fork follows.
 
-The fork loses a name it introduced. Anything in this repository that says `revit_batch` in a tool-facing sense now says `revit_run_actions`; the C# command stays `batch`, and the supervisor tools keep their own names. `CONTEXT.md` records the four meanings so that the bare word stops appearing.
+The fork loses a name it introduced. Anything in this repository that says `revit_batch` in a tool-facing sense now says `revit_run_actions`; the C# command stays `batch`, and the supervisor tools keep their own names. `GLOSSARY.md` records the four meanings so that the bare word stops appearing.
 
 The step vocabulary is upstream's closed union. Fork actions become legal step names by extending that union once, in the fork layer, rather than by forking the tool.
 

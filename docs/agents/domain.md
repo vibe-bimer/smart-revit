@@ -2,11 +2,16 @@
 
 本页说明工程技能在探索代码库时，应如何使用本仓库的领域文档。
 
+<a id="layout"></a>
+## 布局：single-context
+
+本仓库是单上下文仓库（single-context）：全仓共用一份仓库根目录的 `GLOSSARY.md`，架构决策记录放在仓库根目录的 `adr/`。没有 `GLOSSARY-MAP.md`，也没有各子项目自己的词表。第一次真正写下词条时再建 `GLOSSARY.md` 的内容本体，本次初始化不预置空词表。
+
 <a id="before-exploring-read-these"></a>
 ## 探索前先阅读这些资料
 
-- 仓库根目录的 **`CONTEXT.md`**；或者
-- 若根目录存在 **`CONTEXT-MAP.md`**，先阅读它——它会指向每个上下文各自的 `CONTEXT.md`。阅读与当前主题相关的每一份。
+- 仓库根目录的 **`GLOSSARY.md`**。领域术语以它为准。
+- 若根目录存在 **`GLOSSARY-MAP.md`**，先读它——它指向每个上下文各自的 `GLOSSARY.md`。阅读与当前主题相关的每一份。（本仓库当前没有这个文件。）
 - **`adr/`**——阅读涉及即将工作区域的 ADR。本仓库把决策记录放在仓库根目录的 `adr/`，不放在 `docs/adr/`：`docs/` 下的每个页面都是要发布的中英双语站点页，而 ADR 是工程记录，只写英文、不进导航。下文示意图中的 `docs/adr/` 请按 `adr/` 理解。
 - **`docs/adr/`**——上游与本仓库都未使用该位置；若将来出现，按上下文专属决策处理。在多上下文仓库中，也要检查 `src/<context>/docs/adr/` 中限定于该上下文的决策。
 
@@ -15,36 +20,36 @@
 <a id="file-structure"></a>
 ## 文件结构
 
-单上下文仓库（大多数仓库）：
+单上下文仓库（本仓库属于这一类）：
 
 ```text
 /
-├── CONTEXT.md
-├── docs/adr/
-│   ├── 0001-event-sourced-orders.md
-│   └── 0002-postgres-for-write-model.md
+├── GLOSSARY.md
+├── adr/
+│   ├── 0001-base-on-upstream-with-a-bounded-fork-layer.md
+│   └── 0003-ship-read-only-by-default-through-the-policy.md
 └── src/
 ```
 
-多上下文仓库（根目录存在 `CONTEXT-MAP.md`）：
+多上下文仓库（根目录存在 `GLOSSARY-MAP.md` 时）：
 
 ```text
 /
-├── CONTEXT-MAP.md
+├── GLOSSARY-MAP.md
 ├── docs/adr/                          ← 系统级决策
 └── src/
     ├── ordering/
-    │   ├── CONTEXT.md
+    │   ├── GLOSSARY.md
     │   └── docs/adr/                  ← 上下文专属决策
     └── billing/
-        ├── CONTEXT.md
+        ├── GLOSSARY.md
         └── docs/adr/
 ```
 
 <a id="use-the-glossarys-vocabulary"></a>
 ## 使用词表中的术语
 
-当输出中需要命名领域概念时（例如 Issue 标题、重构提案、假设或测试名称），使用 `CONTEXT.md` 定义的术语。不要改用词表明确避免的同义词。
+当输出中需要命名领域概念时（例如 Issue 标题、重构提案、假设或测试名称），使用 `GLOSSARY.md` 定义的术语。不要改用词表明确避免的同义词。
 
 如果需要的概念尚未出现在词表中，这本身就是一个信号：要么正在创造项目并不使用的语言（需要重新考虑），要么确实存在词表缺口（记录下来，交给 `/domain-modeling`）。
 

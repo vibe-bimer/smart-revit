@@ -13,7 +13,7 @@ Issues and specs for this repo live as GitHub issues. Use the `gh` CLI for all o
 
 Infer the repo from `git remote -v` — `gh` does this automatically when run inside a clone.
 
-In this workspace `origin` is the fork `vibe-bimer/revit-model-mcp` and `upstream` is `sharafutdinovdi/revit-model-mcp`. Issues and tickets are tracked on the fork.
+In this workspace issues and tickets live in the GitHub repository `vibe-bimer/smart-revit`, which is this clone's `origin` remote. `gitlab` is the GitLab mirror `ssh://gitlab-lan/vibe-bimer/revit-model-mcp.git` and `upstream` is the old GitHub path `vibe-bimer/revit-model-mcp` — neither one is the issue tracker. Pass the repository on every call (`gh issue list -R vibe-bimer/smart-revit`), or run `gh repo set-default vibe-bimer/smart-revit` once so later commands land there.
 
 ## Pull requests as a triage surface
 
