@@ -4,8 +4,8 @@
 name: Release please
 
 on:
-  push:
-    branches: [main]
+  # The fork's maintainer writes CHANGELOG.md and the pyproject version by hand;
+  # release-please runs here only when dispatched explicitly.
   workflow_dispatch:
 
 permissions:
