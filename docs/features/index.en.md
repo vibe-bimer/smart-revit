@@ -14,7 +14,7 @@ This catalog records the released version. The platform catalog records the curr
 
 | | Released 1.0.0 | Development line |
 | --- | --- | --- |
-| Version | 1.0.0 | 1.0.0 Unreleased (development line) |
+| Version | 1.0.0 | 1.1.1 Unreleased (development line) |
 | Branch | main | `feat/gitlab-pages` |
 | Tool | 93 | 93 |
 | Catalog | index.md | [Platform tool catalog](../platform/index.md) |
