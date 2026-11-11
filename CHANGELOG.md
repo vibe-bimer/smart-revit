@@ -6,6 +6,18 @@ All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 Versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1](https://github.com/vibe-bimer/smart-revit/compare/v1.1.0...v1.1.1) (2026-11-11)
+
+
+### Bug Fixes
+
+* **ci:** give the release build the history the budget test needs ([cb6cce0](https://github.com/vibe-bimer/smart-revit/commit/cb6cce04648be2fa0e9e40704ed164c49caafb82))
+
+
+### Documentation
+
+* **release:** describe the release this fork actually runs ([a17e4ae](https://github.com/vibe-bimer/smart-revit/commit/a17e4aec51ff96ab18da14c23a2746c580513f0f))
+
 ## [1.1.0](https://github.com/vibe-bimer/smart-revit/compare/v1.0.0...v1.1.0) (2026-11-11)
 
 
