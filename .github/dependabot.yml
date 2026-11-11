@@ -38,9 +38,9 @@ updates:
     groups:
       all:
         patterns: ["*"]
-    ignore:
-      # pydantic pins its exact pydantic-core build; bump it together with pydantic.
-      - dependency-name: pydantic-core
+    # pydantic pins one exact pydantic-core build. Both stay in the "all" group, so a single
+    # pull request moves them together; ignoring pydantic-core instead leaves the pair out of
+    # step and the packaged exe fails to start.
     labels: [dependencies, server]
     commit-message:
       prefix: chore(deps)
