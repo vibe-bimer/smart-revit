@@ -1,6 +1,6 @@
 # 变更日志
 
-从 0.4.0 到 1.0.0，条目由 release-please 根据提交信息生成。本 fork 不推 GitHub 远端，release-please 不再运行；1.0.0 之后的版本节由维护者在打 tag 时手写。
+从 0.4.0 起，条目由 release-please 根据提交信息生成。本 fork 的 release-please 只在维护者手动调度时运行：合并它开出的发版 PR 即创建标签与 GitHub Release。
 
 本页记录本项目所有值得关注的变更。
 格式遵循 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)。
@@ -10,7 +10,51 @@
 !!! note "完整中文翻译与权威来源"
     本页逐条翻译英文 [CHANGELOG.md](CHANGELOG.md)，保留版本、日期、分类、Issue 和提交链接，不以摘要替代历史明细。英文日志是发布记录的权威来源；除维护者在打 tag 时新增版本节外，不得手工修改英文日志或版本字段。中文页仅翻译已记录的变更，不增加发布声明或真机验证结论。
 
-    从 1.0.0 起的条目目前只有英文版，中文翻译待补。维护者手写的版本节同样先写英文，再补中文。
+    中文页按英文日志的顺序补译，不增加发布声明；`1.0.0` 一节只有英文版，`1.1.0` 起按节同步。
+
+<a id="110-2026-11-11"></a>
+## [1.1.0](https://github.com/vibe-bimer/smart-revit/compare/v1.0.0...v1.1.0)（2026-11-11）
+
+<a id="110-features"></a>
+### 新功能
+
+* **actions：** 新增 `revit_copy_elements`（[bc2078c](https://github.com/vibe-bimer/smart-revit/commit/bc2078cff5501fd4b78803dcce120c165f825117)）。
+* **docs：** 把文档站发布到 GitLab Pages（[1f51282](https://github.com/vibe-bimer/smart-revit/commit/1f512820ab122e673c8cd16a64a6a80644ed2fe6)）。
+* **docs：** 把文档站发布到 GitLab Pages（[ac83ac3](https://github.com/vibe-bimer/smart-revit/commit/ac83ac3253fd6e59a5d2ae4b047e14a0fc63c254)）。
+* **fork：** 为 rebuild 工具加入预热副本与逐副本种子偏移（[799dec6](https://github.com/vibe-bimer/smart-revit/commit/799dec681a2af84a1f448130f55450522d14b461)）。
+* **server：** 新增验收台账，记录验证证据（[1a9966e](https://github.com/vibe-bimer/smart-revit/commit/1a9966e7eb13449a0c95813edcaab50e83450764)）。
+
+<a id="110-bug-fixes"></a>
+### 错误修复
+
+* **addin：** 修复 2020 轮验收暴露的 fork 命令（[cd44829](https://github.com/vibe-bimer/smart-revit/commit/cd44829625da43f3265b7eb21ae73908e005d65a)）。
+* **ci：** 让 fork 预算以工作树为量度对象（[09fd98b](https://github.com/vibe-bimer/smart-revit/commit/09fd98bfabddf6e8990c61d04713b6113d8a3358)）。
+* **docs：** 把已发布版本推进到 1.0.0（[50baa70](https://github.com/vibe-bimer/smart-revit/commit/50baa705e8da63327ab2bff1e544c76252fddbc9)）。
+* **server：** 批量作业接受已发布的 Revit 年份（[baec4e1](https://github.com/vibe-bimer/smart-revit/commit/baec4e1282c7b1e1d8b818e5b3f9a5bacacb2be1)）。
+* **site：** 按快照提交的评审意见修正站点（[ae1535c](https://github.com/vibe-bimer/smart-revit/commit/ae1535cca4ed744fab2d65989ff930055c56fafa)）。
+* **site：** 参数表报告类型时跟随 `$ref`（[59480b1](https://github.com/vibe-bimer/smart-revit/commit/59480b1d74b60cf7c65125c1af6fe8aa6775aec4)）。
+* **site：** 让说明文字与列测试保持一致（[dd89e3a](https://github.com/vibe-bimer/smart-revit/commit/dd89e3ac4c374bff885916dd0013ce3c61d21f9b)）。
+* **site：** 避免工具转储在 Windows 上死锁（[889006c](https://github.com/vibe-bimer/smart-revit/commit/889006c7ca5cc9672656bbba5bb7d0446dbc313a)）。
+* **site：** 生成页面使用 LF 行尾（[9eec6f9](https://github.com/vibe-bimer/smart-revit/commit/9eec6f92c211bcfd4ab84e415080fdffb0b86cc6)）。
+* **tests：** 让格式门禁在还原后的工作树上通过（[9cb8668](https://github.com/vibe-bimer/smart-revit/commit/9cb8668907b430c7ed4033e34fcbf5e237e3121c)）。
+
+<a id="110-documentation"></a>
+### 文档
+
+* **agents：** 记录本工作区采用多上下文布局（[530dba4](https://github.com/vibe-bimer/smart-revit/commit/530dba4ad789559c73d1b1d40348dd38a84223d7)）。
+* **analysis：** 研究 agent-autoloop 与本 fork 的关系（[ae6a758](https://github.com/vibe-bimer/smart-revit/commit/ae6a758069b2c78a22e6713af9b9bb70cbd1cdb4)）。
+* 修正落地页表述与钩子预算（[05524a5](https://github.com/vibe-bimer/smart-revit/commit/05524a54869870032e4d92761c92de0fb392c94f)）。
+* 把仓库指向 vibe-bimer/smart-revit（[f819b6b](https://github.com/vibe-bimer/smart-revit/commit/f819b6bf7986a58c655fb5d5ba3e994b858ad8d4)）。
+* **release：** 为下一版标注 Revit 2020 说明的日期（[686bce2](https://github.com/vibe-bimer/smart-revit/commit/686bce27f568b037e9eec53a5c1c8d374dd57c08)）。
+* **release：** 说明版本节由谁撰写（[f61ae0d](https://github.com/vibe-bimer/smart-revit/commit/f61ae0ddec07ffce8241689cc33aa076cb5252cf)）。
+* **site：** 统一未发布版本行的称呼（[d29960e](https://github.com/vibe-bimer/smart-revit/commit/d29960e80d1956d27ffa0a46bf776e5e77ab20dd)）。
+* **site：** 让随包资产里的未发布版本行称呼一致（[40ade1f](https://github.com/vibe-bimer/smart-revit/commit/40ade1f1682e920572bdfba1b1b7e8f61c4358d6)）。
+* **validation：** 记录 Revit 2020 验收轮（[3bce8a8](https://github.com/vibe-bimer/smart-revit/commit/3bce8a86dfc67ee4e0a8594a26d1c90051bdb02b)）。
+
+<a id="110-dependencies"></a>
+### 依赖
+
+* **deps：** 把 Ruff 0.17.4 钉到 CI、钩子与文档（[9270775](https://github.com/vibe-bimer/smart-revit/commit/9270775022d05c9a50419e08584b4aed43856304)）。
 
 <a id="090-2026-09-30"></a>
 ## [0.9.0](https://github.com/vibe-bimer/revit-model-mcp/compare/v0.8.1...v0.9.0)（2026-09-30）
