@@ -20,11 +20,11 @@ class NormalizeTextTests(unittest.TestCase):
         )
 
     def test_erases_root_relative_prefix_in_attributes(self):
-        html = '<a href="/revit-model-mcp/en/">en</a>'
+        html = '<a href="/smart-revit/en/">en</a>'
         self.assertIn('<a href="/en/">', gate.normalize_text(html, GH_BASE))
 
     def test_prefix_strip_is_anchored_on_the_opening_quote(self):
-        prose = "Open <code>http://127.0.0.1:8000/revit-model-mcp/</code>."
+        prose = "Open <code>http://127.0.0.1:8000/smart-revit/</code>."
         self.assertEqual(prose, gate.normalize_text(prose, GH_BASE))
 
     def test_prefix_strip_keeps_github_repo_links_intact(self):
@@ -32,7 +32,7 @@ class NormalizeTextTests(unittest.TestCase):
         self.assertIn(repo, gate.normalize_text(f'href="{repo}"', GH_BASE))
 
     def test_prefix_strip_covers_single_quoted_attributes(self):
-        html = "<script>scope('/revit-model-mcp/x/')</script>"
+        html = "<script>scope('/smart-revit/x/')</script>"
         self.assertIn("scope('/x/')", gate.normalize_text(html, GH_BASE))
 
     def test_root_relative_prefix_not_stripped_for_root_base(self):

@@ -46,7 +46,7 @@ release:
   # The last version that was actually published. A tool whose `since` is at or
   # below this ships in a release; a newer one exists only in the tree, so its
   # page says unreleased instead of claiming a release that has not happened.
-  released_version: 1.0.0
+  released_version: 1.1.1
 
 integration:
   directory: platform

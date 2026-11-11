@@ -6,6 +6,61 @@ All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 Versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1](https://github.com/vibe-bimer/smart-revit/compare/v1.1.0...v1.1.1) (2026-11-11)
+
+
+### Bug Fixes
+
+* **ci:** give the release build the history the budget test needs ([cb6cce0](https://github.com/vibe-bimer/smart-revit/commit/cb6cce04648be2fa0e9e40704ed164c49caafb82))
+
+
+### Documentation
+
+* **release:** describe the release this fork actually runs ([a17e4ae](https://github.com/vibe-bimer/smart-revit/commit/a17e4aec51ff96ab18da14c23a2746c580513f0f))
+
+## [1.1.0](https://github.com/vibe-bimer/smart-revit/compare/v1.0.0...v1.1.0) (2026-11-11)
+
+
+### Features
+
+* **actions:** add revit_copy_elements ([bc2078c](https://github.com/vibe-bimer/smart-revit/commit/bc2078cff5501fd4b78803dcce120c165f825117))
+* **docs:** publish the site to GitLab Pages ([1f51282](https://github.com/vibe-bimer/smart-revit/commit/1f512820ab122e673c8cd16a64a6a80644ed2fe6))
+* **docs:** publish the site to GitLab Pages ([ac83ac3](https://github.com/vibe-bimer/smart-revit/commit/ac83ac3253fd6e59a5d2ae4b047e14a0fc63c254))
+* **fork:** add the warmup copy and per-copy seed deltas to the rebuild tool ([799dec6](https://github.com/vibe-bimer/smart-revit/commit/799dec681a2af84a1f448130f55450522d14b461))
+* **server:** add an acceptance ledger for validation evidence ([1a9966e](https://github.com/vibe-bimer/smart-revit/commit/1a9966e7eb13449a0c95813edcaab50e83450764))
+
+
+### Bug Fixes
+
+* **addin:** repair the fork commands the 2020 round turned up ([cd44829](https://github.com/vibe-bimer/smart-revit/commit/cd44829625da43f3265b7eb21ae73908e005d65a))
+* **ci:** measure the fork budget against the working tree ([09fd98b](https://github.com/vibe-bimer/smart-revit/commit/09fd98bfabddf6e8990c61d04713b6113d8a3358))
+* **docs:** move the published version forward to 1.0.0 ([50baa70](https://github.com/vibe-bimer/smart-revit/commit/50baa705e8da63327ab2bff1e544c76252fddbc9))
+* **server:** accept the shipped Revit years in batch runs ([baec4e1](https://github.com/vibe-bimer/smart-revit/commit/baec4e1282c7b1e1d8b818e5b3f9a5bacacb2be1))
+* **site:** answer the review of the snapshot commit ([ae1535c](https://github.com/vibe-bimer/smart-revit/commit/ae1535cca4ed744fab2d65989ff930055c56fafa))
+* **site:** follow a $ref when the parameter table reports a type ([59480b1](https://github.com/vibe-bimer/smart-revit/commit/59480b1d74b60cf7c65125c1af6fe8aa6775aec4))
+* **site:** follow the note wording into the column tests ([dd89e3a](https://github.com/vibe-bimer/smart-revit/commit/dd89e3ac4c374bff885916dd0013ce3c61d21f9b))
+* **site:** stop the tool dump from deadlocking on Windows ([889006c](https://github.com/vibe-bimer/smart-revit/commit/889006c7ca5cc9672656bbba5bb7d0446dbc313a))
+* **site:** write the generated pages with LF line endings ([9eec6f9](https://github.com/vibe-bimer/smart-revit/commit/9eec6f92c211bcfd4ab84e415080fdffb0b86cc6))
+* **tests:** let the format gate pass on a restored tree ([9cb8668](https://github.com/vibe-bimer/smart-revit/commit/9cb8668907b430c7ed4033e34fcbf5e237e3121c))
+
+
+### Documentation
+
+* **agents:** record the workspace as a multi-context effort ([530dba4](https://github.com/vibe-bimer/smart-revit/commit/530dba4ad789559c73d1b1d40348dd38a84223d7))
+* **analysis:** study agent-autoloop against this fork ([ae6a758](https://github.com/vibe-bimer/smart-revit/commit/ae6a758069b2c78a22e6713af9b9bb70cbd1cdb4))
+* correct the landing claims and the hook budget ([05524a5](https://github.com/vibe-bimer/smart-revit/commit/05524a54869870032e4d92761c92de0fb392c94f))
+* point the repository at vibe-bimer/smart-revit ([f819b6b](https://github.com/vibe-bimer/smart-revit/commit/f819b6bf7986a58c655fb5d5ba3e994b858ad8d4))
+* **release:** date the Revit 2020 note for the next release ([686bce2](https://github.com/vibe-bimer/smart-revit/commit/686bce27f568b037e9eec53a5c1c8d374dd57c08))
+* **release:** say who writes the version section ([f61ae0d](https://github.com/vibe-bimer/smart-revit/commit/f61ae0ddec07ffce8241689cc33aa076cb5252cf))
+* **site:** name the unreleased line the same everywhere ([d29960e](https://github.com/vibe-bimer/smart-revit/commit/d29960e80d1956d27ffa0a46bf776e5e77ab20dd))
+* **site:** name the unreleased line the same in shipped assets ([40ade1f](https://github.com/vibe-bimer/smart-revit/commit/40ade1f1682e920572bdfba1b1b7e8f61c4358d6))
+* **validation:** record the Revit 2020 acceptance round ([3bce8a8](https://github.com/vibe-bimer/smart-revit/commit/3bce8a86dfc67ee4e0a8594a26d1c90051bdb02b))
+
+
+### Dependencies
+
+* **deps:** pin Ruff 0.17.4 across CI, the hooks and the docs ([9270775](https://github.com/vibe-bimer/smart-revit/commit/9270775022d05c9a50419e08584b4aed43856304))
+
 ## [1.0.0](https://github.com/sharafutdinovdi/revit-model-mcp/compare/v0.10.0...v1.0.0) (2026-10-16)
 
 

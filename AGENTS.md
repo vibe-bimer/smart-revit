@@ -105,4 +105,3 @@ The five default roles: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-
 ### Domain docs
 
 multi-context. See `docs/agents/domain.md`.
-

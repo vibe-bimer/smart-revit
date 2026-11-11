@@ -308,13 +308,16 @@ class FeatureGeneratorTests(unittest.TestCase):
 
         The version fact comes from `since`. A tool added after the tag has to carry a
         `since` above the published version, or its page claims a release that never
-        carried it.
+        carried it. The `since` is synthesized so the test keeps its meaning after every
+        release moves the published version forward.
         """
         name = "revit_copy_elements"
         tool = next(item for item in self.tools if item["name"] == name)
+        capability = dict(self.capabilities["tools"][name])
+        capability["since"] = "99.0.0"
         page = generate_features.tool_page(
             tool,
-            self.capabilities["tools"][name],
+            capability,
             "zh",
             self.capabilities,
             self.contracts,

@@ -159,16 +159,16 @@ Core 测试覆盖解析、序列化、格式化、单位和查询处理。
 <a id="release-ritual"></a>
 ## 发布流程
 
-!!! warning "本 fork 的版本节由维护者手写"
-    本 fork 不推 GitHub 远端，release-please 在这里不会运行。上游流程的第 2、3 步不适用：打 tag 时由维护者写 [CHANGELOG.md](CHANGELOG.md) 的 `## [x.y.z] (YYYY-MM-DD)` 节，同步到 [CHANGELOG.zh.md](CHANGELOG.zh.md)，并把同一版本写进 `server/pyproject.toml`。GitLab 的发版作业把该节原样作为发版说明，缺节则只发出 `Release x.y.z.`，什么也不说。
+!!! note "本 fork 的 release-please 由手动调度运行"
+    本 fork 不会在推送到 `main` 时运行 release-please。手动调度 Release please 工作流，审阅它开出的 `chore(main): release X.Y.Z` PR 并合并：合并即创建标签与 GitHub Release，同一工作流再为该标签调度构建流水线。没有 `RELEASE_PLEASE_TOKEN` 机密时，action 使用 `GITHUB_TOKEN`，该 PR 不带检查，需要维护者手工批准其工作流。
 
 1. 使用 Conventional Commit 标题合并 PR。
-2. 上游由 release-please 维护 `chore(main): release X.Y.Z` PR，包含生成的变更日志条目和版本更新。本 fork 没有这个 PR，见上方提示。
+2. 维护者手动调度 Release please 工作流后，会出现 `chore(main): release X.Y.Z` PR，其中包含生成的变更日志条目与版本更新，见上方提示。
 3. 上游由维护者在必需检查通过后合并发布 PR；本 fork 由维护者在分支就绪时打 tag。
 4. 检查 Release please 工作流、两份 MSI 资产、七份按年份分开的 ZIP、wheel、源码发行包和 `SHA256SUMS.txt`。
 5. 对稳定发布检查 PyPI、MCP Registry 和 WinGet 任务结果；若未配置 WinGet 提交，则下载清单。
 
-上游由 release-please 拥有 [CHANGELOG.md](CHANGELOG.md)、`server/pyproject.toml` 中的版本，以及 `server/server.json` 中的两个版本；本 fork 由维护者拥有前两者，见上方提示。
+本 fork 由 release-please 在维护者合并发版 PR 时写入这两处，不再由人手工改。
 清单从 `0.3.0` 开始；`server/pyproject.toml` 仍是构建检查所使用的包版本。
 simple 策略跳过不存在的默认 `version.txt`；不维护单独版本文件。
 1.0 之前，`feat` 和破坏性变更提升次版本，`fix` 提升补丁版本。
