@@ -155,7 +155,17 @@
     "src/RevitModelMcp.Core/packages.lock.json": "pre-commit end-of-file normalization of build metadata",
     "server/tests/test_tool_manifest.py": "the manifest test asserts the fork's LAN release feed endpoints",
     "tests/RevitModelMcp.Core.Tests/Control/DeletionPolicyTests.cs": "the threshold assertion reads through a local so the format gate passes on a restored tree (issue #51)",
-    ".github/workflows/release-please.yml": "the fork's maintainer writes CHANGELOG.md and the pyproject version by hand"
+    ".github/workflows/release-please.yml": "the fork's maintainer writes CHANGELOG.md and the pyproject version by hand",
+    ".github/workflows/codeql.yml": "the action pins Dependabot bumps in the code scanning workflow",
+    ".github/workflows/scorecard.yml": "the action pins Dependabot bumps in the OSSF scorecard workflow",
+    "build/Build.csproj": "the NuGet pins Dependabot bumps in the build orchestration project",
+    "tests/RevitModelMcp.Core.Tests/RevitModelMcp.Core.Tests.csproj": "the NuGet pins Dependabot bumps in the test project",
+    ".github/requirements/ruff.in": "the ruff version floor the quality jobs install",
+    ".github/requirements/ruff.txt": "the hash-pinned ruff the quality jobs install",
+    ".github/requirements/uv.in": "the uv version floor the CI tooling installs",
+    ".github/requirements/uv.txt": "the hash-pinned uv the CI tooling installs",
+    ".pre-commit-config.yaml": "the Ruff release the local hooks run, pinned to the version server/pyproject.toml requires",
+    "build/sbom_dotnet.py": "the Ruff 0.17 default rules rewrite its UTC alias"
   },
   "removed": {
     ".github/workflows/winget.yml": "removed: it published to upstream's WinGet package",
