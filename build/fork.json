@@ -43,6 +43,7 @@
   "reads": {
         "Dockerfile": "the base image the docker ecosystem pins",
     ".github/workflows/dependabot-auto-merge.yml": "the check gate that stops an unchecked dependency merge",
+    "server/tests/test_uv_pin.py": "the test that keeps the five uv pins equal",
     ".github/dependabot.yml": "the dependency groups and the labels the bot applies",
     ".github/ISSUE_TEMPLATE/config.yml": "the fork's own issue links",
     ".github/workflows/ci.yml": "the bundle launcher check",
