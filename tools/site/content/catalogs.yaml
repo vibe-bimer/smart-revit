@@ -46,6 +46,8 @@ release:
   # The last version that was actually published. A tool whose `since` is at or
   # below this ships in a release; a newer one exists only in the tree, so its
   # page says unreleased instead of claiming a release that has not happened.
+  # release-please bumps the project version when it opens the release pull
+  # request, so this trails it until the tag exists; raise it after publishing.
   released_version: 1.1.1
 
 integration:

@@ -171,13 +171,14 @@ Core 测试覆盖解析、序列化、格式化、单位和查询处理。
 ## 发布流程
 
 !!! note "本 fork 的 release-please 由手动调度运行"
-    本 fork 不会在推送到 `main` 时运行 release-please。手动调度 Release please 工作流，审阅它开出的 `chore(main): release X.Y.Z` PR 并合并：合并即创建标签与 GitHub Release，同一工作流再为该标签调度构建流水线。没有 `RELEASE_PLEASE_TOKEN` 机密时，action 使用 `GITHUB_TOKEN`，该 PR 不带检查，需要维护者手工批准其工作流。
+    本 fork 不会在推送到 `main` 时运行 release-please。手动调度 Release please 工作流，审阅它开出的 `chore(main): release X.Y.Z` PR 并合并：合并即创建标签与 GitHub Release，同一工作流再为该标签调度构建流水线。配置 `RELEASE_PLEASE_TOKEN` 机密时，该 PR 带常规检查；没有该机密时 action 使用 `GITHUB_TOKEN`，其检查处于等待批准状态，需在合并区点击 Approve workflows to run 启动后再合并。
 
 1. 使用 Conventional Commit 标题合并 PR。
 2. 维护者手动调度 Release please 工作流后，会出现 `chore(main): release X.Y.Z` PR，其中包含生成的变更日志条目与版本更新，见上方提示。
 3. 上游由维护者在必需检查通过后合并发布 PR；本 fork 由维护者在分支就绪时打 tag。
 4. 检查 Release please 工作流、两份 MSI 资产、七份按年份分开的 ZIP、wheel、源码发行包和 `SHA256SUMS.txt`。
 5. 对稳定发布检查 PyPI、MCP Registry 和 WinGet 任务结果；若未配置 WinGet 提交，则下载清单。
+6. 发布上线后，把 `tools/site/content/catalogs.yaml` 的 `released_version` 提到该标签，并重生成页面：在 `server` 下先跑 `uv run --with pyyaml python ../tools/site/generate_features.py --dump`，再 `--write`。页面只写已发布版本，所以发版 PR 本身不会改动这些页面。
 
 本 fork 由 release-please 在维护者合并发版 PR 时写入这两处，不再由人手工改。
 清单从 `0.3.0` 开始；`server/pyproject.toml` 仍是构建检查所使用的包版本。

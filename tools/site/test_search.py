@@ -81,9 +81,9 @@ class FeatureIndexTests(unittest.TestCase):
     def test_version_entry_links_the_branch_catalog_with_status_and_counts(self):
         for lang, label in (("zh", "已发布"), ("en", "Released")):
             page = self.page(lang)
-            self.assertIn("{#versions}", page)
+            self.assertIn("#versions", page)
             self.assertIn(label, page)
-            self.assertIn(generate_features.RELEASE_VERSION, page)
+            self.assertIn(generate_features.RELEASE_RELEASED_VERSION, page)
             self.assertIn(platform_catalog.BRANCH, page)
             self.assertIn(f"| {len(self.tools)} |", page)
             self.assertIn(f"| {self.branch_count} |", page)

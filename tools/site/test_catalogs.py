@@ -18,6 +18,11 @@ import platform_catalog
 REAL_ROOT = Path(__file__).resolve().parents[2]
 
 
+def _version_key(value: str) -> tuple[int, ...]:
+    """Compare dotted versions numerically, so 1.10 sorts after 1.9."""
+    return tuple(int(part) for part in str(value).split(".") if part.isdigit())
+
+
 class ReleaseVersionTests(unittest.TestCase):
     def test_release_version_is_read_from_project_metadata(self):
         expected = tomllib.loads(
@@ -25,20 +30,33 @@ class ReleaseVersionTests(unittest.TestCase):
         )["project"]["version"]
         self.assertEqual(catalogs.release().version, expected)
 
-    def test_the_published_version_keeps_up_with_the_project_version(self):
-        """A shipped release must be declared shipped, or every newer tool page lies.
+    def test_the_published_version_never_runs_ahead_of_the_prepared_version(self):
+        """The tree prepares a version; only a finished release may call one published.
 
-        ``released_version`` is the last version that actually left the building; the
-        project version is where the next one is prepared. They agree once the tag is
-        cut, so a gap here means the catalog was left behind by a release.
+        release-please bumps ``server/pyproject.toml`` when it opens the release pull
+        request, and the tag appears only when that pull request merges. The published
+        version therefore trails the prepared one while a release is in flight, and
+        equality is the state after the release is finalised, not a precondition for
+        opening it.
         """
         published = catalogs.release().released_version
-        current = catalogs.release().version
+        prepared = catalogs.release().version
+        self.assertTrue(published, "the catalog must name the last released version")
+        self.assertLessEqual(
+            _version_key(published),
+            _version_key(prepared),
+            f"the catalog calls {published} published while the project is at {prepared}",
+        )
+
+    def test_the_platform_pages_name_the_published_version(self):
+        """Platform pages state what shipped, so they read the published version.
+
+        Reading the prepared version instead makes every release pull request rewrite
+        them, and the documentation gate then fails on a release nobody has cut yet.
+        """
         self.assertEqual(
-            published,
-            current,
-            f"the catalog still calls {published} the published version while the "
-            f"project is at {current}; bump released_version when you cut the tag",
+            platform_catalog.RELEASE_VERSION,
+            catalogs.release().released_version,
         )
 
     def test_the_version_is_not_a_literal_in_the_module(self):

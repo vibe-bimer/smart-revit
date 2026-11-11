@@ -201,13 +201,14 @@ Automated tests do not validate live Revit behavior; see [validation evidence](d
 ## Release ritual
 
 !!! note "This fork runs release-please on dispatch"
-    This fork never runs release-please on a push to `main`. Dispatch the Release please workflow, review the `chore(main): release X.Y.Z` pull request it opens, and merge it: the merge creates the tag and the GitHub Release, and the same workflow then dispatches the build pipeline for that tag. Without a `RELEASE_PLEASE_TOKEN` secret the action uses `GITHUB_TOKEN`, so the release pull request carries no checks and the maintainer approves its workflows by hand.
+    This fork never runs release-please on a push to `main`. Dispatch the Release please workflow, review the `chore(main): release X.Y.Z` pull request it opens, and merge it: the merge creates the tag and the GitHub Release, and the same workflow then dispatches the build pipeline for that tag. With a `RELEASE_PLEASE_TOKEN` secret the pull request carries ordinary checks. Without it the action uses `GITHUB_TOKEN`, and the pull request's checks open in an approval-required state: approve them from the merge box before merging.
 
 1. Merge PRs with Conventional Commit titles.
 2. The `chore(main): release X.Y.Z` PR appears when the maintainer dispatches the Release please workflow. It carries the generated changelog entries and the version updates; see the note above.
 3. Upstream, releases ship on Monday (Europe/Moscow). This fork tags when the maintainer decides the branch is ready.
 4. Check the Release please workflow, both MSI assets, six ZIPs, wheel, source distribution and `SHA256SUMS.txt`. If a job fails with `The job was not acquired by Runner`, that is a GitHub infrastructure failure: rerun it with `gh run rerun <run id> --failed`.
 5. Check the release assets and `SHA256SUMS.txt`. This fork publishes nothing to PyPI, the MCP Registry, Smithery or WinGet: upstream owns those names, and both projects share version numbers, so a release from here that claimed one of them would install upstream's code while appearing to work.
+6. After the release publishes, raise `released_version` in `tools/site/content/catalogs.yaml` to the tag and regenerate the pages: `cd server && uv run --with pyyaml python ../tools/site/generate_features.py --dump`, then `--write`. Pages state the published version, so the release pull request itself leaves them untouched.
 
 When the `SIGNPATH_API_TOKEN` secret and the `SIGNPATH_ORGANIZATION_ID` variable are set, the release job submits the MSIs and ZIPs to SignPath and waits up to 90 minutes for the approval of the signing request. Without them the job skips signing and publishes unsigned assets. Optional variables `SIGNPATH_PROJECT_SLUG`, `SIGNPATH_SIGNING_POLICY_SLUG` and `SIGNPATH_ARTIFACT_CONFIGURATION_SLUG` override the defaults `revit-model-mcp`, `release-signing` and `release`. The artifact configuration lives in `.signpath/artifact-configuration.xml`; keep the copy in SignPath identical.
 

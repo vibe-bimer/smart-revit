@@ -570,7 +570,7 @@ def index_page(
         "",
         f"| | {labels['released']} {RELEASE_RELEASED_VERSION or RELEASE_VERSION} | {platform_catalog.LABELS[lang]['platform']} |",
         "| --- | --- | --- |",
-        f"| {labels['version']} | {RELEASE_RELEASED_VERSION or RELEASE_VERSION} | {RELEASE_VERSION} {platform_catalog.LABELS[lang]['unreleased_fact']} |",
+        f"| {labels['version']} | {RELEASE_RELEASED_VERSION or RELEASE_VERSION} | {platform_catalog.LABELS[lang]['unreleased_fact']} |",
         f"| {platform_catalog.LABELS[lang]['branch']} | main | `{platform_catalog.BRANCH}` |",
         f"| {labels['tools']} | {len(tools)} | {branch_count} |",
         f"| {labels['entry']} | index.md | [{labels['platform_page']}](../platform/index.md) |",

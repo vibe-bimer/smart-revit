@@ -36,7 +36,11 @@ INTEGRATION = catalogs.integration()
 BRANCH = INTEGRATION.branch
 PROVENANCE = catalogs.provenance()
 COMMIT = PROVENANCE["commit"]
-RELEASE_VERSION = catalogs.release().version
+_RELEASE = catalogs.release()
+# Pages state what shipped, not what the tree prepares. A release pull request bumps
+# server/pyproject.toml before the tag exists, so a page that followed the project version
+# would announce a release that has not happened, and change again on every release.
+RELEASE_VERSION = _RELEASE.released_version or _RELEASE.version
 
 GROUP_LABELS = {
     "zh": {
