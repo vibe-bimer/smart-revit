@@ -12,6 +12,19 @@
 
     中文页按英文日志的顺序补译，不增加发布声明；`1.0.0` 一节只有英文版，`1.1.0` 起按节同步。
 
+<a id="111-2026-11-11"></a>
+## [1.1.1](https://github.com/vibe-bimer/smart-revit/compare/v1.1.0...v1.1.1)（2026-11-11）
+
+<a id="111-bug-fixes"></a>
+### 错误修复
+
+* **ci：** 给发布构建补上预算测试需要的历史（[cb6cce0](https://github.com/vibe-bimer/smart-revit/commit/cb6cce04648be2fa0e9e40704ed164c49caafb82)）。
+
+<a id="111-documentation"></a>
+### 文档
+
+* **release：** 描述本 fork 实际运行的发布流程（[a17e4ae](https://github.com/vibe-bimer/smart-revit/commit/a17e4aec51ff96ab18da14c23a2746c580513f0f)）。
+
 <a id="110-2026-11-11"></a>
 ## [1.1.0](https://github.com/vibe-bimer/smart-revit/compare/v1.0.0...v1.1.0)（2026-11-11）
 
