@@ -295,7 +295,7 @@ class SearchCatalogDataTests(unittest.TestCase):
         self.assertTrue(text.startswith("/*"))
         payload = json.loads(text[text.index("{") : text.rindex("}") + 1])
         release = payload["release"]
-        self.assertEqual(release["version"], generate_features.RELEASE_VERSION)
+        self.assertEqual(release["version"], generate_features.RELEASE_RELEASED_VERSION)
         self.assertEqual(release["status"], "released")
         self.assertEqual(release["directory"], "features")
         self.assertEqual(len(release["tools"]), len(self.tools))

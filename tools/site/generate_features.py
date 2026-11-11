@@ -745,9 +745,11 @@ def home_page(
     tools: list[dict], capabilities: dict, lang: str, branch_count: int | None = None
 ) -> str:
     """Render the landing page; the layout lives in landing.py so this file stays registry logic."""
-    version = tomllib.loads((ROOT / "server/pyproject.toml").read_text())["project"][
-        "version"
-    ]
+    # The site describes what shipped. The prepared version in pyproject.toml belongs to the
+    # release pull request, and following it would rewrite this page on every release.
+    version = RELEASE_RELEASED_VERSION or tomllib.loads(
+        (ROOT / "server/pyproject.toml").read_text()
+    )["project"]["version"]
     if branch_count is None:
         branch_count = platform_catalog.snapshot()["count"]
     return landing.home_page(tools, capabilities, version, lang, branch_count)
@@ -795,7 +797,7 @@ def search_catalog_data(
         "release": {
             "catalog": "release",
             "status": release.status,
-            "version": release.version,
+            "version": release.released_version or release.version,
             "branch": release.branch,
             "directory": release.directory,
             "tools": {
