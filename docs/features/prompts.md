@@ -584,6 +584,10 @@ description: "可直接复制的提示词库，每个工具配有示例提示词
 先彩排一次重建，告诉我多少个构件、新 ID 范围，先不要写文件
 ```
 
+```text
+出 24 份，先 warmup 一份垫稳首拷贝，每份的 per_copy_deltas 按试运行量出的间距递增，先彩排
+```
+
 ## 文档与进程 {#group-documents}
 
 ### [列出打开的文档](revit_documents.md)

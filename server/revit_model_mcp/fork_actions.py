@@ -97,6 +97,12 @@ def _check_phases_differ(source_phase, target_phase, refuse) -> None:
         raise refuse("source_phase and target_phase must differ.")
 
 
+def _check_per_copy_deltas(copies, per_copy_deltas, refuse) -> None:
+    """One delta per delivered copy: a list of another length leaves a copy without its own block."""
+    if per_copy_deltas is not None and len(per_copy_deltas) != copies:
+        raise refuse("per_copy_deltas must contain exactly one entry per copy.")
+
+
 def _check_lighting(settings: dict[str, Any], refuse) -> None:
     if all(value is None for value in settings.values()):
         raise refuse("Provide at least one lighting setting to change.")
@@ -218,6 +224,11 @@ STEP_FIELDS: dict[str, dict[str, tuple[Any, Any]]] = {
         "seed": (int, 0),
         "duplicate_names": (Literal["override", "rename"], "override"),
         "copies": (int, 1),
+        "per_copy_deltas": (
+            Annotated[list[Annotated[int, Field(ge=0, le=1_000_000)]], Field(min_length=1)] | None,
+            None,
+        ),
+        "warmup_copy": (bool | None, None),
     },
 }
 
@@ -279,6 +290,8 @@ def check_step(action: str, args: dict[str, Any], refuse) -> None:
         _check_phase_assignment(args["created_phase"], args["demolished_phase"], refuse)
     elif action == "merge_phases":
         _check_phases_differ(args["source_phase"], args["target_phase"], refuse)
+    elif action == "rebuild_model_ids":
+        _check_per_copy_deltas(args["copies"], args["per_copy_deltas"], refuse)
 
 
 def step_payload(action: str, args: dict[str, Any]) -> dict[str, Any] | None:
@@ -828,14 +841,23 @@ def register_fork_actions(mcp, send) -> None:
         seed: int = 0,
         duplicate_names: Literal["override", "rename"] = "override",
         copies: int = 1,
+        per_copy_deltas: (
+            Annotated[list[Annotated[int, Field(ge=0, le=1_000_000)]], Field(min_length=1)] | None
+        ) = None,
+        warmup_copy: bool | None = None,
         dry_run: bool = False,
         document: str | None = None,
     ) -> dict[str, Any]:
         """Rebuild the model into a new document so every element gets a new element ID.
 
         `destination_path` is the new model, with {n} replaced by the copy number when `copies`
-        exceeds one. Reports the old to new pairing, the per-file results and the category counts.
-        dry_run reports the plan without writing files."""
+        exceeds one. `per_copy_deltas` optionally adds temporary seed levels before each delivered
+        copy: exactly one entry per copy, each a whole number from 0 to 1000000, while `seed` applies
+        once before everything else. `warmup_copy` runs one extra internal copy first that absorbs the
+        template cleanup and is discarded, so no delivered copy carries it. Reports the old to new
+        pairing, the per-file results and the category counts. dry_run reports the plan without
+        writing files."""
+        _check_per_copy_deltas(copies, per_copy_deltas, ToolError)
         fork = {
             name: value
             for name, value in (
@@ -846,6 +868,8 @@ def register_fork_actions(mcp, send) -> None:
                 ("seed", seed),
                 ("duplicateNames", duplicate_names),
                 ("copies", copies),
+                ("perCopyDeltas", per_copy_deltas),
+                ("warmupCopy", warmup_copy),
             )
             if value is not None
         }

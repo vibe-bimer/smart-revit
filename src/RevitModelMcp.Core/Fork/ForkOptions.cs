@@ -78,6 +78,10 @@ public sealed class ForkOptions
     public int? Seed { get; set; }
     public string? DuplicateNames { get; set; }
     public int? Copies { get; set; }
+    /// <summary>Temporary level count added before each delivered copy: one nonnegative whole entry per copy.</summary>
+    public List<double>? PerCopyDeltas { get; set; }
+    /// <summary>Runs one extra internal copy first and discards it, so the template cleanup never rides on a delivered copy.</summary>
+    public bool? WarmupCopy { get; set; }
 
     /// <summary>Copies every input, so a cloned contract never shares one options object.</summary>
     public ForkOptions Copy() => new()
@@ -127,6 +131,8 @@ public sealed class ForkOptions
         RemoveTemplateLevels = RemoveTemplateLevels,
         Seed = Seed,
         DuplicateNames = DuplicateNames,
-        Copies = Copies
+        Copies = Copies,
+        PerCopyDeltas = PerCopyDeltas is null ? null : [.. PerCopyDeltas],
+        WarmupCopy = WarmupCopy
     };
 }

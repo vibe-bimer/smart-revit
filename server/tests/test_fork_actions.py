@@ -599,6 +599,41 @@ async def test_rebuild_model_ids_carries_the_destination_in_the_fork_bag():
 
 
 @pytest.mark.anyio
+async def test_rebuild_model_ids_carries_the_per_copy_deltas_and_the_warmup_flag():
+    seen: dict = {}
+
+    async def send(command: str, **payload):
+        seen.update(payload)
+        return {"ok": True}
+
+    mcp = FakeMcp()
+    register_fork_actions(mcp, send)
+    function = mcp.tools["revit_rebuild_model_ids"][0]
+    await function(
+        destination_path=r"C:\out\model-{n}.rvt",
+        copies=3,
+        seed=5,
+        per_copy_deltas=[0, 500, 1000000],
+        warmup_copy=True,
+    )
+
+    assert seen["fork"]["perCopyDeltas"] == [0, 500, 1000000]
+    assert seen["fork"]["warmupCopy"] is True
+    assert seen["fork"]["copies"] == 3
+    assert seen["fork"]["seed"] == 5
+
+
+@pytest.mark.anyio
+async def test_rebuild_model_ids_refuses_per_copy_deltas_without_one_entry_per_copy():
+    with pytest.raises(ToolError, match="exactly one entry per copy"):
+        await tool("revit_rebuild_model_ids")(
+            destination_path=r"C:\out\model.rvt",
+            copies=2,
+            per_copy_deltas=[0, 500, 1000000],
+        )
+
+
+@pytest.mark.anyio
 async def test_export_element_ids_reads_through_the_read_dispatcher():
     seen: dict = {}
 
@@ -891,6 +926,49 @@ def test_a_rebuild_step_names_its_destination_in_the_fork_bag():
         "duplicateNames": "override",
         "copies": 2,
     }
+
+
+def test_a_rebuild_step_carries_its_per_copy_deltas_and_warmup_flag():
+    from revit_model_mcp.actions import ActionStep
+
+    step = ActionStep(
+        action="rebuild_model_ids",
+        args={
+            "destination_path": r"C:\out\model-{n}.rvt",
+            "copies": 2,
+            "per_copy_deltas": [10, 0],
+            "warmup_copy": True,
+        },
+    )
+    payload = step.payload()
+    assert payload["view"] == ""
+    assert payload["fork"]["perCopyDeltas"] == [10, 0]
+    assert payload["fork"]["warmupCopy"] is True
+    assert payload["fork"]["copies"] == 2
+
+
+def test_a_rebuild_step_refuses_a_per_copy_delta_out_of_range_or_not_whole():
+    from revit_model_mcp.actions import ActionStep
+
+    for deltas in ([0, -1], [0, 1_000_001], [0, 1.5]):
+        with pytest.raises(ValueError, match="per_copy_deltas"):
+            ActionStep(
+                action="rebuild_model_ids",
+                args={
+                    "destination_path": "C:/out/model.rvt",
+                    "copies": 2,
+                    "per_copy_deltas": deltas,
+                },
+            )
+    with pytest.raises(ValueError, match="exactly one entry per copy"):
+        ActionStep(
+            action="rebuild_model_ids",
+            args={
+                "destination_path": "C:/out/model.rvt",
+                "copies": 3,
+                "per_copy_deltas": [0, 1],
+            },
+        )
 
 
 @pytest.mark.parametrize(

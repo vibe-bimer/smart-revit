@@ -584,6 +584,10 @@ Rebuild the selectable components into E:\out\copy-{n}.rvt, ten copies, no id sh
 Rehearse the rebuild first: how many components, which new id range, write nothing yet
 ```
 
+```text
+Produce 24 copies; warm the first copy away, raise per_copy_deltas per copy from the gap a dry run measured, and rehearse first
+```
+
 ## Documents and processes {#group-documents}
 
 ### [List open documents](revit_documents.md)

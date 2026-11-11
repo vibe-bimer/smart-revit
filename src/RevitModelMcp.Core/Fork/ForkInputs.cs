@@ -100,7 +100,10 @@ public static class ForkInputs
                     action.Options.RemoveTemplateLevels = Flag("removeTemplateLevels", value),
                 ["seed"] = (action, value) => action.Options.Seed = Whole("seed", value),
                 ["duplicateNames"] = (action, value) => action.Options.DuplicateNames = Text("duplicateNames", value),
-                ["copies"] = (action, value) => action.Options.Copies = Whole("copies", value)
+                ["copies"] = (action, value) => action.Options.Copies = Whole("copies", value),
+                ["perCopyDeltas"] = (action, value) =>
+                    action.Options.PerCopyDeltas = Numbers("perCopyDeltas", value, "a list of numbers"),
+                ["warmupCopy"] = (action, value) => action.Options.WarmupCopy = Flag("warmupCopy", value)
             },
         };
 
@@ -185,19 +188,19 @@ public static class ForkInputs
         _ => throw Invalid(key, "a list of three '#RRGGBB' colors")
     };
 
-    private static List<double>? Numbers(string key, object? value) => value switch
+    private static List<double>? Numbers(string key, object? value, string expected = "a list of two or three numbers") => value switch
     {
         null => null,
-        object?[] items => CoordinateItems(key, items),
-        List<object?> items => CoordinateItems(key, items),
-        _ => throw Invalid(key, "a list of two or three numbers")
+        object?[] items => CoordinateItems(key, items, expected),
+        List<object?> items => CoordinateItems(key, items, expected),
+        _ => throw Invalid(key, expected)
     };
 
     private static List<string> Items(string key, IReadOnlyList<object?> values) =>
         values.Select(item => item as string ?? throw Invalid(key, "a list of three '#RRGGBB' colors")).ToList();
 
-    private static List<double> CoordinateItems(string key, IReadOnlyList<object?> values) =>
-        values.Select(item => (double?)Number(key, item) ?? throw Invalid(key, "a list of two or three numbers")).ToList();
+    private static List<double> CoordinateItems(string key, IReadOnlyList<object?> values, string expected) =>
+        values.Select(item => (double?)Number(key, item) ?? throw Invalid(key, expected)).ToList();
 
     private static ArgumentException Invalid(string key, string expected) => new($"fork.{key} must be {expected}.");
 }

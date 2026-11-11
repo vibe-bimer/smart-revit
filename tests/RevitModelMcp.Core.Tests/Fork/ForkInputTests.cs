@@ -372,6 +372,73 @@ public sealed class ForkInputTests
         await Assert.That(parsed.Error).IsEqualTo("fork.copies must be a whole number.");
     }
 
+    // One delta per delivered copy, added before that copy so its ids land in a block of their own; the
+    // warmup flag asks for one extra internal copy that is discarded before any output is written.
+    [Test]
+    public async Task RebuildModelIds_CarriesThePerCopyDeltasAndTheWarmupFlag()
+    {
+        var parsed = ControlJobParser.Parse(
+            """{"command":"rebuild-model-ids","view":"3D","fork":{"destinationPath":"C:/out/model.rvt","copies":3,"seed":5,"perCopyDeltas":[0,500,1000000],"warmupCopy":true}}""");
+        await Assert.That(parsed.Kind).IsEqualTo(ControlJobKind.Action);
+        await Assert.That(parsed.Action!.Options.Copies).IsEqualTo(3);
+        await Assert.That(parsed.Action!.Options.Seed).IsEqualTo(5);
+        await Assert.That(parsed.Action!.Options.PerCopyDeltas).IsEquivalentTo([0d, 500d, 1_000_000d]);
+        await Assert.That(parsed.Action!.Options.WarmupCopy).IsTrue();
+    }
+
+    // A rebuild that names neither input keeps the ids the way it always did: both stay unset.
+    [Test]
+    public async Task RebuildModelIds_LeavesTheDeltasAndTheWarmupFlagUnsetWhenTheyAreAbsent()
+    {
+        var parsed = ControlJobParser.Parse(
+            """{"command":"rebuild-model-ids","fork":{"destinationPath":"C:/out/model.rvt","copies":2}}""");
+        await Assert.That(parsed.Kind).IsEqualTo(ControlJobKind.Action);
+        await Assert.That(parsed.Action!.Options.PerCopyDeltas).IsNull();
+        await Assert.That(parsed.Action!.Options.WarmupCopy).IsNull();
+    }
+
+    // The cloned contract is used for a retry, so its delta list must not be the same list the first
+    // attempt holds; a mutation on one copy may not reach the other.
+    [Test]
+    public async Task RebuildModelIds_CopiesThePerCopyDeltasIntoTheirOwnList()
+    {
+        var parsed = ControlJobParser.Parse(
+            """{"command":"rebuild-model-ids","fork":{"destinationPath":"C:/out/model.rvt","copies":2,"perCopyDeltas":[10,0],"warmupCopy":false}}""");
+        var options = parsed.Action!.Options;
+        var clone = options.Copy();
+        await Assert.That(clone.PerCopyDeltas).IsEquivalentTo([10d, 0d]);
+        await Assert.That(clone.WarmupCopy).IsFalse();
+        clone.PerCopyDeltas!.Add(99);
+        await Assert.That(options.PerCopyDeltas!.Count).IsEqualTo(2);
+    }
+
+    [Test]
+    public async Task RebuildModelIds_RefusesPerCopyDeltasThatAreNotAList()
+    {
+        var parsed = ControlJobParser.Parse(
+            """{"command":"rebuild-model-ids","fork":{"destinationPath":"C:/out/model.rvt","perCopyDeltas":"one per copy"}}""");
+        await Assert.That(parsed.Kind).IsEqualTo(ControlJobKind.Invalid);
+        await Assert.That(parsed.Error).IsEqualTo("fork.perCopyDeltas must be a list of numbers.");
+    }
+
+    [Test]
+    public async Task RebuildModelIds_RefusesAPerCopyDeltaThatIsNotANumber()
+    {
+        var parsed = ControlJobParser.Parse(
+            """{"command":"rebuild-model-ids","fork":{"destinationPath":"C:/out/model.rvt","perCopyDeltas":[1,"two"]}}""");
+        await Assert.That(parsed.Kind).IsEqualTo(ControlJobKind.Invalid);
+        await Assert.That(parsed.Error).IsEqualTo("fork.perCopyDeltas must be a number.");
+    }
+
+    [Test]
+    public async Task RebuildModelIds_RefusesAWarmupFlagThatIsNotABoolean()
+    {
+        var parsed = ControlJobParser.Parse(
+            """{"command":"rebuild-model-ids","fork":{"destinationPath":"C:/out/model.rvt","warmupCopy":"maybe"}}""");
+        await Assert.That(parsed.Kind).IsEqualTo(ControlJobKind.Invalid);
+        await Assert.That(parsed.Error).IsEqualTo("fork.warmupCopy must be true or false.");
+    }
+
     [Test]
     public async Task ElementIdExport_ParsesAsARead()
     {

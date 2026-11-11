@@ -383,7 +383,7 @@
     },
     {
       "name": "revit_rebuild_model_ids",
-      "description": "Rebuild the model into a new document so every element gets a new element ID.\n\n`destination_path` is the new model, with {n} replaced by the copy number when `copies`\nexceeds one. Reports the old to new pairing, the per-file results and the category counts.\ndry_run reports the plan without writing files."
+      "description": "Rebuild the model into a new document so every element gets a new element ID.\n\n`destination_path` is the new model, with {n} replaced by the copy number when `copies`\nexceeds one. `per_copy_deltas` optionally adds temporary seed levels before each delivered\ncopy: exactly one entry per copy, each a whole number from 0 to 1000000, while `seed` applies\nonce before everything else. `warmup_copy` runs one extra internal copy first that absorbs the\ntemplate cleanup and is discarded, so no delivered copy carries it. Reports the old to new\npairing, the per-file results and the category counts. dry_run reports the plan without\nwriting files."
     },
     {
       "name": "revit_export_element_ids",
