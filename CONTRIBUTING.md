@@ -61,8 +61,9 @@ Owner review applies to the paths in [CODEOWNERS](.github/CODEOWNERS):
 - CODEOWNERS, the security policy and the license.
 
 Docs, tests, other CI workflows and dependency manifests without an owner can merge after required checks pass.
-Dependabot patch and minor updates enable squash auto-merge; required checks and any owner review still apply.
+Dependabot patch and minor updates squash-merge once this repository's own checks pass; any owner review still applies.
 Major updates receive a `needs-review` label and wait for a maintainer.
+The server's dependency set stays out of Dependabot: `server/requirements.docker.txt` derives from `server/uv.lock`, so a maintainer moves both with one command, below.
 NuGet manifests under `build/install/` and publishing workflow updates still require owner review.
 All merges use squash with the PR title and body, and history remains linear.
 
@@ -74,7 +75,7 @@ CodeQL analyzes C# and Python on PRs, pushes to `main` and a weekly schedule.
 Successful PR checks publish one updated comment with add-in artifact links and the Revit years built.
 Artifact downloads require a GitHub login and expire after 90 days.
 The shared `community.yml` workflow applies path labels, welcomes contributors and handles stale issues and PRs.
-The shared `dependabot-auto-merge.yml` workflow handles dependency update review and auto-merge.
+The local `dependabot-auto-merge.yml` workflow merges a dependency pull request only after its check runs finished, since `main` protects no branch and requires none.
 PR checks call the shared `check-failure-comment.yml` workflow to maintain one failure comment with reproduction commands for same-repository PRs other than Dependabot.
 These workflows are maintained in [sharafutdinovdi/.github](https://github.com/sharafutdinovdi/.github#caller-workflows).
 Path labels are applied automatically; `enhancement`, `bug`, `docs` and `dependencies` group generated release notes.
@@ -145,6 +146,16 @@ uvx ruff==0.17.4 format --check .
 uv build
 uvx twine check dist/*
 ```
+
+Refresh the server dependency set with one command, so the lock and the hash-pinned container list move together:
+
+```sh
+cd server
+uv lock --upgrade
+uv export --frozen --no-dev --no-emit-project --no-header --quiet -o requirements.docker.txt
+```
+
+CI fails when `server/requirements.docker.txt` does not equal `uv export` of the lock.
 
 Transport tests use mocked operations and a local fake HTTP server.
 They do not require a Windows workstation.

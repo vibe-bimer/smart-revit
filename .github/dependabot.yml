@@ -32,8 +32,10 @@ updates:
     commit-message:
       prefix: chore(deps)
   - package-ecosystem: pip
+    # The server's dependency set is hash-pinned in server/requirements.docker.txt and derived
+    # from server/uv.lock. The two have to move in one commit, which the pip ecosystem cannot
+    # do, so /server stays out of it and a maintainer refreshes the pair with one command.
     directories:
-      - /server
       - /docs
       - /.github/requirements
     schedule:

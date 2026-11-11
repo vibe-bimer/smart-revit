@@ -33,8 +33,9 @@ PR 清单涵盖受支持的 Revit 构建、测试、文档、截图和秘密信�
 - CODEOWNERS、安全政策和许可证。
 
 没有指定所有者的文档、测试、其他 CI 工作流和依赖清单，可在必需检查通过后合并。
-Dependabot 的补丁和次版本更新启用 squash 自动合并；必需检查及任何所有者审核仍然适用。
+Dependabot 的补丁和次版本更新在本仓库自己的检查通过后 squash 合并；任何所有者审核仍然适用。
 主版本更新会添加 `needs-review` 标签，并等待维护者处理。
+服务端的依赖集不交给 Dependabot：`server/requirements.docker.txt` 由 `server/uv.lock` 派生，两者必须一起动，维护者用下面一条命令完成。
 `build/install/` 下的 NuGet 清单及发布工作流更新仍需所有者审核。
 所有合并均使用 squash，并采用 PR 标题和正文，保持线性历史。
 
@@ -47,7 +48,7 @@ CodeQL 在 PR、推送到 `main` 和每周计划中分析 C# 与 Python。
 PR 检查成功后，会发布并更新一条评论，包含插件产物链接和已构建的 Revit 年份。
 下载产物需要登录 GitHub，产物在 90 天后过期。
 共享的 `community.yml` 工作流添加路径标签、欢迎贡献者，并处理长期无活动的 Issue 和 PR。
-共享的 `dependabot-auto-merge.yml` 工作流负责依赖更新审核与自动合并。
+本仓库自带的 `dependabot-auto-merge.yml` 工作流只在依赖 PR 的检查跑完且全部通过后合并，因为 `main` 既不设分支保护也不设必需检查。
 PR 检查调用共享的 `check-failure-comment.yml` 工作流，为同仓库、非 Dependabot 的 PR 维护一条失败评论，其中包含复现命令。
 这些工作流维护于 [sharafutdinovdi/.github](https://github.com/sharafutdinovdi/.github#caller-workflows)。
 路径标签自动添加；`enhancement`、`bug`、`docs` 和 `dependencies` 用于对生成的发布说明分组。
@@ -101,6 +102,16 @@ uvx ruff==0.17.4 format --check .
 uv build
 uvx twine check dist/*
 ```
+
+刷新服务端依赖集用一条命令，锁文件与带哈希的容器清单一起动：
+
+```sh
+cd server
+uv lock --upgrade
+uv export --frozen --no-dev --no-emit-project --no-header --quiet -o requirements.docker.txt
+```
+
+`server/requirements.docker.txt` 与锁文件的 `uv export` 不一致时，CI 会失败。
 
 传输测试使用模拟操作和本地伪 HTTP 服务器。
 这些测试不需要 Windows 工作站。
