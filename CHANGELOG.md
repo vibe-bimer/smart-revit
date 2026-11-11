@@ -6,6 +6,33 @@ All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 Versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.2](https://github.com/vibe-bimer/smart-revit/compare/v1.1.1...v1.1.2) (2026-11-11)
+
+
+### Bug Fixes
+
+* **site:** state the published version on every page ([eea3907](https://github.com/vibe-bimer/smart-revit/commit/eea3907ffa0cd2accedb8f440372f3ea1c07d782))
+* **tests:** keep TUnit at 1.81.16 ([10ec651](https://github.com/vibe-bimer/smart-revit/commit/10ec651b25db27174109f77daf3af93ddb19c62d))
+
+
+### Documentation
+
+* **analysis:** record how a release pull request gets its checks ([2c6dd9b](https://github.com/vibe-bimer/smart-revit/commit/2c6dd9b308ef021bf3d98e3dab761a21d5e03bda))
+* **changelog:** translate the 1.1.1 release notes ([b2dda5c](https://github.com/vibe-bimer/smart-revit/commit/b2dda5c2fa43a395d7741867fc61f5b9df06997a))
+* index the glossary map for the multi-context layout ([456361d](https://github.com/vibe-bimer/smart-revit/commit/456361d0bae2280ddcd96d1c0bdbf3ad8c102536))
+* **site:** publish 1.1.1 and regenerate the pages that name it ([7385b54](https://github.com/vibe-bimer/smart-revit/commit/7385b54276ad492fecbd2fc6a13f4b6f51fa26c8))
+* **site:** read a parameter-list entry as an entry, not a model element ([210ea5a](https://github.com/vibe-bimer/smart-revit/commit/210ea5a07fc9c8eec62e0001038e8fe96d32818a))
+* **site:** regenerate the pages for the 1.1.1 development line ([824b280](https://github.com/vibe-bimer/smart-revit/commit/824b280d3a301c1414667f14ce92e1f0cac7a756))
+
+
+### Dependencies
+
+* **deps:** Bump python from 3.12-slim to 3.15-slim ([#9](https://github.com/vibe-bimer/smart-revit/issues/9)) ([988f10b](https://github.com/vibe-bimer/smart-revit/commit/988f10babb12a9d7b72b92b7a70a60cf5bb21cd9))
+* **deps:** bump the all group across 1 directory with 12 updates ([#1](https://github.com/vibe-bimer/smart-revit/issues/1)) ([8204efc](https://github.com/vibe-bimer/smart-revit/commit/8204efc3abc36aa955b90afac680137492022cfc))
+* **deps:** Bump the all group across 2 directories with 3 updates ([#12](https://github.com/vibe-bimer/smart-revit/issues/12)) ([37ecb45](https://github.com/vibe-bimer/smart-revit/commit/37ecb458105ea16343d08a794e1dac03cdbeeb23))
+* **deps:** Bump the all group with 1 update ([#10](https://github.com/vibe-bimer/smart-revit/issues/10)) ([8e2aa1f](https://github.com/vibe-bimer/smart-revit/commit/8e2aa1f9a04aeb8deda47c3dd86e724111f588e4))
+* **deps:** Bump the all group with 4 updates ([#2](https://github.com/vibe-bimer/smart-revit/issues/2)) ([b7187c5](https://github.com/vibe-bimer/smart-revit/commit/b7187c56bfeda943068595dfbd365b9677b5aab9))
+
 ## [1.1.1](https://github.com/vibe-bimer/smart-revit/compare/v1.1.0...v1.1.1) (2026-11-11)
 
 
