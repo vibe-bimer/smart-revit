@@ -14,7 +14,7 @@ import platform_catalog
 import yaml
 
 BASE = "https://docs.example/"
-REPO = "https://github.com/vibe-bimer/revit-model-mcp"
+REPO = "https://github.com/vibe-bimer/smart-revit"
 
 
 def _default_edit(relative):
@@ -308,13 +308,16 @@ class FeatureGeneratorTests(unittest.TestCase):
 
         The version fact comes from `since`. A tool added after the tag has to carry a
         `since` above the published version, or its page claims a release that never
-        carried it.
+        carried it. The `since` is synthesized so the test keeps its meaning after every
+        release moves the published version forward.
         """
         name = "revit_copy_elements"
         tool = next(item for item in self.tools if item["name"] == name)
+        capability = dict(self.capabilities["tools"][name])
+        capability["since"] = "99.0.0"
         page = generate_features.tool_page(
             tool,
-            self.capabilities["tools"][name],
+            capability,
             "zh",
             self.capabilities,
             self.contracts,
@@ -473,14 +476,14 @@ class FrontmatterDescriptionTests(unittest.TestCase):
                 "已在主线合流，1.0.0 已发布",
                 "两个年份都完成了验收",
                 "尚待完成",
-                "http://192.168.100.165:8929/vibe-bimer/revit-model-mcp/-/issues/15",
+                "https://github.com/vibe-bimer/smart-revit/issues/4",
             ),
             (
                 "en",
                 "merged into main and 1.0.0 has shipped",
                 "live-validated on both Revit 2020 and 2026",
                 "remain outstanding",
-                "http://192.168.100.165:8929/vibe-bimer/revit-model-mcp/-/issues/15",
+                "https://github.com/vibe-bimer/smart-revit/issues/4",
             ),
         ):
             with self.subTest(lang=lang):
@@ -492,9 +495,7 @@ class FrontmatterDescriptionTests(unittest.TestCase):
                     "仍待移植" if lang == "zh" else "remain to be migrated", html
                 )
                 self.assertIn(link, html)
-                self.assertNotIn(
-                    "github.com/vibe-bimer/revit-model-mcp/issues/27", html
-                )
+                self.assertNotIn("github.com/vibe-bimer/smart-revit/issues/27", html)
 
 
 class SchemaTypeTests(unittest.TestCase):

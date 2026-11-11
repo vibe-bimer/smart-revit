@@ -14,14 +14,14 @@ Each catalog follows a line: the feature catalog follows the working tree, and t
 
 | | Features catalog | Development line |
 | --- | --- | --- |
-| Status | Released 1.0.0 | Unreleased (development line) |
+| Status | Released 1.1.1 | Unreleased (development line) |
 | Branch | main | `feat/gitlab-pages` |
 | Tools | 93 | 93 |
 | Catalog | [Feature overview](../features/index.md) | index.md |
 
 ## Two catalogs {#catalogs}
 
-The feature catalog follows the working tree; the platform catalog records the current development line, built on the new base and not yet released. Both are generated from the same tree, so their tool sets coincide; a tool added after release 1.0.0 is marked unreleased on its own page.
+The feature catalog follows the working tree; the platform catalog records the current development line, built on the new base and not yet released. Both are generated from the same tree, so their tool sets coincide; a tool added after release 1.1.1 is marked unreleased on its own page.
 
 | | Features catalog | Development line |
 | --- | --- | --- |
@@ -50,7 +50,7 @@ Every page carries an origin marker: base means the tool came with the upstream 
 | C# escape hatch | 1 | 0 |
 | **Total** | **79** | **14** |
 
-[Fork tool migration status](fork-tools.md) · [Integration specification and decision records](http://192.168.100.165:8929/vibe-bimer/revit-model-mcp/-/issues/15)
+[Fork tool migration status](fork-tools.md) · [Integration specification and decision records](https://github.com/vibe-bimer/smart-revit/issues/4)
 
 ## Tools per group {#groups}
 

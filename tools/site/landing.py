@@ -305,7 +305,7 @@ def render_development(lang: str, released_count: int, branch_count: int) -> str
     <h2 class="rmc-section__title">{title}</h2>
     <p class="rmc-section__lede">{intro}</p>
     <a class="rmc-section__link" href="{catalog_href}">{catalog}</a>
-    <a class="rmc-section__link" href="http://192.168.100.165:8929/vibe-bimer/revit-model-mcp/-/issues/15">{source}</a>
+    <a class="rmc-section__link" href="https://github.com/vibe-bimer/smart-revit/issues/4">{source}</a>
   </header>
   <ul class="rmc-development">
     <li>{base}</li>

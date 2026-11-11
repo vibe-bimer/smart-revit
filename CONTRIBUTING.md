@@ -91,7 +91,7 @@ pre-commit install
 pre-commit run --all-files
 ```
 
-The hooks apply Ruff 0.16.10 fixes and formatting, verify C# formatting, lint workflows, and check file endings, whitespace, YAML and JSON.
+The hooks apply Ruff 0.17.4 fixes and formatting, verify C# formatting, lint workflows, and check file endings, whitespace, YAML and JSON.
 The C# hook sets `Configuration=Debug.R26` and `DeployAddin=false` and runs once when C# files change.
 Full solution formatting requires Windows.
 On macOS and Linux, the hook prints a notice and exits successfully; Windows PR CI verifies C# formatting.
@@ -140,8 +140,8 @@ Run Python tests and package builds on Windows, macOS or Linux with Python 3.11+
 ```sh
 cd server
 uv run --with pytest pytest -q
-uvx ruff==0.16.10 check .
-uvx ruff==0.16.10 format --check .
+uvx ruff==0.17.4 check .
+uvx ruff==0.17.4 format --check .
 uv build
 uvx twine check dist/*
 ```
@@ -149,7 +149,7 @@ uvx twine check dist/*
 Transport tests use mocked operations and a local fake HTTP server.
 They do not require a Windows workstation.
 Keep credentials and model files out of commits and use sanitized fixtures.
-Run `uvx ruff==0.16.10 check --fix .` and `uvx ruff==0.16.10 format .` to apply Python lint fixes and formatting.
+Run `uvx ruff==0.17.4 check --fix .` and `uvx ruff==0.17.4 format .` to apply Python lint fixes and formatting.
 Run `actionlint` 1.7.12 from the repository root after changing a workflow.
 
 ## Documentation site
@@ -169,7 +169,7 @@ Run `mkdocs build --strict` in the activated environment before submitting a PR.
 CI also runs `python tools/site/check_docs_line.py`, which fails when the site configuration, the generator, the
 auditor, the server, the publisher or the tool sections are missing from the checkout, so a dropped documentation
 line cannot reach `main` unnoticed.
-[CI gates and their blind spots](https://github.com/vibe-bimer/revit-model-mcp/blob/main/docs/ci-gates.en.md) lists what each gate proves, what it cannot prove, and where the
+[CI gates and their blind spots](https://github.com/vibe-bimer/smart-revit/blob/main/docs/ci-gates.en.md) lists what each gate proves, what it cannot prove, and where the
 publish health of the deployed site is reported.
 
 ## Test coverage
@@ -189,11 +189,11 @@ Automated tests do not validate live Revit behavior; see [validation evidence](d
 
 ## Release ritual
 
-!!! warning "This fork writes the version section by hand"
-    This fork does not push its GitHub remote, so release-please never runs here. Steps 2 and 3 of the upstream ritual do not apply: at tag time the maintainer writes the `## [x.y.z] (YYYY-MM-DD)` section of [CHANGELOG.md](CHANGELOG.md), mirrors it in [CHANGELOG.zh.md](CHANGELOG.zh.md), and sets the same version in `server/pyproject.toml`. The GitLab release job copies that section verbatim into the release description, so a version without a section ships as `Release x.y.z.` and says nothing about it.
+!!! note "This fork runs release-please on dispatch"
+    This fork never runs release-please on a push to `main`. Dispatch the Release please workflow, review the `chore(main): release X.Y.Z` pull request it opens, and merge it: the merge creates the tag and the GitHub Release, and the same workflow then dispatches the build pipeline for that tag. Without a `RELEASE_PLEASE_TOKEN` secret the action uses `GITHUB_TOKEN`, so the release pull request carries no checks and the maintainer approves its workflows by hand.
 
 1. Merge PRs with Conventional Commit titles.
-2. Upstream, release-please maintains a `chore(main): release X.Y.Z` PR with generated changelog entries and version updates. This fork has no such PR; see the note above.
+2. The `chore(main): release X.Y.Z` PR appears when the maintainer dispatches the Release please workflow. It carries the generated changelog entries and the version updates; see the note above.
 3. Upstream, releases ship on Monday (Europe/Moscow). This fork tags when the maintainer decides the branch is ready.
 4. Check the Release please workflow, both MSI assets, six ZIPs, wheel, source distribution and `SHA256SUMS.txt`. If a job fails with `The job was not acquired by Runner`, that is a GitHub infrastructure failure: rerun it with `gh run rerun <run id> --failed`.
 5. Check the release assets and `SHA256SUMS.txt`. This fork publishes nothing to PyPI, the MCP Registry, Smithery or WinGet: upstream owns those names, and both projects share version numbers, so a release from here that claimed one of them would install upstream's code while appearing to work.
@@ -205,7 +205,7 @@ A scheduled run refreshes it when Monday starts and when it ends.
 For an urgent fix, the maintainer adds the `hotfix-release` label to the release PR, which turns the check green and allows a release on another day.
 The size of the change, not the calendar, decides the version bump: `feat` bumps the minor version and `fix` the patch version, as described below.
 
-Upstream, release-please owns [CHANGELOG.md](CHANGELOG.md) and the version in `server/pyproject.toml`, which the build checks. In this fork the maintainer owns both, as the note above says.
+In this fork release-please writes both when the maintainer merges the release pull request, and no one edits them by hand.
 The simple strategy skips its absent default `version.txt`; no separate version file is maintained.
 Before 1.0, `feat` and breaking changes bump the minor version, while `fix` bumps the patch version.
 Visible documentation and dependency changes can also produce a patch release.

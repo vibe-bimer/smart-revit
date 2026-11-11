@@ -32,10 +32,33 @@ internal static class ForkRebuild
         var templatePath = string.IsNullOrWhiteSpace(action.Options.TemplatePath) ? null : Path.GetFullPath(action.Options.TemplatePath);
         if (templatePath is not null && !File.Exists(templatePath))
             throw new FileNotFoundException($"The template file was not found: {templatePath}.", templatePath);
-        var copies = action.DryRun ? 1 : Math.Clamp(action.Options.Copies ?? 1, 1, MaxCopies);
+        var requestedCopies = action.Options.Copies ?? 1;
+        var deltas = action.Options.PerCopyDeltas;
+        var warmup = action.Options.WarmupCopy == true;
+        if (deltas is not null || warmup)
+        {
+            ForkLookup.Require(requestedCopies >= 1 && requestedCopies <= MaxCopies,
+                "copies must be between 1 and 50.");
+            ForkLookup.Require((action.Options.Seed ?? 0) >= 0, "seed must be nonnegative.");
+            if (deltas is not null)
+            {
+                ForkLookup.Require(deltas.Count == requestedCopies,
+                    "perCopyDeltas must contain exactly copies entries.");
+                ForkLookup.Require(deltas.All(value => !double.IsNaN(value) && !double.IsInfinity(value)
+                    && value >= 0 && value <= 1_000_000 && value == Math.Truncate(value)),
+                    "perCopyDeltas entries must be integers between 0 and 1000000.");
+                ForkLookup.Require(warmup || (long)(action.Options.Seed ?? 0) + deltas[0] <= int.MaxValue,
+                    "seed plus the first delta exceeds the supported integer range.");
+            }
+        }
+        var strictBatch = deltas is not null || warmup;
+        var copies = action.DryRun ? 1 : Math.Clamp(requestedCopies, 1, MaxCopies);
         var paths = DestinationPaths(destinationPath, copies);
         foreach (var path in paths)
         {
+            ForkLookup.Require(string.IsNullOrEmpty(source.PathName)
+                || !string.Equals(Path.GetFullPath(source.PathName), path, StringComparison.OrdinalIgnoreCase),
+                "The destination must differ from the source model path.");
             if (File.Exists(path) && action.Options.Overwrite != true)
                 throw new IOException($"The destination file already exists: {path}. Pass overwrite=true to replace it.");
             var pathDirectory = Path.GetDirectoryName(path);
@@ -80,13 +103,19 @@ internal static class ForkRebuild
             result.DuplicateNames = duplicateNames.ToLowerInvariant();
 
             var copyResults = new List<ForkCopyResult>(copies);
-            for (var index = 0; index < copies; index++)
+            var warmupCount = warmup ? 1 : 0;
+            for (var iteration = 0; iteration < copies + warmupCount; iteration++)
             {
-                var first = index == 0;
+                var first = iteration == 0;
+                var isWarmup = warmup && first;
+                var index = iteration - warmupCount;
+                var path = paths[Math.Max(0, index)];
                 var copyPhases = new PhaseLog();
-                var scratch = new RebuildResult { DestinationPath = paths[index] };
+                var scratch = new RebuildResult { DestinationPath = path };
 
-                var seed = first ? CreateSeed(destination, action.Options.Seed ?? 0) : [];
+                var delta = isWarmup || deltas is null ? 0 : (int)deltas[index];
+                var seedCount = checked((first ? action.Options.Seed ?? 0 : 0) + delta);
+                var seed = CreateSeed(destination, seedCount);
                 copyPhases.Mark("seed");
                 if (first && seed.Count > 0)
                 {
@@ -108,14 +137,22 @@ internal static class ForkRebuild
                     // The copy came out without a one-to-one mapping, which is what happens when Revit pastes
                     // through its element by element path. The elements are taken out again and the copy is
                     // repeated with the names the new model already holds, which lands complete.
-                    newIds = RetryCopy(source, destination, ordered, newIds, copyPhases, result, paths[index]);
+                    newIds = RetryCopy(source, destination, ordered, newIds, copyPhases, result, path);
                     BuildMapping(source, destination, ordered, newIds, scratch);
                 }
+
+                if (strictBatch && seed.Any(id => destination.GetElement(id) is not null))
+                    throw new InvalidOperationException("Temporary seed elements remain; no file was written for this copy.");
+                if (strictBatch && (scratch.IdMappingVerified != true || newIds.Count != ordered.Count))
+                    throw new InvalidOperationException("The batch copy did not preserve the complete source mapping; no file was written for this copy.");
+                if (!isWarmup && copyResults.Count > 0
+                    && newIds.Min(RevitValueReader.GetId) <= copyResults[copyResults.Count - 1].NewIdMax)
+                    throw new InvalidOperationException("The new copy's ID range overlaps the preceding copy; no file was written for this copy.");
 
                 EnsureOpenableView(destination, scratch);
                 copyPhases.Mark("view");
 
-                if (first)
+                if (!isWarmup && index == 0)
                 {
                     result.CopiedCategoryCounts = CountCategories(destination, newIds);
                     result.IdMapping = scratch.IdMapping;
@@ -123,18 +160,18 @@ internal static class ForkRebuild
                     result.IdMappingTruncated = scratch.IdMappingTruncated;
                     result.MappingMismatches = scratch.MappingMismatches;
                     result.IsolatedCopy = scratch.IsolatedCopy;
-                    result.TemplateLevelsRemoved = scratch.TemplateLevelsRemoved;
-                    result.TemplateLevelsKept = scratch.TemplateLevelsKept;
+                    result.TemplateLevelsRemoved = scratch.TemplateLevelsRemoved ?? result.TemplateLevelsRemoved;
+                    result.TemplateLevelsKept = scratch.TemplateLevelsKept ?? result.TemplateLevelsKept;
                     result.Excluded = scratch.Excluded ?? result.Excluded;
                     foreach (var note in scratch.Notes ?? []) (result.Notes ??= []).Add(note);
                 }
                 else
                 {
                     foreach (var note in scratch.Notes ?? [])
-                        (result.Notes ??= []).Add($"{Path.GetFileName(paths[index])}: {note}");
+                        (result.Notes ??= []).Add($"{(isWarmup ? "Warmup" : Path.GetFileName(path))}: {note}");
                 }
 
-                if (action.DryRun)
+                if (action.DryRun && !isWarmup)
                 {
                     result.RolledBack = true;
                     (result.Notes ??= []).Add($"phase timings: {phases.Summary()}.");
@@ -148,6 +185,23 @@ internal static class ForkRebuild
                         (result.Notes ??= []).Add($"{leftovers.Removed} of the renamed template element(s) were removed again, and {leftovers.Kept} stayed because Revit still uses them.");
                 }
                 copyPhases.Mark("cleanup");
+
+                if (isWarmup)
+                {
+                    result.TemplateLevelsRemoved = scratch.TemplateLevelsRemoved;
+                    result.TemplateLevelsKept = scratch.TemplateLevelsKept;
+                    var freed = DeleteCopied(destination, newIds);
+                    // A project keeps at least one level, so the copy of the source level can stay behind when it is
+                    // the only one the new model has. That is not a leftover copy of the content: it is the level the
+                    // following copies are then measured against, and every later copy deletes its own level away.
+                    var stubborn = newIds.Where(id => destination.GetElement(id) is not null).ToList();
+                    if (stubborn.Any(id => destination.GetElement(id) is not Level))
+                        throw new InvalidOperationException("The warmup copy left elements behind; no output file was written.");
+                    copyPhases.Mark("delete-copy");
+                    (result.Notes ??= []).Add($"One warmup copy was discarded without saving: {newIds.Count} mapped elements, {freed.Deleted} elements deleted{(stubborn.Count > 0 ? $", {stubborn.Count} level(s) kept because a project keeps at least one level" : "")}.");
+                    PluginLog.Info($"Rebuild warmup: {copyPhases.Summary()}.");
+                    continue;
+                }
 
                 destination.SaveAs(paths[index], new SaveAsOptions
                 {
@@ -178,6 +232,8 @@ internal static class ForkRebuild
                     var freed = DeleteCopied(destination, newIds);
                     copyPhases.Mark("delete-copy");
                     PluginLog.Info($"Rebuild copy {index + 1} removed again: {freed.Deleted} element(s) deleted, {freed.Left} stayed.");
+                    if (freed.Left > 0 && strictBatch)
+                        throw new InvalidOperationException("The previous copy left elements behind; subsequent batch output was stopped.");
                     if (freed.Left > 0)
                         (result.Notes ??= []).Add($"{freed.Left} element(s) of copy {index + 1} could not be removed before the next copy, so they stay in the copies that follow.");
                 }
@@ -246,16 +302,23 @@ internal static class ForkRebuild
     private static (int Deleted, int Left) DeleteCopied(Document destination, IReadOnlyList<ElementId> ids)
     {
         if (ids.Count == 0) return (0, 0);
+        // A level or grid hosts the elements copied under it, and Revit refuses to delete a host while it still
+        // holds instances. The copy lists datums first, which gives them the lowest ids, so ascending deletion
+        // always reaches the host before its instances and leaves it behind. Delete datums last instead.
+        var ordered = ids
+            .OrderBy(id => IsDatum(destination.GetElement(id)) ? 1 : 0)
+            .ThenBy(RevitValueReader.GetId)
+            .ToList();
         var deleted = 0;
         try
         {
-            deleted = InTransaction(destination, () => destination.Delete(ids.ToList()).Count);
+            deleted = InTransaction(destination, () => destination.Delete(ordered).Count);
         }
         catch (Exception exception)
         {
             // Revit refuses the whole call when one element cannot go, so the rest is removed one by one.
             PluginLog.Warn($"A copy could not be removed in one call ({FirstLine(exception.Message)}); removing it element by element.");
-            foreach (var id in ids)
+            foreach (var id in ordered)
             {
                 try
                 {
@@ -264,12 +327,54 @@ internal static class ForkRebuild
                 catch (Exception inner)
                 {
                     PluginLog.Warn($"A copied element could not be removed: {FirstLine(inner.Message)}");
+                    LogLeftover(destination, id);
+                }
+            }
+        }
+
+        // Deleting a host can free a dependent element only after the document regenerates, so the elements that
+        // refused above get one more chance once everything else is gone.
+        var remaining = ids.Where(id => destination.GetElement(id) is not null).ToList();
+        if (remaining.Count > 0)
+        {
+            try
+            {
+                destination.Regenerate();
+            }
+            catch (Exception regenerateException)
+            {
+                PluginLog.Warn($"The document did not regenerate while removing a copy: {FirstLine(regenerateException.Message)}");
+            }
+
+            foreach (var id in remaining)
+            {
+                try
+                {
+                    deleted += InTransaction(destination, () => destination.Delete(id).Count);
+                }
+                catch (Exception inner)
+                {
+                    PluginLog.Warn($"A copied element still could not be removed: {FirstLine(inner.Message)}");
+                    LogLeftover(destination, id);
                 }
             }
         }
 
         var left = ids.Count(id => destination.GetElement(id) is not null);
         return (deleted, left);
+    }
+
+    private static void LogLeftover(Document destination, ElementId id)
+    {
+        try
+        {
+            var element = destination.GetElement(id);
+            PluginLog.Warn($"Element left behind: id={RevitValueReader.GetId(id)} category='{element?.Category?.Name ?? "?"}' name='{element?.Name ?? "?"}' class='{element?.GetType().Name ?? "?"}'");
+        }
+        catch (Exception detailException)
+        {
+            PluginLog.Warn($"Element left behind: id={RevitValueReader.GetId(id)} details unavailable ({FirstLine(detailException.Message)}).");
+        }
     }
 
     private static View3D ResolveView(Document document, string? requested)
@@ -851,8 +956,15 @@ internal static class ForkRebuild
 
     private static string CategoryName(Element element) => element.Category?.Name ?? string.Empty;
 
-    private static string TypeName(Element element) =>
-        element.GetTypeId().ToElement<ElementType>(element.Document)?.Name ?? string.Empty;
+    private static string TypeName(Element element)
+    {
+        // An element without a type (a level, a grid, another datum) carries an invalid type id. Resolving
+        // that id raises "The document contains no element with the id -1." on Revit 2020, so it is checked
+        // before the type is looked up.
+        var typeId = element.GetTypeId();
+        if (typeId == ElementId.InvalidElementId) return string.Empty;
+        return element.Document.GetElement(typeId)?.Name ?? string.Empty;
+    }
 
     private static List<ForkCount> CountCategories(Document document, IReadOnlyCollection<ElementId> ids)
     {

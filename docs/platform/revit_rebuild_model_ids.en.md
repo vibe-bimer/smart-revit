@@ -6,7 +6,7 @@ description: "Rebuild the model into a new document so every element gets a new 
 
 `revit_rebuild_model_ids`
 
-<p class="facts"><span><b>Group</b> Editing primitives</span><span><b>Kind</b> Action</span><span><b>Base and fork tools</b> Fork (this repository) · Grafted</span><span><b>Status</b> Unreleased (development line)</span><span><b>Release version</b> 1.0.0</span><span><b>Source branch</b> <code>feat/gitlab-pages</code></span><span><b>Source commit</b> <code>50baa705e8da63327ab2bff1e544c76252fddbc9</code></span><span><b>Same-name tool in the release</b> Yes, with identical parameters</span><span><b>This contract applies to the release</b> No</span></p>
+<p class="facts"><span><b>Group</b> Editing primitives</span><span><b>Kind</b> Action</span><span><b>Base and fork tools</b> Fork (this repository) · Grafted</span><span><b>Status</b> Unreleased (development line)</span><span><b>Release version</b> 1.1.1</span><span><b>Source branch</b> <code>feat/gitlab-pages</code></span><span><b>Source commit</b> <code>50baa705e8da63327ab2bff1e544c76252fddbc9</code></span><span><b>Same-name tool in the release</b> Yes, but the parameters differ</span><span><b>This contract applies to the release</b> No</span></p>
 
 !!! note "Usage notes"
     Supports templates, copies and duplicate-name policies; about a thousand lines, and the last of the fourteen to land.
@@ -15,7 +15,12 @@ description: "Rebuild the model into a new document so every element gets a new 
 
 ## Contract differences from the release {#contract-diff}
 
-The same-name tool has an identical contract to release 1.0.0.
+The table below is computed from the registry inputSchema; it is not a hand-written list.
+
+- Parameter per_copy_deltas exists only in the release
+- Parameter warmup_copy exists only in the release
+
+This contract belongs to the development line, not to release 1.1.1; copying these parameters fails on the release.
 
 ## Parameters {#parameters}
 

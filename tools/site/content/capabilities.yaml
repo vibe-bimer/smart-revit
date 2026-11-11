@@ -894,7 +894,7 @@ tools:
       zh: 先运行 dry_run；有宿主、有依赖、成组或属于 MEP 系统的构件会被拒绝
       en: Run dry_run first; hosted, dependent, grouped and MEP-system elements are refused
   revit_rebuild_model_ids:
-    source: 'd84d25c2fcb2'
+    source: '5a030d3d7adc'
     group: ids
     origin: fork
     since: 0.8.0
@@ -916,9 +916,11 @@ tools:
       en: Rebuild the selectable components into E:\out\copy-{n}.rvt, ten copies, no id shared between them
     - zh: 先彩排一次重建，告诉我多少个构件、新 ID 范围，先不要写文件
       en: 'Rehearse the rebuild first: how many components, which new id range, write nothing yet'
+    - zh: 出 24 份，先 warmup 一份垫稳首拷贝，每份的 per_copy_deltas 按试运行量出的间距递增，先彩排
+      en: Produce 24 copies; warm the first copy away, raise per_copy_deltas per copy from the gap a dry run measured, and rehearse first
     note:
-      zh: 源模型不变；仅复制三维视图可选构件及必要基准，不是完整项目克隆；逐份检查数量与 ID 映射
-      en: The source stays unchanged; only selectable 3D-view elements and required datums are copied, not the full project; check every count and ID mapping
+      zh: 源模型不变；仅复制三维视图可选构件及必要基准，不是完整项目克隆；逐份检查数量与 ID 映射；delta 是额外错位而非目标间距
+      en: The source stays unchanged; only selectable 3D-view elements and required datums are copied, not the full project; check every count and ID mapping; a delta is an extra shift, not a target gap
   revit_set_view_lighting:
     source: 'd99a2061ba37'
     group: views
@@ -2024,7 +2026,7 @@ year_notes:
     - Phases use the API that appears from 2022, with no order-check fallback
 param_notes:
   revit_rebuild_model_ids:
-    source: 'd84d25c2fcb2'
+    source: '5a030d3d7adc'
     destination_path:
       zh: 新模型路径（.rvt）；含 {n} 时按份编号
       en: new model path (.rvt); {n} numbers the copies
@@ -2037,6 +2039,12 @@ param_notes:
     seed:
       zh: 先创建并移除 N 个临时标高以推进新文档 ID；不同运行使用不同 seed，是否重叠仍须核对映射
       en: create and remove N temporary levels to advance new-document IDs; use different seeds across runs and verify overlap in the mappings
+    per_copy_deltas:
+      zh: 每份输出副本前的额外错位：长度等于 copies、每项 0–1000000 整数；是叠加的临时标高数，不是目标间距或绝对 ID，先在该模型上试运行核对
+      en: extra shift before each output copy; exactly one entry per copy, each an integer 0-1000000; an additive temp-level count, not a target gap or an absolute id, so rehearse on the actual model first
+    warmup_copy:
+      zh: 先做一次首拷贝（类型落地与样板清理）再全部删除且不保存，输出副本从稳定状态开始；seed 仍在热身前生效一次
+      en: run one first copy (types and template cleanup) and delete it all without saving, so the output copies start from a stable state; seed still applies once before the warmup
     dry_run:
       zh: 彩排：在临时新文档中复制并给出映射，不保存目标文件；源模型始终不变
       en: rehearse in a temporary new document and report the mapping without saving; the source always stays unchanged

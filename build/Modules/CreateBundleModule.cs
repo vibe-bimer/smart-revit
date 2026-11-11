@@ -59,7 +59,7 @@ public sealed partial class CreateBundleModule(IOptions<BuildOptions> buildOptio
         {
             // This fork publishes the server on GitHub Releases and not to PyPI. Upstream publishes the
             // same version numbers, so a PyPI pin on the bare package name would install upstream's server.
-            var serverSource = $"https://github.com/vibe-bimer/revit-model-mcp/archive/refs/tags/v{versioning.Version}.tar.gz#subdirectory=server";
+            var serverSource = $"https://github.com/vibe-bimer/smart-revit/archive/refs/tags/v{versioning.Version}.tar.gz#subdirectory=server";
             var serverLauncher = $"uvx --from {serverSource} revit-model-mcp";
             var readme = $"""
                 Revit Model MCP (vibe-bimer) {versioning.Version}, managed install

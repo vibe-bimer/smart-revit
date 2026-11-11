@@ -58,7 +58,7 @@ MCP 的 `document` 参数会转换为动作任务中的 `targetDocument`。
 | `revit_delete` | `element_ids` | 删除非空 ID 列表中的构件及其依赖。 |
 | `revit_reset_element_ids` | `element_ids`、`dry_run=false` | 用副本替换构件，让 Revit 分配新 ID；报告 `idMapping`。若删除会移除依赖、构件有宿主或属于组、构件是 MEP 曲线或 MEP 系统成员（副本不会重新接入网络，Revit 会在删除的原构件周围自动修复管线），或 Revit 无法复制该构件，则拒绝替换。 |
 | `revit_run_actions` | `steps`、`dry_run=false` | 执行 1–50 个动作，合并为一次撤销记录；首个失败步骤回滚整批。 |
-| `revit_rebuild_model_ids` | `destination_path`、`view=null`、`template_path=null`、`overwrite=false`、`remove_template_levels=true`、`seed=0`、`duplicate_names="override"`、`copies=1`、`dry_run=false` | 将三维视图中可选择的构件复制到新模型，让 Revit 为每个构件分配新 ID；不改变已打开模型。先复制标高、轴网和参照平面，以解析宿主；相机、太阳路径、剖面框、视图及无类别构件不复制，并在 `excluded` 中报告。视图、图纸、明细表、注释、阶段、工作集、MEP 系统和未选中的宿主均不带入，因此结果保留几何、类型和参数。数据报告 `count`、`newIdMin`／`newIdMax`、`sourceCategoryCounts`、`copiedCategoryCounts`，以及按类别和类型校验的 `idMapping`。 |
+| `revit_rebuild_model_ids` | `destination_path`、`view=null`、`template_path=null`、`overwrite=false`、`remove_template_levels=true`、`seed=0`、`duplicate_names="override"`、`copies=1`、`warmup_copy=null`、`per_copy_deltas=null`、`dry_run=false` | 将三维视图中可选择的构件复制到新模型，让 Revit 为每个构件分配新 ID；不改变已打开模型。先复制标高、轴网和参照平面，以解析宿主；相机、太阳路径、剖面框、视图及无类别构件不复制，并在 `excluded` 中报告。视图、图纸、明细表、注释、阶段、工作集、MEP 系统和未选中的宿主均不带入，因此结果保留几何、类型和参数。数据报告 `count`、`newIdMin`／`newIdMax`、`sourceCategoryCounts`、`copiedCategoryCounts`，以及按类别和类型校验的 `idMapping`。 |
 
 `type_name`、`wall_type` 和 `floor_type` 是接受 `null` 的必填参数。
 
@@ -110,6 +110,8 @@ Revit 的 API 只能把背景换成天空、渐变或图片，无法恢复成「
 `duplicate_names=reuse` 不询问重名处理方式，保留新模型已有的版本；一次写入多份副本时默认使用该方式，因为弹出询问会导致 Revit 拒绝粘贴。即使如此，若 Revit 仍拒绝复制，工具会以同一设置重试；记录中的重试恢复了一份少了 11 个构件的副本，但调用者仍必须校验返回的映射。
 `copies=2` 或更大值会从一个新模型依次写入多份文件，每次复制后删除当前副本的构件再进行下一次：Revit 在同一文档中不断分配更大的 ID，因此各副本拥有相同构件和各自的 ID，无须提前消耗 ID。`destination_path` 可用 `{n}` 表示副本编号；不含该占位符时，编号追加在扩展名之前。每份副本的路径、大小和 ID 映射在 `copyResults` 中报告。Revit 有时会拒绝后续副本的批量粘贴：工具随后退回逐构件复制，结果可能更小，其 `copyResults` 项中 `idMappingVerified=false`，因此调用者必须检查每一项。记录中的测试以每次运行一份副本的方式较可靠；测量见[重建性能与成本](rebuild-performance.md)。若要在多个 Revit 实例中并行运行，应使用独立 HTTP 端点或各自只发现一个实例的传输；`document` 不能绕过单实例门禁。实例分别通过 `REVIT_MCP_HTTP_PORT`、`REVIT_MCP_TOKEN` 和 `REVIT_MCP_CHANNEL_DIR` 获取端口、令牌和通道目录。副本农场在无人值守下会被“文件已打开”这类模态提示卡住：给每个实例在启动前设置 `REVIT_MCP_ANSWER_DIALOGS=1` 可自动应答，风险与范围见[自动应答对话框](#answer-dialogs)。
 Revit 为复制构件分配紧接新模型已有构件之后的 ID，因此从同一源模型重建两次会得到相同 ID；`seed` 在复制前添加指定数量的临时标高，再将它们删除，让副本的 ID 移入独立号段。
+新文档里的第一份副本还要落地类型并清理样板内容，一次性消耗的 ID 与后续副本不同；`warmup_copy=true`（热身）先完整做一次这样的首拷贝，再把复制出的构件全部删除，且不保存任何文件：一次性消耗落在这次热身上，真正的输出副本从稳定的文档状态开始。`seed` 仍在热身副本之前生效一次。热身副本若有构件删不干净，运行立即停止，不写任何输出文件。
+`per_copy_deltas` 按份数给出额外错位：列表长度必须等于 `copies`，每一项是 0 到 1000000 的整数，表示对应输出副本之前额外创建并随即移除的临时标高数量。错位叠加在文档当前 ID 计数之上，不是目标间距，也不是绝对 ID：副本间的基础步长、以及 delta 折算成 ID 偏移的比例都随模型变化，必须先在目标模型上试运行量出实际区间，再决定 delta 序列；错位非负，间距只能在此基础上增大，无法小于该模型的基础步长。未启用 `warmup_copy` 时，`seed` 与第一个 delta 之和不能超出整数范围。提供 `per_copy_deltas` 或 `warmup_copy` 任一项即进入严格批次：某份副本的映射不完整，或其 ID 区间与前一副本重叠，整批停止且不再退回逐构件复制。试运行只执行热身（如有）与第一份输出副本，正适合先量出稳定间距。量化错位效果尚待真机验证记录。
 重建试运行报告的创建 ID 同样不能标识已保存的输出模型。
 
 <a id="verification-and-committed-changes"></a>

@@ -14,7 +14,7 @@
 
 从 `git remote -v` 推断仓库——在克隆目录内运行时，`gh` 会自动完成这一点。
 
-在本工作区中，`origin` 是 fork `vibe-bimer/revit-model-mcp`，`upstream` 是 `sharafutdinovdi/revit-model-mcp`。Issue 和工单在 fork 中跟踪。
+在本工作区中，Issue 与工单跟踪在 GitHub 仓库 `vibe-bimer/smart-revit`，它就是本克隆的 `origin` 远端。`gitlab` 指向 GitLab 镜像 `ssh://gitlab-lan/vibe-bimer/revit-model-mcp.git`（2026-11-11 起停用，仅存档），`upstream` 指向改名前的旧 GitHub 路径 `vibe-bimer/revit-model-mcp`（已 404）——两者都不是 Issue 的落点。在克隆目录内调用时显式带仓库：`gh issue list -R vibe-bimer/smart-revit`；或先 `gh repo set-default vibe-bimer/smart-revit` 一次，后续命令自动落在这个仓库。
 
 <a id="pull-requests-as-a-triage-surface"></a>
 ## PR 是否作为分诊入口

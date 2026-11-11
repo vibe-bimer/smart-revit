@@ -1,6 +1,6 @@
 # 建模工具规格：首批
 
-本页是 wayfinder 地图[建筑/结构基础建模工具：首批规格地图](http://192.168.100.165:8929/vibe-bimer/revit-model-mcp/-/issues/34)的交付物。
+本页是 wayfinder 地图[建筑/结构基础建模工具：首批规格地图](https://github.com/vibe-bimer/smart-revit/issues/5)的交付物。
 
 !!! warning "这是规格，不是已实现功能"
     本页描述的工具**尚未实现**。它把首批 7 个工具的契约、2020/2026 API 落法与验证方式定死，供实现票直接照做。实现进度以 [CHANGELOG](changelog.md) 与[验证证据](validation.md)为准。

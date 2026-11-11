@@ -11,7 +11,7 @@ hide:
   <div class="rmc-hero__grid" aria-hidden="true"></div>
   <div class="rmc-hero__inner">
     <div class="rmc-hero__copy">
-      <p class="rmc-eyebrow"><span class="rmc-eyebrow__dot" aria-hidden="true"></span>插件 / MCP 版本 1.0.0</p>
+      <p class="rmc-eyebrow"><span class="rmc-eyebrow__dot" aria-hidden="true"></span>插件 / MCP 版本 1.1.1</p>
       <h1 class="rmc-hero__title">Revit Model MCP</h1>
       <p class="rmc-hero__lede">把 Autodesk Revit 模型接到 AI 助手上：查参数与几何、统计构件、检查模型、导出清单、编辑构件，以及复制模型并换新 ID。默认只读，动作需要双门禁。</p>
       <p class="rmc-hero__actions">
@@ -106,7 +106,7 @@ hide:
     <h2 class="rmc-section__title">新版底座与移植进展</h2>
     <p class="rmc-section__lede">当前网站的 93 个工具取自当前代码树；上游 1.0 底座与 fork 层已在主线合流，1.0.0 已发布，跨标高复制这类后续工具还在往主线合。</p>
     <a class="rmc-section__link" href="platform/">按基座与自研查阅 93 个工具</a>
-    <a class="rmc-section__link" href="http://192.168.100.165:8929/vibe-bimer/revit-model-mcp/-/issues/15">查看集成规格与进展</a>
+    <a class="rmc-section__link" href="https://github.com/vibe-bimer/smart-revit/issues/4">查看集成规格与进展</a>
   </header>
   <ul class="rmc-development">
     <li>上游底座包含文档管理、视图与图纸、族和链接、模型导出、批处理等能力；平台目录的 93 项工具快照取自当前开发线，该线尚未发布。</li>

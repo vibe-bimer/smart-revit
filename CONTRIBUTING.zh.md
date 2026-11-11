@@ -1,9 +1,9 @@
 # 参与贡献
 
-错误报告和功能请求请使用 [Issue 表单](https://github.com/vibe-bimer/revit-model-mcp/issues/new/choose)。
+错误报告和功能请求请使用 [Issue 表单](https://github.com/vibe-bimer/smart-revit/issues/new/choose)。
 错误报告应包含 Revit 年份、插件版本、安装方法、传输方式、复现步骤和已脱敏日志。
 对于可见故障，请在表单的截图字段附上对话框或功能区截图。
-使用和安装问题请前往 [Discussions](https://github.com/vibe-bimer/revit-model-mcp/discussions)。
+使用和安装问题请前往 [Discussions](https://github.com/vibe-bimer/smart-revit/discussions)。
 
 贡献者须遵守[行为准则](https://github.com/sharafutdinovdi/.github/blob/main/CODE_OF_CONDUCT.md)。
 
@@ -64,7 +64,7 @@ pre-commit install
 pre-commit run --all-files
 ```
 
-钩子应用 Ruff 0.16.7 修复和格式化、验证 C# 格式、检查工作流，并检查文件结尾、空白、YAML 和 JSON。
+钩子应用 Ruff 0.17.4 修复和格式化、验证 C# 格式、检查工作流，并检查文件结尾、空白、YAML 和 JSON。
 C# 钩子设置 `Configuration=Debug.R26` 和 `DeployAddin=false`，在 C# 文件变更时运行一次。
 完整解决方案的格式检查需要 Windows；macOS 和 Linux 贡献者可运行 `SKIP=dotnet-format pre-commit run --all-files`，并以 Windows PR 检查作为 C# 格式的依据。
 再次提交前，审核钩子修改并将其暂存。
@@ -96,8 +96,8 @@ Core 测试不需要正在运行的 Revit 实例。
 ```sh
 cd server
 uv run --with pytest pytest -q
-uvx ruff==0.16.7 check .
-uvx ruff==0.16.7 format --check .
+uvx ruff==0.17.4 check .
+uvx ruff==0.17.4 format --check .
 uv build
 uvx twine check dist/*
 ```
@@ -105,7 +105,7 @@ uvx twine check dist/*
 传输测试使用模拟操作和本地伪 HTTP 服务器。
 这些测试不需要 Windows 工作站。
 凭据和模型文件不得进入提交，测试夹具应脱敏。
-运行 `uvx ruff==0.16.7 check --fix .` 和 `uvx ruff==0.16.7 format .`，应用 Python lint 修复和格式化。
+运行 `uvx ruff==0.17.4 check --fix .` 和 `uvx ruff==0.17.4 format .`，应用 Python lint 修复和格式化。
 修改工作流后，从仓库根目录运行 `actionlint` 1.7.12。
 
 <a id="documentation-site"></a>
@@ -126,9 +126,9 @@ Windows 上使用 `.venv\Scripts\python.exe` 和 `.venv\Scripts\mkdocs.exe`。
 CI 还会运行 `python tools/site/check_docs_line.py`：站点配置、生成器、审计脚本、本地服务器、发布器或工具页面章节
 从检出中缺失时即失败，文档线被删掉不会再无声地进入 `main`。
 每道门禁证明什么、不能证明什么，以及线上站点的发布健康在哪里查看，见
-[CI 门禁与盲区](https://github.com/vibe-bimer/revit-model-mcp/blob/main/docs/ci-gates.md)。
+[CI 门禁与盲区](https://github.com/vibe-bimer/smart-revit/blob/main/docs/ci-gates.md)。
 
-中英文文档必须同步维护。工具页面和导航根据当前 MCP 注册表快照 [`tools.json`](https://github.com/vibe-bimer/revit-model-mcp/blob/main/tools/site/content/tools.json)、[`capabilities.yaml`](https://github.com/vibe-bimer/revit-model-mcp/blob/main/tools/site/content/capabilities.yaml) 中经审核的双语标题、摘要、提示词和参数含义，以及 [`contracts.yaml`](https://github.com/vibe-bimer/revit-model-mcp/blob/main/tools/site/content/contracts.yaml) 中完整的中文工具描述生成。工具描述、签名、schema 或注册发生变化后，激活文档环境，并用 `python -m pip install -e server` 使服务器可导入，然后更新快照：
+中英文文档必须同步维护。工具页面和导航根据当前 MCP 注册表快照 [`tools.json`](https://github.com/vibe-bimer/smart-revit/blob/main/tools/site/content/tools.json)、[`capabilities.yaml`](https://github.com/vibe-bimer/smart-revit/blob/main/tools/site/content/capabilities.yaml) 中经审核的双语标题、摘要、提示词和参数含义，以及 [`contracts.yaml`](https://github.com/vibe-bimer/smart-revit/blob/main/tools/site/content/contracts.yaml) 中完整的中文工具描述生成。工具描述、签名、schema 或注册发生变化后，激活文档环境，并用 `python -m pip install -e server` 使服务器可导入，然后更新快照：
 
 ```sh
 python tools/site/generate_features.py --dump
@@ -159,16 +159,16 @@ Core 测试覆盖解析、序列化、格式化、单位和查询处理。
 <a id="release-ritual"></a>
 ## 发布流程
 
-!!! warning "本 fork 的版本节由维护者手写"
-    本 fork 不推 GitHub 远端，release-please 在这里不会运行。上游流程的第 2、3 步不适用：打 tag 时由维护者写 [CHANGELOG.md](CHANGELOG.md) 的 `## [x.y.z] (YYYY-MM-DD)` 节，同步到 [CHANGELOG.zh.md](CHANGELOG.zh.md)，并把同一版本写进 `server/pyproject.toml`。GitLab 的发版作业把该节原样作为发版说明，缺节则只发出 `Release x.y.z.`，什么也不说。
+!!! note "本 fork 的 release-please 由手动调度运行"
+    本 fork 不会在推送到 `main` 时运行 release-please。手动调度 Release please 工作流，审阅它开出的 `chore(main): release X.Y.Z` PR 并合并：合并即创建标签与 GitHub Release，同一工作流再为该标签调度构建流水线。没有 `RELEASE_PLEASE_TOKEN` 机密时，action 使用 `GITHUB_TOKEN`，该 PR 不带检查，需要维护者手工批准其工作流。
 
 1. 使用 Conventional Commit 标题合并 PR。
-2. 上游由 release-please 维护 `chore(main): release X.Y.Z` PR，包含生成的变更日志条目和版本更新。本 fork 没有这个 PR，见上方提示。
+2. 维护者手动调度 Release please 工作流后，会出现 `chore(main): release X.Y.Z` PR，其中包含生成的变更日志条目与版本更新，见上方提示。
 3. 上游由维护者在必需检查通过后合并发布 PR；本 fork 由维护者在分支就绪时打 tag。
 4. 检查 Release please 工作流、两份 MSI 资产、七份按年份分开的 ZIP、wheel、源码发行包和 `SHA256SUMS.txt`。
 5. 对稳定发布检查 PyPI、MCP Registry 和 WinGet 任务结果；若未配置 WinGet 提交，则下载清单。
 
-上游由 release-please 拥有 [CHANGELOG.md](CHANGELOG.md)、`server/pyproject.toml` 中的版本，以及 `server/server.json` 中的两个版本；本 fork 由维护者拥有前两者，见上方提示。
+本 fork 由 release-please 在维护者合并发版 PR 时写入这两处，不再由人手工改。
 清单从 `0.3.0` 开始；`server/pyproject.toml` 仍是构建检查所使用的包版本。
 simple 策略跳过不存在的默认 `version.txt`；不维护单独版本文件。
 1.0 之前，`feat` 和破坏性变更提升次版本，`fix` 提升补丁版本。

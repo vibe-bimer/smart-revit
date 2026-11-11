@@ -53,13 +53,13 @@ For Python 3.11+ with uv, from the repository root:
 ```sh
 cd server
 uv run --with pytest pytest -q
-uvx ruff==0.16.10 check .
-uvx ruff==0.16.10 format --check .
+uvx ruff==0.17.4 check .
+uvx ruff==0.17.4 format --check .
 uv build
 uvx twine check dist/*
 ```
 
-Apply formatting with `uvx ruff==0.16.10 format .` in `server/`.
+Apply formatting with `uvx ruff==0.17.4 format .` in `server/`.
 Run `actionlint` 1.7.12 from the repository root after workflow changes and before pushing them.
 See [CONTRIBUTING.md](CONTRIBUTING.md) for packaging commands and test coverage.
 
@@ -88,6 +88,20 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for packaging commands and test coverage.
 Follow the [release ritual](CONTRIBUTING.md#release-ritual).
 The version in `server/pyproject.toml` must equal the tag without its `v` prefix.
 Agents never edit `CHANGELOG.md` or the `server/pyproject.toml` version by hand.
-In this fork the maintainer owns them: release-please never runs here, because the GitHub remote is not pushed.
+In this fork the maintainer owns them: release-please runs only on `workflow_dispatch` here, never on a push to `main`.
 The maintainer merges the release PR to create the tag and publish the release.
 Verify assets and publishing jobs after the release workflow finishes.
+
+## Agent skills
+
+### Issue tracker
+
+GitHub Issues in `vibe-bimer/smart-revit`. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+The five default roles: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+multi-context. See `docs/agents/domain.md`.

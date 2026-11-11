@@ -11,7 +11,7 @@ hide:
   <div class="rmc-hero__grid" aria-hidden="true"></div>
   <div class="rmc-hero__inner">
     <div class="rmc-hero__copy">
-      <p class="rmc-eyebrow"><span class="rmc-eyebrow__dot" aria-hidden="true"></span>Add-in / MCP version 1.0.0</p>
+      <p class="rmc-eyebrow"><span class="rmc-eyebrow__dot" aria-hidden="true"></span>Add-in / MCP version 1.1.1</p>
       <h1 class="rmc-hero__title">Revit Model MCP</h1>
       <p class="rmc-hero__lede">Bring Autodesk Revit models to your AI assistant: inspect parameters and geometry, count elements, check models, export registers, edit elements, and copy models with new IDs. Read-only by default; actions need both gates.</p>
       <p class="rmc-hero__actions">
@@ -106,7 +106,7 @@ hide:
     <h2 class="rmc-section__title">New platform and migration progress</h2>
     <p class="rmc-section__lede">The 93 tools on this site come from the working tree; the upstream 1.0 platform and the fork layer have merged into main and 1.0.0 has shipped, while later tools such as cross-level copy are still on their way in.</p>
     <a class="rmc-section__link" href="platform/">Browse the 93 tools by origin</a>
-    <a class="rmc-section__link" href="http://192.168.100.165:8929/vibe-bimer/revit-model-mcp/-/issues/15">View the development line specification and progress</a>
+    <a class="rmc-section__link" href="https://github.com/vibe-bimer/smart-revit/issues/4">View the development line specification and progress</a>
   </header>
   <ul class="rmc-development">
     <li>The upstream platform adds document management, views and sheets, families and links, export, and batch processing; the 93-tool snapshot in the platform catalog comes from the current development line, which no release carries yet.</li>

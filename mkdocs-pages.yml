@@ -3,4 +3,4 @@
 # The LAN configuration keeps the root-served build on 192.168.100.120 until that host retires.
 INHERIT: mkdocs.yml
 
-site_url: http://192.168.100.165:8090/vibe-bimer/revit-model-mcp/
+site_url: http://192.168.100.165:8090/vibe-bimer/smart-revit/

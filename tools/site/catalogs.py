@@ -14,10 +14,10 @@ from __future__ import annotations
 
 import json
 import re
+import tomllib
 from dataclasses import dataclass
 from pathlib import Path
 
-import tomllib
 import yaml
 
 ROOT = Path(__file__).resolve().parents[2]

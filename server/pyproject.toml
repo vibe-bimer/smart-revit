@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "revit-model-mcp"
-version = "1.0.0"
+version = "1.1.1"
 description = "Revit Model MCP (vibe-bimer): read-only-by-default MCP access to live Autodesk Revit projects"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -26,11 +26,11 @@ classifiers = [
 dependencies = ["mcp>=2.0.0", "openpyxl>=3.1.0", "pillow>=10"]
 
 [project.urls]
-Homepage = "https://github.com/vibe-bimer/revit-model-mcp"
-Changelog = "https://github.com/vibe-bimer/revit-model-mcp/blob/main/CHANGELOG.md"
-Repository = "https://github.com/vibe-bimer/revit-model-mcp"
-Documentation = "https://github.com/vibe-bimer/revit-model-mcp#readme"
-Issues = "https://github.com/vibe-bimer/revit-model-mcp/issues"
+Homepage = "https://github.com/vibe-bimer/smart-revit"
+Changelog = "https://github.com/vibe-bimer/smart-revit/blob/main/CHANGELOG.md"
+Repository = "https://github.com/vibe-bimer/smart-revit"
+Documentation = "https://github.com/vibe-bimer/smart-revit#readme"
+Issues = "https://github.com/vibe-bimer/smart-revit/issues"
 
 [project.scripts]
 revit-model-mcp = "revit_model_mcp.server:main"
@@ -42,7 +42,7 @@ packages = ["revit_model_mcp"]
 testpaths = ["tests"]
 
 [tool.ruff]
-required-version = "==0.16.10"
+required-version = "==0.17.4"
 target-version = "py311"
 line-length = 100
 

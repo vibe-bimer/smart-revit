@@ -1020,7 +1020,7 @@ def index_page(tools: list[dict], released: list[dict], lang: str) -> str:
     out += [
         f"| **{labels['all']}** | **{numbers['base']}** | **{numbers['fork']}** |",
         "",
-        f"[{labels['fork_page']}](fork-tools.md) · [{labels['spec']}](http://192.168.100.165:8929/vibe-bimer/revit-model-mcp/-/issues/15)",
+        f"[{labels['fork_page']}](fork-tools.md) · [{labels['spec']}](https://github.com/vibe-bimer/smart-revit/issues/4)",
         "",
         f"## {labels['groups']} {{#groups}}",
         "",

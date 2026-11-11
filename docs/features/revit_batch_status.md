@@ -6,7 +6,7 @@ description: "发起客户端退出后，读取留存下来的运行与模型状
 
 `revit_batch_status`
 
-<p class="facts"><span><b>分组</b> 批量作业</span><span><b>类型</b> 读取（只读）</span><span><b>起始版本</b> 1.0.0</span><span><b>版本</b> 已发布 1.0.0</span><span><b>开发线有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span></p>
+<p class="facts"><span><b>分组</b> 批量作业</span><span><b>类型</b> 读取（只读）</span><span><b>起始版本</b> 1.0.0</span><span><b>版本</b> 已发布 1.1.1</span><span><b>开发线有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span></p>
 
 发起客户端退出后，读取留存下来的运行与模型状态
 

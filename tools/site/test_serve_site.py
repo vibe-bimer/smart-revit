@@ -13,7 +13,7 @@ import os
 import tempfile
 import threading
 import unittest
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -645,7 +645,7 @@ class StatusEndpointTests(ServeSiteTestCase):
         cls.state = root / "state"
         cls.state.mkdir()
         # A fresh success: the summary must be able to tell healthy from stale.
-        now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+        now = datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
         (cls.state / "manifest.json").write_text(
             json.dumps(
                 {

@@ -116,7 +116,7 @@ The server is a Python package started by the MCP client through uv. The client 
 For a controlled fleet, pin the version and turn off the daily check:
 
 ```sh
-claude mcp add revit-model-mcp -e REVIT_MCP_HOST=local -e REVIT_MCP_NO_UPDATE_CHECK=1 -- uvx --from https://github.com/vibe-bimer/revit-model-mcp/releases/download/v<VERSION>/revit_model_mcp-<VERSION>-py3-none-any.whl revit-model-mcp
+claude mcp add revit-model-mcp -e REVIT_MCP_HOST=local -e REVIT_MCP_NO_UPDATE_CHECK=1 -- uvx --from https://github.com/vibe-bimer/smart-revit/releases/download/v<VERSION>/revit_model_mcp-<VERSION>-py3-none-any.whl revit-model-mcp
 ```
 
 Use the same `--from <wheel URL>` pair in a JSON client configuration. The managed add-in bundle `revit-model-mcp-<version>-managed.bundle.zip` is built to never check for updates; see [managed installs](../install.md#managed-installs).
@@ -127,7 +127,7 @@ The server does not need internet access once its packages are on the machine. B
 
 ```sh
 # connected machine
-python -m pip download -d wheelhouse https://github.com/vibe-bimer/revit-model-mcp/releases/download/v<VERSION>/revit_model_mcp-<VERSION>-py3-none-any.whl
+python -m pip download -d wheelhouse https://github.com/vibe-bimer/smart-revit/releases/download/v<VERSION>/revit_model_mcp-<VERSION>-py3-none-any.whl
 
 # offline machine
 uv tool install --offline --no-index --find-links wheelhouse revit-model-mcp==<version>

@@ -1,9 +1,9 @@
 site_name: Revit Model MCP
 site_description: "把 Autodesk Revit 模型接到 AI 助手：查询参数与几何、统计构件、检查模型、导出清单并编辑构件，默认只读。"
 copyright: Autodesk and Revit are registered trademarks or trademarks of Autodesk, Inc., and/or its subsidiaries and/or affiliates in the USA and/or other countries. Model MCP is an independent project and is not affiliated with or endorsed by Autodesk.
-site_url: https://vibe-bimer.github.io/revit-model-mcp/
-repo_url: https://github.com/vibe-bimer/revit-model-mcp
-repo_name: vibe-bimer/revit-model-mcp
+site_url: https://vibe-bimer.github.io/smart-revit/
+repo_url: https://github.com/vibe-bimer/smart-revit
+repo_name: vibe-bimer/smart-revit
 edit_uri: edit/main/docs/
 
 theme:

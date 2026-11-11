@@ -82,7 +82,7 @@ def log(message: str) -> None:
 
 
 def utc_now() -> str:
-    return datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    return datetime.datetime.now(datetime.UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def run(
@@ -511,7 +511,7 @@ def adopt(repo: Path, state: Path, publish_root: Path) -> int:
         raise
     status = Status(state / "manifest.json")
     try:
-        stamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+        stamp = datetime.datetime.now(datetime.UTC).strftime("%Y%m%dT%H%M%SZ")
         release_id = f"{stamp}-adopted"
         release_dir = releases / release_id
         parked = publish_root.parent / f".{publish_root.name}-adopt-{os.getpid()}"
@@ -617,7 +617,9 @@ def publish(repo: Path, state: Path, publish_root: Path) -> int:
         log(f"config failed: {failure.reason}")
         return failure.code
 
-    release_id = f"{datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%SZ')}-{commit[:7]}"
+    release_id = (
+        f"{datetime.datetime.now(datetime.UTC).strftime('%Y%m%dT%H%M%SZ')}-{commit[:7]}"
+    )
     staging = state / "releases" / f".staging-{release_id}-{os.getpid()}"
     if staging.exists():
         make_writable(staging)

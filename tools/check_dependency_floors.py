@@ -13,9 +13,8 @@ Exit codes: 0 every floor holds, 1 a floor is violated, 2 the check could not re
 from __future__ import annotations
 
 import sys
-from pathlib import Path
-
 import tomllib
+from pathlib import Path
 
 REPOSITORY_ROOT = Path(__file__).resolve().parent.parent
 LOCK_PATH = REPOSITORY_ROOT / "server" / "uv.lock"

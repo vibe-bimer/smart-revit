@@ -202,7 +202,9 @@ class PageTests(unittest.TestCase):
         self.assertIn(platform_catalog.COMMIT, page)
         self.assertIn("(../features/revit_export_view.md)", page)
         self.assertIn("{#contract-diff}", page)
-        self.assertIn("同名工具的契约与发布版 1.0.0 一致", page)
+        self.assertIn(
+            f"同名工具的契约与发布版 {platform_catalog.RELEASE_VERSION} 一致", page
+        )
 
     def test_a_page_without_a_release_twin_has_no_diff_section(self):
         tool = self.tools[0]

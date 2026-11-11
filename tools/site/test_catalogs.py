@@ -8,12 +8,12 @@ wrong page, which is exactly what these tests guard.
 
 import json
 import tempfile
+import tomllib
 import unittest
 from pathlib import Path
 
 import catalogs
 import platform_catalog
-import tomllib
 
 REAL_ROOT = Path(__file__).resolve().parents[2]
 

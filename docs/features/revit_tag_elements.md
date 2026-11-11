@@ -6,7 +6,7 @@ description: "在视图里按类别或构件 ID 加标记，房间标记需平�
 
 `revit_tag_elements`
 
-<p class="facts"><span><b>分组</b> 选中与显示</span><span><b>类型</b> 动作（需授权）</span><span><b>起始版本</b> 1.0.0</span><span><b>版本</b> 已发布 1.0.0</span><span><b>开发线有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span><span><b>影响范围</b> 选择 / 视图状态</span></p>
+<p class="facts"><span><b>分组</b> 选中与显示</span><span><b>类型</b> 动作（需授权）</span><span><b>起始版本</b> 1.0.0</span><span><b>版本</b> 已发布 1.1.1</span><span><b>开发线有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span><span><b>影响范围</b> 选择 / 视图状态</span></p>
 
 在视图里按类别或构件 ID 加标记，房间标记需平面视图
 
