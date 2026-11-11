@@ -91,7 +91,7 @@ pre-commit install
 pre-commit run --all-files
 ```
 
-The hooks apply Ruff 0.16.10 fixes and formatting, verify C# formatting, lint workflows, and check file endings, whitespace, YAML and JSON.
+The hooks apply Ruff 0.17.4 fixes and formatting, verify C# formatting, lint workflows, and check file endings, whitespace, YAML and JSON.
 The C# hook sets `Configuration=Debug.R26` and `DeployAddin=false` and runs once when C# files change.
 Full solution formatting requires Windows.
 On macOS and Linux, the hook prints a notice and exits successfully; Windows PR CI verifies C# formatting.
@@ -140,8 +140,8 @@ Run Python tests and package builds on Windows, macOS or Linux with Python 3.11+
 ```sh
 cd server
 uv run --with pytest pytest -q
-uvx ruff==0.16.10 check .
-uvx ruff==0.16.10 format --check .
+uvx ruff==0.17.4 check .
+uvx ruff==0.17.4 format --check .
 uv build
 uvx twine check dist/*
 ```
@@ -149,7 +149,7 @@ uvx twine check dist/*
 Transport tests use mocked operations and a local fake HTTP server.
 They do not require a Windows workstation.
 Keep credentials and model files out of commits and use sanitized fixtures.
-Run `uvx ruff==0.16.10 check --fix .` and `uvx ruff==0.16.10 format .` to apply Python lint fixes and formatting.
+Run `uvx ruff==0.17.4 check --fix .` and `uvx ruff==0.17.4 format .` to apply Python lint fixes and formatting.
 Run `actionlint` 1.7.12 from the repository root after changing a workflow.
 
 ## Documentation site

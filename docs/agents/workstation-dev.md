@@ -139,7 +139,7 @@ Windows 上有些门禁的表现和开发机不同：
 cd $env:USERPROFILE\revit-model-mcp
 dotnet test --project tests/RevitModelMcp.Core.Tests/RevitModelMcp.Core.Tests.csproj
 cd server; uv run --with pytest pytest -q
-cd ..; uvx ruff==0.16.10 check .; uvx ruff==0.16.10 format --check .
+cd ..; uvx ruff==0.17.4 check .; uvx ruff==0.17.4 format --check .
 pre-commit run --all-files
 python build/check_fork_budget.py
 ```

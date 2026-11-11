@@ -64,7 +64,7 @@ pre-commit install
 pre-commit run --all-files
 ```
 
-钩子应用 Ruff 0.16.7 修复和格式化、验证 C# 格式、检查工作流，并检查文件结尾、空白、YAML 和 JSON。
+钩子应用 Ruff 0.17.4 修复和格式化、验证 C# 格式、检查工作流，并检查文件结尾、空白、YAML 和 JSON。
 C# 钩子设置 `Configuration=Debug.R26` 和 `DeployAddin=false`，在 C# 文件变更时运行一次。
 完整解决方案的格式检查需要 Windows；macOS 和 Linux 贡献者可运行 `SKIP=dotnet-format pre-commit run --all-files`，并以 Windows PR 检查作为 C# 格式的依据。
 再次提交前，审核钩子修改并将其暂存。
@@ -96,8 +96,8 @@ Core 测试不需要正在运行的 Revit 实例。
 ```sh
 cd server
 uv run --with pytest pytest -q
-uvx ruff==0.16.7 check .
-uvx ruff==0.16.7 format --check .
+uvx ruff==0.17.4 check .
+uvx ruff==0.17.4 format --check .
 uv build
 uvx twine check dist/*
 ```
@@ -105,7 +105,7 @@ uvx twine check dist/*
 传输测试使用模拟操作和本地伪 HTTP 服务器。
 这些测试不需要 Windows 工作站。
 凭据和模型文件不得进入提交，测试夹具应脱敏。
-运行 `uvx ruff==0.16.7 check --fix .` 和 `uvx ruff==0.16.7 format .`，应用 Python lint 修复和格式化。
+运行 `uvx ruff==0.17.4 check --fix .` 和 `uvx ruff==0.17.4 format .`，应用 Python lint 修复和格式化。
 修改工作流后，从仓库根目录运行 `actionlint` 1.7.12。
 
 <a id="documentation-site"></a>

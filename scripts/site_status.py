@@ -82,12 +82,12 @@ def parse_utc(value: str | None) -> datetime.datetime | None:
     except ValueError:
         return None
     if stamp.tzinfo is None:
-        stamp = stamp.replace(tzinfo=datetime.timezone.utc)
-    return stamp.astimezone(datetime.timezone.utc)
+        stamp = stamp.replace(tzinfo=datetime.UTC)
+    return stamp.astimezone(datetime.UTC)
 
 
 def utc_now() -> str:
-    return datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    return datetime.datetime.now(datetime.UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def hours_since(value: str | None, now: datetime.datetime) -> float | None:
@@ -117,7 +117,7 @@ def summarize(
     """Return the publish status of one deployment."""
     environment = os.environ if env is None else env
     root = state if state is not None else state_dir(environment)
-    moment = now or datetime.datetime.now(datetime.timezone.utc)
+    moment = now or datetime.datetime.now(datetime.UTC)
     manifest = read_json(root / MANIFEST_NAME)
     timer = read_json(root / TIMER_NAME)
     watchdog = read_json(root / WATCHDOG_NAME)

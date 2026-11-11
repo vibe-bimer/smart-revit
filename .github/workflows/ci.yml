@@ -124,9 +124,9 @@ jobs:
       - name: Test server
         run: uv run --frozen --with pytest==9.1.1 pytest -q
       - name: Check Python
-        run: uvx ruff==0.16.10 check .
+        run: uvx ruff==0.17.4 check .
       - name: Verify Python formatting
-        run: uvx ruff==0.16.10 format --check .
+        run: uvx ruff==0.17.4 format --check .
       - name: Check Docker requirements match the lock file
         working-directory: server
         shell: bash

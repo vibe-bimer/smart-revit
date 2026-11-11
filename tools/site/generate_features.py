@@ -17,13 +17,13 @@ import shutil
 import subprocess
 import sys
 import threading
+import tomllib
 from pathlib import Path
 
 import catalogs
 import contract_diff
 import landing
 import platform_catalog
-import tomllib
 import yaml
 
 ROOT = Path(__file__).resolve().parents[2]

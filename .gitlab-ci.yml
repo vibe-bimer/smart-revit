@@ -29,7 +29,7 @@ variables:
   # Pinned exactly like the GitHub workflows: an unpinned tool makes a red pipeline mean
   # "upstream released something" instead of "the change is broken".
   UV_VERSION: '0.12.22'
-  RUFF_VERSION: '0.16.10'
+  RUFF_VERSION: '0.17.4'
   PYTEST_VERSION: '9.1.1'
   TWINE_VERSION: '7.0.0'
   MCPB_VERSION: '2.1.2'

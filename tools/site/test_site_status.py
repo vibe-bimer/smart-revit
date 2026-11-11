@@ -31,7 +31,7 @@ _watchdog_spec = importlib.util.spec_from_file_location(
 check_site_status = importlib.util.module_from_spec(_watchdog_spec)
 _watchdog_spec.loader.exec_module(check_site_status)
 
-NOW = datetime.datetime(2026, 5, 1, 12, 0, tzinfo=datetime.timezone.utc)
+NOW = datetime.datetime(2026, 5, 1, 12, 0, tzinfo=datetime.UTC)
 
 
 def stamp(hours_ago: float) -> str:
