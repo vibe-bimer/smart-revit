@@ -14,6 +14,10 @@ updates:
       all:
         patterns: ["*"]
     labels: [dependencies, build]
+    ignore:
+      # TUnit 1.83.0 loads Microsoft.Bcl.AsyncInterfaces 9.0.0 at run time, and the locked
+      # graph carries no entry for it, so the test host aborts before a single test runs.
+      - dependency-name: TUnit
     commit-message:
       prefix: chore(deps)
   - package-ecosystem: github-actions

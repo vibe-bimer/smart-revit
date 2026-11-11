@@ -9,8 +9,58 @@ permissions:
 
 jobs:
   auto-merge:
+    if: github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
     permissions:
       contents: write
-      issues: write
       pull-requests: write
-    uses: sharafutdinovdi/.github/.github/workflows/dependabot-auto-merge.yml@594da42c2b8e77e670d1d1846f89145b91bc0c73 # main
+    steps:
+      - name: Merge once this repository's own checks pass
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+
+          # main carries no required checks, so `gh pr merge --auto` would merge a pull
+          # request the moment it turns mergeable, before CI has run a single job. Wait for
+          # the checks first, and merge only what passed.
+          labels=$(gh pr view "$PR" --repo "$REPO" --json labels --jq '[.labels[].name] | join(" ")')
+          for label in $labels; do
+            if [ "$label" = "needs-review" ]; then
+              echo "Pull request $PR asks for a maintainer; leaving it alone."
+              exit 0
+            fi
+          done
+
+          head=$(gh pr view "$PR" --repo "$REPO" --json headRefOid --jq .headRefOid)
+          for _ in $(seq 1 90); do
+            if [ "$(gh pr view "$PR" --repo "$REPO" --json state --jq .state)" != "OPEN" ]; then
+              echo "Pull request $PR is no longer open."
+              exit 0
+            fi
+            summary=$(gh api "repos/$REPO/commits/$head/check-runs" --paginate \
+              --jq '[.check_runs[] | select(.name | startswith("auto-merge") | not) | {s: .status, c: .conclusion}] | {
+                     total: length,
+                     running: (map(select(.s != "completed")) | length),
+                     failed: (map(select(.c != null and .c != "success" and .c != "skipped" and .c != "neutral")) | length)}')
+            total=$(printf '%s' "$summary" | jq -r .total)
+            running=$(printf '%s' "$summary" | jq -r .running)
+            failed=$(printf '%s' "$summary" | jq -r .failed)
+            echo "checks: total=$total running=$running failed=$failed"
+            if [ "$running" = "0" ] && [ "$total" != "0" ]; then
+              break
+            fi
+            sleep 30
+          done
+
+          if [ "$total" = "0" ]; then
+            echo "No check run reported for $head; leaving the pull request open."
+            exit 0
+          fi
+          if [ "$failed" != "0" ]; then
+            echo "A check failed; leaving the pull request open."
+            exit 0
+          fi
+          gh pr merge "$PR" --repo "$REPO" --squash --delete-branch
