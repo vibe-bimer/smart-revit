@@ -71,7 +71,7 @@ jobs:
           assert.equal(manifest.user_config.REVIT_MCP_REDACT_PATHS.default, true);
           assert.equal(manifest.user_config.REVIT_MCP_READ_ONLY.default, true);
           assert.equal(manifest.user_config.REVIT_MCP_TOKEN.sensitive, true);
-          const wheel = `https://github.com/vibe-bimer/revit-model-mcp/releases/download/v${manifest.version}/revit_model_mcp-${manifest.version}-py3-none-any.whl`;
+          const wheel = `https://github.com/vibe-bimer/smart-revit/releases/download/v${manifest.version}/revit_model_mcp-${manifest.version}-py3-none-any.whl`;
           // Both projects publish the same version numbers, so any PyPI spec here would install
           // upstream's server. The launcher must name this fork's own release wheel.
           assert.ok(!/revit-model-mcp\s*(?:[=<>^~!]=?|[<>])/.test(JSON.stringify(manifest.server)), 'bundle launcher must not resolve a PyPI spec');

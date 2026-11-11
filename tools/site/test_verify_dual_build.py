@@ -8,7 +8,7 @@ from pathlib import Path
 
 import verify_dual_build as gate
 
-GH_BASE = "https://vibe-bimer.github.io/revit-model-mcp/"
+GH_BASE = "https://vibe-bimer.github.io/smart-revit/"
 LAN_BASE = "http://192.168.100.120:8099/"
 
 
@@ -28,7 +28,7 @@ class NormalizeTextTests(unittest.TestCase):
         self.assertEqual(prose, gate.normalize_text(prose, GH_BASE))
 
     def test_prefix_strip_keeps_github_repo_links_intact(self):
-        repo = "https://github.com/vibe-bimer/revit-model-mcp/edit/main/docs/a.md"
+        repo = "https://github.com/vibe-bimer/smart-revit/edit/main/docs/a.md"
         self.assertIn(repo, gate.normalize_text(f'href="{repo}"', GH_BASE))
 
     def test_prefix_strip_covers_single_quoted_attributes(self):

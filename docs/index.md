@@ -106,7 +106,7 @@ hide:
     <h2 class="rmc-section__title">新版底座与移植进展</h2>
     <p class="rmc-section__lede">当前网站的 93 个工具取自当前代码树；上游 1.0 底座与 fork 层已在主线合流，1.0.0 已发布，跨标高复制这类后续工具还在往主线合。</p>
     <a class="rmc-section__link" href="platform/">按基座与自研查阅 93 个工具</a>
-    <a class="rmc-section__link" href="http://192.168.100.165:8929/vibe-bimer/revit-model-mcp/-/issues/15">查看集成规格与进展</a>
+    <a class="rmc-section__link" href="https://github.com/vibe-bimer/smart-revit/issues/4">查看集成规格与进展</a>
   </header>
   <ul class="rmc-development">
     <li>上游底座包含文档管理、视图与图纸、族和链接、模型导出、批处理等能力；平台目录的 93 项工具快照取自当前开发线，该线尚未发布。</li>

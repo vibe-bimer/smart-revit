@@ -10,26 +10,26 @@ It requires Python 3.11 or later and the matching add-in loaded in Revit on Wind
 Run this fork's server from its tag tarball with uv:
 
 ```sh
-uvx --from "https://github.com/vibe-bimer/revit-model-mcp/archive/refs/tags/v<VERSION>.tar.gz#subdirectory=server" revit-model-mcp
+uvx --from "https://github.com/vibe-bimer/smart-revit/archive/refs/tags/v<VERSION>.tar.gz#subdirectory=server" revit-model-mcp
 ```
 
 The `revit-model-mcp` project on PyPI belongs to upstream, so a bare `uvx` of that name installs the wrong server.
 The release wheel is the same server as a pinned artifact:
 
 ```sh
-uvx --from https://github.com/vibe-bimer/revit-model-mcp/releases/download/v<VERSION>/revit_model_mcp-<VERSION>-py3-none-any.whl revit-model-mcp
+uvx --from https://github.com/vibe-bimer/smart-revit/releases/download/v<VERSION>/revit_model_mcp-<VERSION>-py3-none-any.whl revit-model-mcp
 ```
 
 Register the local Windows server with Claude Code:
 
 ```sh
-claude mcp add revit-model-mcp -e REVIT_MCP_HOST=local -e REVIT_MCP_READ_ONLY=1 -- uvx --from "https://github.com/vibe-bimer/revit-model-mcp/archive/refs/tags/v<VERSION>.tar.gz#subdirectory=server" revit-model-mcp
+claude mcp add revit-model-mcp -e REVIT_MCP_HOST=local -e REVIT_MCP_READ_ONLY=1 -- uvx --from "https://github.com/vibe-bimer/smart-revit/archive/refs/tags/v<VERSION>.tar.gz#subdirectory=server" revit-model-mcp
 ```
 
 For a client on macOS or Linux:
 
 ```sh
-claude mcp add revit-model-mcp -e REVIT_MCP_HOST=ssh:revit-host -e REVIT_MCP_REDACT_PATHS=1 -e REVIT_MCP_READ_ONLY=1 -- uvx --from "https://github.com/vibe-bimer/revit-model-mcp/archive/refs/tags/v<VERSION>.tar.gz#subdirectory=server" revit-model-mcp
+claude mcp add revit-model-mcp -e REVIT_MCP_HOST=ssh:revit-host -e REVIT_MCP_REDACT_PATHS=1 -e REVIT_MCP_READ_ONLY=1 -- uvx --from "https://github.com/vibe-bimer/smart-revit/archive/refs/tags/v<VERSION>.tar.gz#subdirectory=server" revit-model-mcp
 ```
 
 Replace `revit-host` with an alias from the client's SSH configuration.
@@ -42,7 +42,7 @@ Claude Desktop uses this entry in `claude_desktop_config.json` on Windows:
   "mcpServers": {
     "revit-model-mcp": {
       "command": "uvx",
-      "args": ["--from", "https://github.com/vibe-bimer/revit-model-mcp/archive/refs/tags/v<VERSION>.tar.gz#subdirectory=server", "revit-model-mcp"],
+      "args": ["--from", "https://github.com/vibe-bimer/smart-revit/archive/refs/tags/v<VERSION>.tar.gz#subdirectory=server", "revit-model-mcp"],
       "env": {
         "REVIT_MCP_HOST": "local",
         "REVIT_MCP_REDACT_PATHS": "1"

@@ -20,7 +20,7 @@ FORBIDDEN_PATTERN = re.compile(
 # A managed bundle installs the server itself. This fork publishes no PyPI package, and upstream
 # publishes the same version numbers, so any PyPI spec here would install upstream's server.
 SERVER_SOURCE_TEMPLATE = (
-    "https://github.com/vibe-bimer/revit-model-mcp/archive/refs/tags/v{version}.tar.gz"
+    "https://github.com/vibe-bimer/smart-revit/archive/refs/tags/v{version}.tar.gz"
     "#subdirectory=server"
 )
 PYPI_SPEC_PATTERN = re.compile(r"\brevit-model-mcp\s*(?:==|>=|<=|~=|!=|>|<|\^>=)")

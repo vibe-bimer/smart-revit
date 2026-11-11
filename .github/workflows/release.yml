@@ -482,7 +482,7 @@ jobs:
             echo "- [Python wheel]($base/$wheel)"
             echo "- Autodesk App Store build (no updater, bundled server, C# code execution off by default): [store MSI]($base/RevitModelMcp-$version-SingleUser-store.msi), [store bundle]($base/revit-model-mcp-$version-store.bundle.zip), [MCP tool manifest]($base/revit-model-mcp-$version-store.mcp-manifest.json)."
             echo "- [SHA256SUMS.txt]($base/SHA256SUMS.txt) covers every release asset, including the CycloneDX SBOMs (\`*.cdx.json\`)."
-            echo "- [Code signing policy](https://vibe-bimer.github.io/revit-model-mcp/code-signing/)"
+            echo "- [Code signing policy](https://vibe-bimer.github.io/smart-revit/code-signing/)"
             echo
             echo 'Close Revit before installing, then start Revit and open a model.'
             echo 'On the MCP client, install the wheel above. This fork publishes wheels on GitHub Releases and not to PyPI, so a bare uvx of the package name would install the upstream server instead:'

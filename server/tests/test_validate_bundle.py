@@ -79,7 +79,7 @@ def test_valid_zip(tmp_path: Path) -> None:
 
 def managed_readme(version: str) -> str:
     source = (
-        "https://github.com/vibe-bimer/revit-model-mcp/archive/refs/tags/"
+        "https://github.com/vibe-bimer/smart-revit/archive/refs/tags/"
         f"v{version}.tar.gz#subdirectory=server"
     )
     return f"uvx --from {source} revit-model-mcp\n"

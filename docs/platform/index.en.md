@@ -50,7 +50,7 @@ Every page carries an origin marker: base means the tool came with the upstream 
 | C# escape hatch | 1 | 0 |
 | **Total** | **79** | **14** |
 
-[Fork tool migration status](fork-tools.md) · [Integration specification and decision records](http://192.168.100.165:8929/vibe-bimer/revit-model-mcp/-/issues/15)
+[Fork tool migration status](fork-tools.md) · [Integration specification and decision records](https://github.com/vibe-bimer/smart-revit/issues/4)
 
 ## Tools per group {#groups}
 

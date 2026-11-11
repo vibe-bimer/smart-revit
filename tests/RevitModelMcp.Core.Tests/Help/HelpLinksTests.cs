@@ -11,7 +11,7 @@ public sealed class HelpLinksTests
         await Assert.That(helpUri.IsAbsoluteUri).IsTrue();
         await Assert.That(helpUri.Scheme).IsEqualTo("https");
         await Assert.That(helpUri.Host).IsEqualTo("vibe-bimer.github.io");
-        await Assert.That(helpUri.AbsolutePath.StartsWith("/revit-model-mcp/", StringComparison.Ordinal)).IsTrue();
+        await Assert.That(helpUri.AbsolutePath.StartsWith("/smart-revit/", StringComparison.Ordinal)).IsTrue();
         await Assert.That(helpUri.Fragment).IsEqualTo("#the-mcp-ribbon-panel");
     }
 }

@@ -38,13 +38,13 @@ gh attestation verify RevitModelMcp-<version>-SingleUser.msi --owner vibe-bimer
 ```
 
 A successful command exits with code 0 and reports a verified attestation.
-Check that the repository is `vibe-bimer/revit-model-mcp`, the signer workflow is `.github/workflows/release.yml`, and the source commit matches the intended release tag.
+Check that the repository is `vibe-bimer/smart-revit`, the signer workflow is `.github/workflows/release.yml`, and the source commit matches the intended release tag.
 For an explicit repository and workflow constraint:
 
 ```sh
 gh attestation verify RevitModelMcp-<version>-SingleUser.msi \
-  --repo vibe-bimer/revit-model-mcp \
-  --signer-workflow vibe-bimer/revit-model-mcp/.github/workflows/release.yml
+  --repo vibe-bimer/smart-revit \
+  --signer-workflow vibe-bimer/smart-revit/.github/workflows/release.yml
 ```
 
 The same command accepts a per-year ZIP, wheel, source distribution, `.mcpb` or `SHA256SUMS.txt` in place of the MSI filename.

@@ -10,10 +10,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/vibe-bimer/revit-model-mcp"
+    "url": "https://github.com/vibe-bimer/smart-revit"
   },
-  "homepage": "https://vibe-bimer.github.io/revit-model-mcp/",
-  "documentation": "https://vibe-bimer.github.io/revit-model-mcp/transport/",
+  "homepage": "https://vibe-bimer.github.io/smart-revit/",
+  "documentation": "https://vibe-bimer.github.io/smart-revit/transport/",
   "license": "MIT",
   "keywords": [
     "revit",
@@ -29,7 +29,7 @@
       "command": "uvx",
       "args": [
         "--from",
-        "https://github.com/vibe-bimer/revit-model-mcp/releases/download/v0.0.0/revit_model_mcp-0.0.0-py3-none-any.whl",
+        "https://github.com/vibe-bimer/smart-revit/releases/download/v0.0.0/revit_model_mcp-0.0.0-py3-none-any.whl",
         "revit-model-mcp"
       ],
       "env": {
@@ -453,6 +453,6 @@
     }
   },
   "privacy_policies": [
-    "https://vibe-bimer.github.io/revit-model-mcp/privacy/"
+    "https://vibe-bimer.github.io/smart-revit/privacy/"
   ]
 }

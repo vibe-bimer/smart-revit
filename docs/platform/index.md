@@ -50,7 +50,7 @@ description: "开发线（上游 1.0 基座加本仓库自研工具）的完整�
 | C# 逃生口 | 1 | 0 |
 | **合计** | **79** | **14** |
 
-[自研工具的移植状态](fork-tools.md) · [集成规格与决策记录](http://192.168.100.165:8929/vibe-bimer/revit-model-mcp/-/issues/15)
+[自研工具的移植状态](fork-tools.md) · [集成规格与决策记录](https://github.com/vibe-bimer/smart-revit/issues/4)
 
 ## 分组统计 {#groups}
 

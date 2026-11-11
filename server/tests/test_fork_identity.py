@@ -59,7 +59,7 @@ def test_a_bare_launcher_is_recognised(identity):
 
 def test_a_fork_source_is_not_a_bare_launcher(identity):
     document = (
-        "uvx --from https://github.com/vibe-bimer/revit-model-mcp/archive/refs/tags/"
+        "uvx --from https://github.com/vibe-bimer/smart-revit/archive/refs/tags/"
         "v1.0.0.tar.gz#subdirectory=server revit-model-mcp\n"
     )
     assert identity.launcher_problems("README.md", document) == []

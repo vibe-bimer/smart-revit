@@ -10,10 +10,10 @@ public sealed class McpServerSpecTests
     // Pinned on purpose: these two literals are the only place the launcher is written out, so a changed URL, a
     // reordered argument or a dropped --from fails here instead of passing everywhere that reads the spec.
     private const string ReleaseSource =
-        "https://github.com/vibe-bimer/revit-model-mcp/archive/refs/tags/v1.0.0.tar.gz#subdirectory=server";
+        "https://github.com/vibe-bimer/smart-revit/archive/refs/tags/v1.0.0.tar.gz#subdirectory=server";
 
     private const string DevelopmentSource =
-        "https://github.com/vibe-bimer/revit-model-mcp/archive/refs/heads/main.tar.gz#subdirectory=server";
+        "https://github.com/vibe-bimer/smart-revit/archive/refs/heads/main.tar.gz#subdirectory=server";
 
     [Test]
     public async Task ReleaseBuildInstallsTheTagThatCarriesItsVersion()
@@ -35,7 +35,7 @@ public sealed class McpServerSpecTests
         await Assert.That(McpServerSpec.Uvx.Command).IsEqualTo("uvx");
         await Assert.That(McpServerSpec.Uvx.Args.Count).IsEqualTo(3);
         await Assert.That(McpServerSpec.Uvx.Args[0]).IsEqualTo("--from");
-        await Assert.That(McpServerSpec.Uvx.Args[1]).StartsWith("https://github.com/vibe-bimer/revit-model-mcp/archive/refs/");
+        await Assert.That(McpServerSpec.Uvx.Args[1]).StartsWith("https://github.com/vibe-bimer/smart-revit/archive/refs/");
         await Assert.That(McpServerSpec.Uvx.Args[1]).EndsWith("#subdirectory=server");
         await Assert.That(McpServerSpec.Uvx.Args[2]).IsEqualTo("revit-model-mcp");
     }

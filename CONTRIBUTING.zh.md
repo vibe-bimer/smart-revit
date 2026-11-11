@@ -1,9 +1,9 @@
 # 参与贡献
 
-错误报告和功能请求请使用 [Issue 表单](https://github.com/vibe-bimer/revit-model-mcp/issues/new/choose)。
+错误报告和功能请求请使用 [Issue 表单](https://github.com/vibe-bimer/smart-revit/issues/new/choose)。
 错误报告应包含 Revit 年份、插件版本、安装方法、传输方式、复现步骤和已脱敏日志。
 对于可见故障，请在表单的截图字段附上对话框或功能区截图。
-使用和安装问题请前往 [Discussions](https://github.com/vibe-bimer/revit-model-mcp/discussions)。
+使用和安装问题请前往 [Discussions](https://github.com/vibe-bimer/smart-revit/discussions)。
 
 贡献者须遵守[行为准则](https://github.com/sharafutdinovdi/.github/blob/main/CODE_OF_CONDUCT.md)。
 
@@ -126,9 +126,9 @@ Windows 上使用 `.venv\Scripts\python.exe` 和 `.venv\Scripts\mkdocs.exe`。
 CI 还会运行 `python tools/site/check_docs_line.py`：站点配置、生成器、审计脚本、本地服务器、发布器或工具页面章节
 从检出中缺失时即失败，文档线被删掉不会再无声地进入 `main`。
 每道门禁证明什么、不能证明什么，以及线上站点的发布健康在哪里查看，见
-[CI 门禁与盲区](https://github.com/vibe-bimer/revit-model-mcp/blob/main/docs/ci-gates.md)。
+[CI 门禁与盲区](https://github.com/vibe-bimer/smart-revit/blob/main/docs/ci-gates.md)。
 
-中英文文档必须同步维护。工具页面和导航根据当前 MCP 注册表快照 [`tools.json`](https://github.com/vibe-bimer/revit-model-mcp/blob/main/tools/site/content/tools.json)、[`capabilities.yaml`](https://github.com/vibe-bimer/revit-model-mcp/blob/main/tools/site/content/capabilities.yaml) 中经审核的双语标题、摘要、提示词和参数含义，以及 [`contracts.yaml`](https://github.com/vibe-bimer/revit-model-mcp/blob/main/tools/site/content/contracts.yaml) 中完整的中文工具描述生成。工具描述、签名、schema 或注册发生变化后，激活文档环境，并用 `python -m pip install -e server` 使服务器可导入，然后更新快照：
+中英文文档必须同步维护。工具页面和导航根据当前 MCP 注册表快照 [`tools.json`](https://github.com/vibe-bimer/smart-revit/blob/main/tools/site/content/tools.json)、[`capabilities.yaml`](https://github.com/vibe-bimer/smart-revit/blob/main/tools/site/content/capabilities.yaml) 中经审核的双语标题、摘要、提示词和参数含义，以及 [`contracts.yaml`](https://github.com/vibe-bimer/smart-revit/blob/main/tools/site/content/contracts.yaml) 中完整的中文工具描述生成。工具描述、签名、schema 或注册发生变化后，激活文档环境，并用 `python -m pip install -e server` 使服务器可导入，然后更新快照：
 
 ```sh
 python tools/site/generate_features.py --dump

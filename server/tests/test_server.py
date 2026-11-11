@@ -708,7 +708,7 @@ class ServerTests(unittest.IsolatedAsyncioTestCase):
         config = manifest["server"]["mcp_config"]
         version = manifest["version"]
         wheel = (
-            "https://github.com/vibe-bimer/revit-model-mcp/releases/download/"
+            "https://github.com/vibe-bimer/smart-revit/releases/download/"
             f"v{version}/revit_model_mcp-{version}-py3-none-any.whl"
         )
         self.assertEqual(config["command"], "uvx")

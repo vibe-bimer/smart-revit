@@ -32,9 +32,9 @@ class RobotsPolicyTests(unittest.TestCase):
 
     def test_public_origin_allows_indexing_and_names_its_sitemap(self):
         self.assertEqual(
-            hooks.robots_txt("https://vibe-bimer.github.io/revit-model-mcp/"),
+            hooks.robots_txt("https://vibe-bimer.github.io/smart-revit/"),
             "User-agent: *\nAllow: /\n"
-            "Sitemap: https://vibe-bimer.github.io/revit-model-mcp/sitemap.xml\n",
+            "Sitemap: https://vibe-bimer.github.io/smart-revit/sitemap.xml\n",
         )
 
     def test_loopback_and_private_origins_are_not_indexed(self):

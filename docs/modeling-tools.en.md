@@ -1,6 +1,6 @@
 # Modeling tool specification: first batch
 
-This page is the deliverable of the wayfinder map [Architectural/structural base modeling tools: first-batch specification map](http://192.168.100.165:8929/vibe-bimer/revit-model-mcp/-/issues/34).
+This page is the deliverable of the wayfinder map [Architectural/structural base modeling tools: first-batch specification map](https://github.com/vibe-bimer/smart-revit/issues/5).
 
 !!! warning "This is a specification, not an implemented feature"
     The tools on this page are **not implemented yet**. This specification pins down the contract, the 2020/2026 API approach and the validation method for the first 7 tools, so implementation tickets can follow it directly. Implementation progress follows the [changelog](changelog.md) and the [validation evidence](validation.md).

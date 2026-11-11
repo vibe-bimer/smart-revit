@@ -13,11 +13,11 @@ Python 包通过 MCP stdio 提供 Revit 工具，默认只读。
 本 fork 把 wheel 发布在 GitHub Releases 上，不发布到 PyPI。用 `uvx` 直接安装这个名字会在 PyPI 上解析到上游项目，那是另一个服务器，因此必须显式指定本 fork 的发布产物：
 
 ```sh
-SERVER="git+https://github.com/vibe-bimer/revit-model-mcp@v<version>"
+SERVER="git+https://github.com/vibe-bimer/smart-revit@v<version>"
 uvx --from "$SERVER" revit-model-mcp
 ```
 
-把 `<version>` 换成[发布页](https://github.com/vibe-bimer/revit-model-mcp/releases)上的标签，或让 `--from` 指向该版本的 wheel。
+把 `<version>` 换成[发布页](https://github.com/vibe-bimer/smart-revit/releases)上的标签，或让 `--from` 指向该版本的 wheel。
 
 向 Claude Code 注册 Windows 本地服务器：
 
@@ -41,7 +41,7 @@ Windows 上的 Claude Desktop 在 `claude_desktop_config.json` 中使用以下�
   "mcpServers": {
     "revit-model-mcp": {
       "command": "uvx",
-      "args": ["--from", "git+https://github.com/vibe-bimer/revit-model-mcp@v<version>", "revit-model-mcp"],
+      "args": ["--from", "git+https://github.com/vibe-bimer/smart-revit@v<version>", "revit-model-mcp"],
       "env": {
         "REVIT_MCP_HOST": "local",
         "REVIT_MCP_REDACT_PATHS": "1"

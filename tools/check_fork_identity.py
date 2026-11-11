@@ -33,7 +33,7 @@ UPSTREAM_UPGRADE_CODE = "75e1b812-23a4-45ce-9e7c-84d7d43b8c70"
 UPSTREAM_REPO = f"{UPSTREAM_OWNER}/revit-model-mcp"
 
 FORK_OWNER = "vibe-bimer"
-FORK_REPO = f"{FORK_OWNER}/revit-model-mcp"
+FORK_REPO = f"{FORK_OWNER}/smart-revit"
 
 # Files allowed to name upstream, with the reason each is correct. Everything
 # else must name this fork: the fork owns its install identity, its package

@@ -106,7 +106,7 @@ hide:
     <h2 class="rmc-section__title">New platform and migration progress</h2>
     <p class="rmc-section__lede">The 93 tools on this site come from the working tree; the upstream 1.0 platform and the fork layer have merged into main and 1.0.0 has shipped, while later tools such as cross-level copy are still on their way in.</p>
     <a class="rmc-section__link" href="platform/">Browse the 93 tools by origin</a>
-    <a class="rmc-section__link" href="http://192.168.100.165:8929/vibe-bimer/revit-model-mcp/-/issues/15">View the development line specification and progress</a>
+    <a class="rmc-section__link" href="https://github.com/vibe-bimer/smart-revit/issues/4">View the development line specification and progress</a>
   </header>
   <ul class="rmc-development">
     <li>The upstream platform adds document management, views and sheets, families and links, export, and batch processing; the 93-tool snapshot in the platform catalog comes from the current development line, which no release carries yet.</li>

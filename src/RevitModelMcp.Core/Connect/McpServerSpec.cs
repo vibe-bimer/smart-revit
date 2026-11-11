@@ -32,8 +32,8 @@ public sealed record McpServerSpec(string Command, IReadOnlyList<string> Args)
     /// <param name="version">The version the build reports, with or without a prerelease suffix.</param>
     public static string ForkSourceFor(string version) =>
         string.IsNullOrWhiteSpace(version) || version.Contains('-') || version == "0.0.0"
-            ? "https://github.com/vibe-bimer/revit-model-mcp/archive/refs/heads/main.tar.gz#subdirectory=server"
-            : $"https://github.com/vibe-bimer/revit-model-mcp/archive/refs/tags/v{version}.tar.gz#subdirectory=server";
+            ? "https://github.com/vibe-bimer/smart-revit/archive/refs/heads/main.tar.gz#subdirectory=server"
+            : $"https://github.com/vibe-bimer/smart-revit/archive/refs/tags/v{version}.tar.gz#subdirectory=server";
 
     /// <summary>
     ///     The documented local registration through uv, resolved from this fork's own source. Cached because a

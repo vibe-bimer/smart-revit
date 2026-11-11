@@ -13,7 +13,7 @@ from pathlib import Path
 import check_site
 
 BASE = "https://docs.example/"
-REPO = "https://github.com/vibe-bimer/revit-model-mcp"
+REPO = "https://github.com/vibe-bimer/smart-revit"
 
 
 def default_edit(relative):

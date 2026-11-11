@@ -16,8 +16,8 @@ The add-in changes nothing in a model on its own. The MCP client asks for data o
 
 ## Downloads
 
-Download the installers, add-in archives, bundles and the Claude Desktop bundle from the [releases page](https://github.com/vibe-bimer/revit-model-mcp/releases/latest).
-The server is published in this repository's [releases](https://github.com/vibe-bimer/revit-model-mcp/releases) as a wheel. The `revit-model-mcp` project on PyPI belongs to upstream, so a bare `uvx` of that name installs the wrong server.
+Download the installers, add-in archives, bundles and the Claude Desktop bundle from the [releases page](https://github.com/vibe-bimer/smart-revit/releases/latest).
+The server is published in this repository's [releases](https://github.com/vibe-bimer/smart-revit/releases) as a wheel. The `revit-model-mcp` project on PyPI belongs to upstream, so a bare `uvx` of that name installs the wrong server.
 
 Free code signing provided by [SignPath.io](https://about.signpath.io), certificate by [SignPath Foundation](https://signpath.org).
 Signing starts with the first release after the project's application is approved; until then, releases are unsigned. See the [code signing policy](code-signing.md).
@@ -34,17 +34,17 @@ Signing starts with the first release after the project's application is approve
    For Claude Code on the same Windows machine:
 
    ```sh
-   claude mcp add revit-model-mcp -e REVIT_MCP_HOST=local -e REVIT_MCP_REDACT_PATHS=1 -e REVIT_MCP_READ_ONLY=1 -- uvx --from "https://github.com/vibe-bimer/revit-model-mcp/archive/refs/tags/v<VERSION>.tar.gz#subdirectory=server" revit-model-mcp
+   claude mcp add revit-model-mcp -e REVIT_MCP_HOST=local -e REVIT_MCP_REDACT_PATHS=1 -e REVIT_MCP_READ_ONLY=1 -- uvx --from "https://github.com/vibe-bimer/smart-revit/archive/refs/tags/v<VERSION>.tar.gz#subdirectory=server" revit-model-mcp
    ```
 
-   For Claude Desktop, add this to its MCP configuration file, or use the `.mcpb` bundle from the [latest release](https://github.com/vibe-bimer/revit-model-mcp/releases/latest):
+   For Claude Desktop, add this to its MCP configuration file, or use the `.mcpb` bundle from the [latest release](https://github.com/vibe-bimer/smart-revit/releases/latest):
 
    ```json
    {
      "mcpServers": {
        "revit-model-mcp": {
          "command": "uvx",
-         "args": ["--from", "https://github.com/vibe-bimer/revit-model-mcp/archive/refs/tags/v<VERSION>.tar.gz#subdirectory=server", "revit-model-mcp"],
+         "args": ["--from", "https://github.com/vibe-bimer/smart-revit/archive/refs/tags/v<VERSION>.tar.gz#subdirectory=server", "revit-model-mcp"],
          "env": {
            "REVIT_MCP_HOST": "local",
            "REVIT_MCP_REDACT_PATHS": "1",
@@ -66,7 +66,7 @@ The **MCP** panel on the **Add-Ins** tab has two buttons. Press F1 while the poi
 
 ### Connect an AI app
 
-**Connect AI app** writes the same local registration as step 6 above, with `REVIT_MCP_HOST=local` and `REVIT_MCP_REDACT_PATHS=1`, into the configuration of each app it finds on the Revit workstation. When the MSI installed the bundled server, the entry starts that executable directly (`%LocalAppData%\Programs\Revit Model MCP (vibe-bimer)\server\revit-model-mcp.exe` for the single-user MSI, `%ProgramFiles%\Revit Model MCP (vibe-bimer)\server\revit-model-mcp.exe` for the multi-user MSI) and nothing else needs to be installed. Without it (add-in bundle or ZIP installs) the entry is `uvx --from https://github.com/vibe-bimer/revit-model-mcp/archive/refs/tags/v<VERSION>.tar.gz#subdirectory=server revit-model-mcp` for a release build, or the same URL under `refs/heads/main` for a development build, and uv must be on the PATH. The tag archive is the canonical source form: the release wheel and the tag archive carry the same server, and the archive needs no version arithmetic. The dialog shows which one it will write. It does not install the apps. The dialog writes `REVIT_MCP_HOST` and `REVIT_MCP_REDACT_PATHS` only, so a registration that starts the server from source is write-capable until you add `REVIT_MCP_READ_ONLY=1` to its environment.
+**Connect AI app** writes the same local registration as step 6 above, with `REVIT_MCP_HOST=local` and `REVIT_MCP_REDACT_PATHS=1`, into the configuration of each app it finds on the Revit workstation. When the MSI installed the bundled server, the entry starts that executable directly (`%LocalAppData%\Programs\Revit Model MCP (vibe-bimer)\server\revit-model-mcp.exe` for the single-user MSI, `%ProgramFiles%\Revit Model MCP (vibe-bimer)\server\revit-model-mcp.exe` for the multi-user MSI) and nothing else needs to be installed. Without it (add-in bundle or ZIP installs) the entry is `uvx --from https://github.com/vibe-bimer/smart-revit/archive/refs/tags/v<VERSION>.tar.gz#subdirectory=server revit-model-mcp` for a release build, or the same URL under `refs/heads/main` for a development build, and uv must be on the PATH. The tag archive is the canonical source form: the release wheel and the tag archive carry the same server, and the archive needs no version arithmetic. The dialog shows which one it will write. It does not install the apps. The dialog writes `REVIT_MCP_HOST` and `REVIT_MCP_REDACT_PATHS` only, so a registration that starts the server from source is write-capable until you add `REVIT_MCP_READ_ONLY=1` to its environment.
 
 | App | Configuration file |
 |---|---|
@@ -90,12 +90,12 @@ The **Claude Code** row has a **Copy command** button for the `claude mcp add` c
 
 ### Managed installs
 
-Managed installs do not check for updates. If your organization delivers add-in updates itself, use `revit-model-mcp-<version>-managed.bundle.zip` from the [latest release](https://github.com/vibe-bimer/revit-model-mcp/releases/latest). It is the same bundle, built with `ManagedInstall=true`; see [automatic updates](updates.md#channels). You can also build it yourself with that property.
+Managed installs do not check for updates. If your organization delivers add-in updates itself, use `revit-model-mcp-<version>-managed.bundle.zip` from the [latest release](https://github.com/vibe-bimer/smart-revit/releases/latest). It is the same bundle, built with `ManagedInstall=true`; see [automatic updates](updates.md#channels). You can also build it yourself with that property.
 
 The bundle does not contain the server. Pin the server launcher to that tag's release wheel and turn off its daily check for a newer package:
 
 ```sh
-claude mcp add revit-model-mcp -e REVIT_MCP_HOST=local -e REVIT_MCP_NO_UPDATE_CHECK=1 -- uvx --from https://github.com/vibe-bimer/revit-model-mcp/releases/download/v<VERSION>/revit_model_mcp-<VERSION>-py3-none-any.whl revit-model-mcp
+claude mcp add revit-model-mcp -e REVIT_MCP_HOST=local -e REVIT_MCP_NO_UPDATE_CHECK=1 -- uvx --from https://github.com/vibe-bimer/smart-revit/releases/download/v<VERSION>/revit_model_mcp-<VERSION>-py3-none-any.whl revit-model-mcp
 ```
 
 In a JSON configuration, use `"args": ["--from", "<wheel URL>", "revit-model-mcp"]` and set `REVIT_MCP_NO_UPDATE_CHECK` to `1` in `env`. A `README.txt` in the bundle repeats these commands for its version. With both settings, neither part makes an update request.
@@ -111,7 +111,7 @@ The store build is the same add-in with the update channel `store`, packaged wit
 
 ## Install from the MSI
 
-The installers published on the [releases page](https://github.com/vibe-bimer/revit-model-mcp/releases/latest) install the same add-in with their own update path.
+The installers published on the [releases page](https://github.com/vibe-bimer/smart-revit/releases/latest) install the same add-in with their own update path.
 `RevitModelMcp-<version>-SingleUser.msi` installs for the current user, and `RevitModelMcp-<version>-MultiUser.msi` installs for all users.
 The two installers are alternatives: install only one.
 Each refuses to install while the other is present, so uninstall the other first (**Apps > Installed apps**), then install.
@@ -133,14 +133,14 @@ Then register the server as in step 6 of [Install the add-in bundle](#install-th
 
 ## Claude Desktop bundle
 
-Install [uv](https://docs.astral.sh/uv/getting-started/installation/) on the client's PATH, download `revit-model-mcp-<version>.mcpb` from the [latest release](https://github.com/vibe-bimer/revit-model-mcp/releases/latest), and open it in Claude Desktop.
+Install [uv](https://docs.astral.sh/uv/getting-started/installation/) on the client's PATH, download `revit-model-mcp-<version>.mcpb` from the [latest release](https://github.com/vibe-bimer/smart-revit/releases/latest), and open it in Claude Desktop.
 The bundle starts from the local uv cache. The server checks for a newer stable release in the background once per day.
 The next client start uses the refreshed version. Set `REVIT_MCP_NO_UPDATE_CHECK=1` to opt out.
 The settings form configures the workstation host, path redaction, read-only mode and the HTTP bearer token without editing JSON.
 Use `local` on the Windows Revit workstation, or configure a [remote workstation](transport.md) for macOS and Linux clients.
 Path redaction starts enabled and actions start enabled. Check "Read-only mode" to refuse actions.
 The Windows workstation still needs the add-in.
-See the [bundle guide](https://github.com/vibe-bimer/revit-model-mcp/blob/main/bundle/README.md) for build details and prerequisites.
+See the [bundle guide](https://github.com/vibe-bimer/smart-revit/blob/main/bundle/README.md) for build details and prerequisites.
 Release assets include GitHub build provenance attestations. Follow [download verification](security.md#verify-downloads) before installing.
 
 ## Uninstall
@@ -149,4 +149,4 @@ Close Revit, then remove the add-in from **Apps > Installed apps** (or delete th
 
 ## Get help
 
-Report problems in [GitHub issues](http://192.168.100.165:8929/vibe-bimer/revit-model-mcp/-/issues/new) and ask usage questions in [Discussions](http://192.168.100.165:8929/vibe-bimer/revit-model-mcp/-/issues/new). Remove model names and paths from logs and screenshots first.
+Report problems and ask usage questions in [GitHub issues](https://github.com/vibe-bimer/smart-revit/issues). Remove model names and paths from logs and screenshots first.
