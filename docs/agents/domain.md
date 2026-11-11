@@ -3,15 +3,15 @@
 本页说明工程技能在探索代码库时，应如何使用本仓库的领域文档。
 
 <a id="layout"></a>
-## 布局：single-context
+## 布局：multi-context
 
-本仓库是单上下文仓库（single-context）：全仓共用一份仓库根目录的 `GLOSSARY.md`，架构决策记录放在仓库根目录的 `adr/`。没有 `GLOSSARY-MAP.md`，也没有各子项目自己的词表。第一次真正写下词条时再建 `GLOSSARY.md` 的内容本体，本次初始化不预置空词表。
+本仓库采用多上下文布局（multi-context）：子项目各一份 `GLOSSARY.md`，根目录使用 `GLOSSARY-MAP.md`。架构决策记录放在仓库根目录的 `adr/`。
 
 <a id="before-exploring-read-these"></a>
 ## 探索前先阅读这些资料
 
-- 仓库根目录的 **`GLOSSARY.md`**。领域术语以它为准。
-- 若根目录存在 **`GLOSSARY-MAP.md`**，先读它——它指向每个上下文各自的 `GLOSSARY.md`。阅读与当前主题相关的每一份。（本仓库当前没有这个文件。）
+- 若根目录存在 **`GLOSSARY-MAP.md`**，先读它——它指向各子项目的 `GLOSSARY.md`。阅读与当前主题相关的每一份。
+- 若根目录存在 **`GLOSSARY.md`**，阅读其中适用的领域术语。
 - **`adr/`**——阅读涉及即将工作区域的 ADR。本仓库把决策记录放在仓库根目录的 `adr/`，不放在 `docs/adr/`：`docs/` 下的每个页面都是要发布的中英双语站点页，而 ADR 是工程记录，只写英文、不进导航。下文示意图中的 `docs/adr/` 请按 `adr/` 理解。
 - **`docs/adr/`**——上游与本仓库都未使用该位置；若将来出现，按上下文专属决策处理。在多上下文仓库中，也要检查 `src/<context>/docs/adr/` 中限定于该上下文的决策。
 
@@ -20,7 +20,7 @@
 <a id="file-structure"></a>
 ## 文件结构
 
-单上下文仓库（本仓库属于这一类）：
+单上下文仓库示例：
 
 ```text
 /
