@@ -12,6 +12,34 @@
 
     中文页按英文日志的顺序补译，不增加发布声明；`1.0.0` 一节只有英文版，`1.1.0` 起按节同步。
 
+<a id="112-2026-11-11"></a>
+## [1.1.2](https://github.com/vibe-bimer/smart-revit/compare/v1.1.1...v1.1.2)（2026-11-11）
+
+<a id="112-bug-fixes"></a>
+### 错误修复
+
+* **site：** 每个页面都写已发布版本（[eea3907](https://github.com/vibe-bimer/smart-revit/commit/eea3907ffa0cd2accedb8f440372f3ea1c07d782)）。
+* **tests：** TUnit 保持在 1.81.16（[10ec651](https://github.com/vibe-bimer/smart-revit/commit/10ec651b25db27174109f77daf3af93ddb19c62d)）。
+
+<a id="112-documentation"></a>
+### 文档
+
+* **analysis：** 记录发版 PR 如何拿到检查（[2c6dd9b](https://github.com/vibe-bimer/smart-revit/commit/2c6dd9b308ef021bf3d98e3dab761a21d5e03bda)）。
+* **changelog：** 翻译 1.1.1 的发布说明（[b2dda5c](https://github.com/vibe-bimer/smart-revit/commit/b2dda5c2fa43a395d7741867fc61f5b9df06997a)）。
+* 为多上下文布局补上词表地图索引（[456361d](https://github.com/vibe-bimer/smart-revit/commit/456361d0bae2280ddcd96d1c0bdbf3ad8c102536)）。
+* **site：** 发布 1.1.1 并重生成提到它的页面（[7385b54](https://github.com/vibe-bimer/smart-revit/commit/7385b54276ad492fecbd2fc6a13f4b6f51fa26c8)）。
+* **site：** 把参数列表的条目读作条目，而不是模型构件（[210ea5a](https://github.com/vibe-bimer/smart-revit/commit/210ea5a07fc9c8eec62e0001038e8fe96d32818a)）。
+* **site：** 为 1.1.1 开发线重生成页面（[824b280](https://github.com/vibe-bimer/smart-revit/commit/824b280d3a301c1414667f14ce92e1f0cac7b756)）。
+
+<a id="112-dependencies"></a>
+### 依赖
+
+* **deps：** 把 python 从 3.12-slim 升到 3.15-slim（[#9](https://github.com/vibe-bimer/smart-revit/issues/9)）（[988f10b](https://github.com/vibe-bimer/smart-revit/commit/988f10babb12a9d7b72b92b7a70a60cf5bb21cd9)）。
+* **deps：** 把一个目录下的 12 项更新一起抬升（[#1](https://github.com/vibe-bimer/smart-revit/issues/1)）（[8204efc](https://github.com/vibe-bimer/smart-revit/commit/8204efc3abc36aa955b90afac680137492022cfc)）。
+* **deps：** 把两个目录下的 3 项更新一起抬升（[#12](https://github.com/vibe-bimer/smart-revit/issues/12)）（[37ecb45](https://github.com/vibe-bimer/smart-revit/commit/37ecb458105ea16343d08a794e1dac03cdbeeb23)）。
+* **deps：** 抬升整组里的 1 项更新（[#10](https://github.com/vibe-bimer/smart-revit/issues/10)）（[8e2aa1f](https://github.com/vibe-bimer/smart-revit/commit/8e2aa1f9a04aeb8deda47c3dd86e724111f588e4)）。
+* **deps：** 抬升整组里的 4 项更新（[#2](https://github.com/vibe-bimer/smart-revit/issues/2)）（[b7187c5](https://github.com/vibe-bimer/smart-revit/commit/b7187c56bfeda943068595dfbd365b9677b5aab9)）。
+
 <a id="111-2026-11-11"></a>
 ## [1.1.1](https://github.com/vibe-bimer/smart-revit/compare/v1.1.0...v1.1.1)（2026-11-11）
 
