@@ -6,7 +6,7 @@ description: "重置构件 ID，`dry_run` 报出代价，每个构件在自己�
 
 `revit_reset_element_ids`
 
-<p class="facts"><span><b>分组</b> 编辑原语</span><span><b>类型</b> 动作</span><span><b>基座与自研的区分</b> 自研（本仓库） · 已移植</span><span><b>状态</b> 未发布（开发线）</span><span><b>发布版版本</b> 1.1.1</span><span><b>来源分支</b> <code>feat/gitlab-pages</code></span><span><b>来源提交</b> <code>50baa705e8da63327ab2bff1e544c76252fddbc9</code></span><span><b>发布版有同名工具</b> 有，参数一致</span><span><b>本页契约适用于发布版</b> 否</span></p>
+<p class="facts"><span><b>分组</b> 编辑原语</span><span><b>类型</b> 动作</span><span><b>基座与自研的区分</b> 自研（本仓库） · 已移植</span><span><b>状态</b> 未发布（开发线）</span><span><b>发布版版本</b> 1.1.2</span><span><b>来源分支</b> <code>feat/gitlab-pages</code></span><span><b>来源提交</b> <code>50baa705e8da63327ab2bff1e544c76252fddbc9</code></span><span><b>发布版有同名工具</b> 有，参数一致</span><span><b>本页契约适用于发布版</b> 否</span></p>
 
 !!! note "使用提示"
     可排练，dry_run 报出代价，每构件独立子事务。
@@ -17,7 +17,7 @@ description: "重置构件 ID，`dry_run` 报出代价，每个构件在自己�
 
 ## 与发布版的契约差异 {#contract-diff}
 
-同名工具的契约与发布版 1.1.1 一致。
+同名工具的契约与发布版 1.1.2 一致。
 
 ## 参数 {#parameters}
 

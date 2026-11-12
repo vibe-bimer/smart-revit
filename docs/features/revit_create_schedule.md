@@ -6,7 +6,7 @@ description: "为单个类别按命名字段和顺序创建明细表，支持筛
 
 `revit_create_schedule`
 
-<p class="facts"><span><b>分组</b> 图纸与明细表</span><span><b>类型</b> 动作（需授权）</span><span><b>起始版本</b> 1.0.0</span><span><b>版本</b> 已发布 1.1.1</span><span><b>开发线有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span><span><b>影响范围</b> 模型构件 / 参数</span></p>
+<p class="facts"><span><b>分组</b> 图纸与明细表</span><span><b>类型</b> 动作（需授权）</span><span><b>起始版本</b> 1.0.0</span><span><b>版本</b> 已发布 1.1.2</span><span><b>开发线有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span><span><b>影响范围</b> 模型构件 / 参数</span></p>
 
 为单个类别按命名字段和顺序创建明细表，支持筛选与排序分组；dry_run 会回滚
 

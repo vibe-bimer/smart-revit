@@ -6,7 +6,7 @@ description: "Load one family file from the workstation: the whole family, or th
 
 `revit_load_family_file`
 
-<p class="facts"><span><b>Group</b> Editing primitives</span><span><b>Kind</b> Action</span><span><b>Base and fork tools</b> Fork (this repository) · Grafted</span><span><b>Status</b> Unreleased (development line)</span><span><b>Release version</b> 1.1.1</span><span><b>Source branch</b> <code>feat/gitlab-pages</code></span><span><b>Source commit</b> <code>50baa705e8da63327ab2bff1e544c76252fddbc9</code></span><span><b>Same-name tool in the release</b> Yes, with identical parameters</span><span><b>This contract applies to the release</b> No</span></p>
+<p class="facts"><span><b>Group</b> Editing primitives</span><span><b>Kind</b> Action</span><span><b>Base and fork tools</b> Fork (this repository) · Grafted</span><span><b>Status</b> Unreleased (development line)</span><span><b>Release version</b> 1.1.2</span><span><b>Source branch</b> <code>feat/gitlab-pages</code></span><span><b>Source commit</b> <code>50baa705e8da63327ab2bff1e544c76252fddbc9</code></span><span><b>Same-name tool in the release</b> Yes, with identical parameters</span><span><b>This contract applies to the release</b> No</span></p>
 
 !!! note "Usage notes"
     One file, an optional single type, the load options always supplied, and the closest names for a missing path.
@@ -15,7 +15,7 @@ description: "Load one family file from the workstation: the whole family, or th
 
 ## Contract differences from the release {#contract-diff}
 
-The same-name tool has an identical contract to release 1.1.1.
+The same-name tool has an identical contract to release 1.1.2.
 
 ## Parameters {#parameters}
 

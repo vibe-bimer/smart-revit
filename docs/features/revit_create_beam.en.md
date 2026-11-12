@@ -6,7 +6,7 @@ description: "Place a structural beam on a level along a given axis, with an opt
 
 `revit_create_beam`
 
-<p class="facts"><span><b>Group</b> Editing</span><span><b>Kind</b> Action (opt-in)</span><span><b>Since</b> 1.1.0</span><span><b>Version</b> Released 1.1.1</span><span><b>Same-name tool on the development line</b> Yes</span><span><b>This contract applies to the release</b> Yes</span><span><b>Effect</b> Model elements / parameters</span><span><b>Origin</b> Fork (this repository)</span></p>
+<p class="facts"><span><b>Group</b> Editing</span><span><b>Kind</b> Action (opt-in)</span><span><b>Since</b> 1.1.0</span><span><b>Version</b> Released 1.1.2</span><span><b>Same-name tool on the development line</b> Yes</span><span><b>This contract applies to the release</b> Yes</span><span><b>Effect</b> Model elements / parameters</span><span><b>Origin</b> Fork (this repository)</span></p>
 
 Place a structural beam on a level along a given axis, with an optional structural usage and vertical offset
 

@@ -6,7 +6,7 @@ description: "读取模型对象的归属或依赖关系，如标高与房间、
 
 `revit_list_relations`
 
-<p class="facts"><span><b>分组</b> 查询与统计</span><span><b>类型</b> 读取</span><span><b>基座与自研的区分</b> 基座（上游）</span><span><b>状态</b> 未发布（开发线）</span><span><b>发布版版本</b> 1.1.1</span><span><b>来源分支</b> <code>feat/gitlab-pages</code></span><span><b>来源提交</b> <code>50baa705e8da63327ab2bff1e544c76252fddbc9</code></span><span><b>发布版有同名工具</b> 有，参数一致</span><span><b>本页契约适用于发布版</b> 否</span></p>
+<p class="facts"><span><b>分组</b> 查询与统计</span><span><b>类型</b> 读取</span><span><b>基座与自研的区分</b> 基座（上游）</span><span><b>状态</b> 未发布（开发线）</span><span><b>发布版版本</b> 1.1.2</span><span><b>来源分支</b> <code>feat/gitlab-pages</code></span><span><b>来源提交</b> <code>50baa705e8da63327ab2bff1e544c76252fddbc9</code></span><span><b>发布版有同名工具</b> 有，参数一致</span><span><b>本页契约适用于发布版</b> 否</span></p>
 
 读取模型对象的归属或依赖关系，如标高与房间、面积方案与构件、视图样板与从属视图、组与嵌套族。
 
@@ -14,7 +14,7 @@ description: "读取模型对象的归属或依赖关系，如标高与房间、
 
 ## 与发布版的契约差异 {#contract-diff}
 
-同名工具的契约与发布版 1.1.1 一致。
+同名工具的契约与发布版 1.1.2 一致。
 
 ## 参数 {#parameters}
 

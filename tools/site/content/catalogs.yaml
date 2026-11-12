@@ -48,7 +48,7 @@ release:
   # page says unreleased instead of claiming a release that has not happened.
   # release-please bumps the project version when it opens the release pull
   # request, so this trails it until the tag exists; raise it after publishing.
-  released_version: 1.1.1
+  released_version: 1.1.2
 
 integration:
   directory: platform

@@ -6,7 +6,7 @@ description: "查看最近作业，或等待某个动作作业的结果"
 
 `revit_jobs`
 
-<p class="facts"><span><b>分组</b> 批量作业</span><span><b>类型</b> 读取（只读）</span><span><b>起始版本</b> 1.0.0</span><span><b>版本</b> 已发布 1.1.1</span><span><b>开发线有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span></p>
+<p class="facts"><span><b>分组</b> 批量作业</span><span><b>类型</b> 读取（只读）</span><span><b>起始版本</b> 1.0.0</span><span><b>版本</b> 已发布 1.1.2</span><span><b>开发线有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span></p>
 
 查看最近作业，或等待某个动作作业的结果
 

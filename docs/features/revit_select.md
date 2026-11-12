@@ -6,7 +6,7 @@ description: "在 Revit 里选中指定构件（空列表=清除选择）"
 
 `revit_select`
 
-<p class="facts"><span><b>分组</b> 选中与显示</span><span><b>类型</b> 动作（需授权）</span><span><b>起始版本</b> 0.1.0</span><span><b>版本</b> 已发布 1.1.1</span><span><b>开发线有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span><span><b>影响范围</b> 选择 / 视图状态</span></p>
+<p class="facts"><span><b>分组</b> 选中与显示</span><span><b>类型</b> 动作（需授权）</span><span><b>起始版本</b> 0.1.0</span><span><b>版本</b> 已发布 1.1.2</span><span><b>开发线有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span><span><b>影响范围</b> 选择 / 视图状态</span></p>
 
 在 Revit 里选中指定构件（空列表=清除选择）
 

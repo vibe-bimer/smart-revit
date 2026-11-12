@@ -6,7 +6,7 @@ description: "Read displayed schedule header and body cell text, with paging"
 
 `revit_schedule_data`
 
-<p class="facts"><span><b>Group</b> Sheets and schedules</span><span><b>Kind</b> Read (read-only)</span><span><b>Since</b> 1.0.0</span><span><b>Version</b> Released 1.1.1</span><span><b>Same-name tool on the development line</b> Yes</span><span><b>This contract applies to the release</b> Yes</span></p>
+<p class="facts"><span><b>Group</b> Sheets and schedules</span><span><b>Kind</b> Read (read-only)</span><span><b>Since</b> 1.0.0</span><span><b>Version</b> Released 1.1.2</span><span><b>Same-name tool on the development line</b> Yes</span><span><b>This contract applies to the release</b> Yes</span></p>
 
 Read displayed schedule header and body cell text, with paging
 
