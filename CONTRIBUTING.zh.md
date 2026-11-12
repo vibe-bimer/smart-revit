@@ -42,16 +42,17 @@ Dependabot 的补丁和次版本更新在本仓库自己的检查通过后 squas
 <a id="automated-checks"></a>
 ## 自动检查
 
-CI 构建 Revit 2020、2022、2026 和 2027 插件，运行 Core 和 Python 测试，构建并冒烟测试两种 MSI 安装范围，并校验 Python 包。
-PR 检查校验 Conventional Commit 标题，用 `actionlint` 检查所有工作流文件，按照 `.editorconfig` 检查 C# 格式，并用 Ruff 检查 Python lint 与格式。
-CodeQL 在 PR、推送到 `main` 和每周计划中分析 C# 与 Python。
-PR 检查成功后，会发布并更新一条评论，包含插件产物链接和已构建的 Revit 年份。
+CI 一次构建覆盖全部七个 Revit 年份，运行 Core 与 Python 测试，校验 Claude Desktop 打包与 Python 分发包，构建并冒烟测试两种 MSI 安装范围，并守住文档线。
+installer 作业在一处构建并核对全部年份，流水线不再保留按年份拆分的矩阵；失败年份会写在它的日志里。
+PR 检查校验 Conventional Commit 标题、用 `actionlint` 检查全部工作流文件、按 `.editorconfig` 检查 C# 格式，并验证文档站：生成物漂移、站点测试集、严格 MkDocs 构建与已发布站点检查。
+Ruff 的检查与格式校验只放在 Python 作业里，紧挨它们守护的测试。
+CodeQL 只在推送到 `main` 和每周计划中分析 C# 与 Python，PR 上不再跑安全扫描。
+依赖审计同样只在推送到 `main` 和每周计划中运行。
+PR 检查成功后，会发布并更新一条评论，包含插件产物链接。
 下载产物需要登录 GitHub，产物在 90 天后过期。
-共享的 `community.yml` 工作流添加路径标签、欢迎贡献者，并处理长期无活动的 Issue 和 PR。
-本仓库自带的 `dependabot-auto-merge.yml` 工作流只在依赖 PR 的检查跑完且全部通过后合并，因为 `main` 既不设分支保护也不设必需检查。
-PR 检查调用共享的 `check-failure-comment.yml` 工作流，为同仓库、非 Dependabot 的 PR 维护一条失败评论，其中包含复现命令。
-这些工作流维护于 [sharafutdinovdi/.github](https://github.com/sharafutdinovdi/.github#caller-workflows)。
+共享的 `community.yml` 工作流添加路径标签、欢迎贡献者，并处理长期无活动的 Issue 和 PR，维护于 [sharafutdinovdi/.github](https://github.com/sharafutdinovdi/.github#caller-workflows)。
 路径标签自动添加；`enhancement`、`bug`、`docs` 和 `dependencies` 用于对生成的发布说明分组。
+本仓库自带的 `dependabot-auto-merge.yml` 工作流只在依赖 PR 的检查跑完且全部通过后合并，避免作业尚未回报时抢先合并。
 
 <a id="local-checks"></a>
 ## 本地检查
@@ -175,7 +176,7 @@ Core 测试覆盖解析、序列化、格式化、单位和查询处理。
 
 1. 使用 Conventional Commit 标题合并 PR。
 2. 维护者手动调度 Release please 工作流后，会出现 `chore(main): release X.Y.Z` PR，其中包含生成的变更日志条目与版本更新，见上方提示。
-3. 本 fork 没有发布日程：维护者在分支就绪时打 tag。上游按莫斯科周一发版，`release-window` 检查只报告这个节奏，不拦合并。
+3. 本 fork 没有发布日程：维护者在分支就绪时打 tag。上游按莫斯科周一发版，本流水线不对日历设任何门禁。
 4. 检查 Release please 工作流、两份 MSI 资产、七份按年份分开的 ZIP、wheel、源码发行包和 `SHA256SUMS.txt`。
 5. 对稳定发布检查 PyPI、MCP Registry 和 WinGet 任务结果；若未配置 WinGet 提交，则下载清单。
 6. 发布上线后，把 `tools/site/content/catalogs.yaml` 的 `released_version` 提到该标签，并重生成页面：在 `server` 下先跑 `uv run --with pyyaml python ../tools/site/generate_features.py --dump`，再 `--write`。页面只写已发布版本，所以发版 PR 本身不会改动这些页面。

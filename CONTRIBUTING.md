@@ -69,16 +69,17 @@ All merges use squash with the PR title and body, and history remains linear.
 
 ## Automated checks
 
-CI builds the Revit 2022, 2026 and 2027 add-ins, runs Core and Python tests, builds and smoke-tests both MSI scopes, and validates the Python package.
-PR checks validate the Conventional Commit title, all workflow files with `actionlint`, C# formatting from `.editorconfig`, and Python lint and formatting with Ruff.
-CodeQL analyzes C# and Python on PRs, pushes to `main` and a weekly schedule.
-Successful PR checks publish one updated comment with add-in artifact links and the Revit years built.
+CI builds all seven Revit years once, runs Core and Python tests, validates the Claude Desktop bundle and the Python package, builds and smoke-tests both MSI scopes, and guards the documentation line.
+The installer job builds and verifies every year in one place, so the pipeline keeps no separate per-year matrix; a failing year is named in its log.
+PR checks validate the Conventional Commit title, every workflow file with `actionlint`, C# formatting from `.editorconfig`, and the documentation site: registry drift, the site test suite, a strict MkDocs build and the published-site check.
+Ruff lint and formatting run inside the Python job, next to the tests they guard, and nowhere else.
+CodeQL analyzes C# and Python on pushes to `main` and on a weekly schedule, so a pull request carries no security scan.
+Dependency audits run on pushes to `main` and on a weekly schedule too.
+Successful PR checks publish one updated comment with add-in artifact links.
 Artifact downloads require a GitHub login and expire after 90 days.
-The shared `community.yml` workflow applies path labels, welcomes contributors and handles stale issues and PRs.
-The local `dependabot-auto-merge.yml` workflow merges a dependency pull request only after its check runs finished, since `main` protects no branch and requires none.
-PR checks call the shared `check-failure-comment.yml` workflow to maintain one failure comment with reproduction commands for same-repository PRs other than Dependabot.
-These workflows are maintained in [sharafutdinovdi/.github](https://github.com/sharafutdinovdi/.github#caller-workflows).
+The shared `community.yml` workflow applies path labels, welcomes contributors and handles stale issues and PRs; it is maintained in [sharafutdinovdi/.github](https://github.com/sharafutdinovdi/.github#caller-workflows).
 Path labels are applied automatically; `enhancement`, `bug`, `docs` and `dependencies` group generated release notes.
+The local `dependabot-auto-merge.yml` workflow merges a dependency pull request only after its check runs finished, so a merge cannot land before every job reports.
 
 ## Local checks
 
@@ -205,15 +206,14 @@ Automated tests do not validate live Revit behavior; see [validation evidence](d
 
 1. Merge PRs with Conventional Commit titles.
 2. The `chore(main): release X.Y.Z` PR appears when the maintainer dispatches the Release please workflow. It carries the generated changelog entries and the version updates; see the note above.
-3. This fork has no release schedule: the maintainer tags when the branch is ready. Upstream ships on Monday (Europe/Moscow), and the `release-window` check reports that cadence without blocking.
+3. This fork has no release schedule: the maintainer tags when the branch is ready. Upstream ships on Monday (Europe/Moscow); nothing in this pipeline gates on the calendar.
 4. Check the Release please workflow, both MSI assets, six ZIPs, wheel, source distribution and `SHA256SUMS.txt`. If a job fails with `The job was not acquired by Runner`, that is a GitHub infrastructure failure: rerun it with `gh run rerun <run id> --failed`.
 5. Check the release assets and `SHA256SUMS.txt`. This fork publishes nothing to PyPI, the MCP Registry, Smithery or WinGet: upstream owns those names, and both projects share version numbers, so a release from here that claimed one of them would install upstream's code while appearing to work.
 6. After the release publishes, raise `released_version` in `tools/site/content/catalogs.yaml` to the tag and regenerate the pages: `cd server && uv run --with pyyaml python ../tools/site/generate_features.py --dump`, then `--write`. Pages state the published version, so the release pull request itself leaves them untouched.
 
 When the `SIGNPATH_API_TOKEN` secret and the `SIGNPATH_ORGANIZATION_ID` variable are set, the release job submits the MSIs and ZIPs to SignPath and waits up to 90 minutes for the approval of the signing request. Without them the job skips signing and publishes unsigned assets. Optional variables `SIGNPATH_PROJECT_SLUG`, `SIGNPATH_SIGNING_POLICY_SLUG` and `SIGNPATH_ARTIFACT_CONFIGURATION_SLUG` override the defaults `revit-model-mcp`, `release-signing` and `release`. The artifact configuration lives in `.signpath/artifact-configuration.xml`; keep the copy in SignPath identical.
 
-The `release-window` check reports upstream's Monday (Europe/Moscow) cadence on the release PR.
-It never blocks a merge in this fork, and no label is needed to release on another day.
+No check gates the calendar: a release pull request merges whenever the maintainer is ready, and upstream's Monday (Europe/Moscow) cadence is a note in this document, not a status check.
 The size of the change, not the calendar, decides the version bump: `feat` bumps the minor version and `fix` the patch version, as described below.
 
 In this fork release-please writes both when the maintainer merges the release pull request, and no one edits them by hand.
