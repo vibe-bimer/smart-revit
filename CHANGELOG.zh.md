@@ -12,6 +12,20 @@
 
     中文页按英文日志的顺序补译，不增加发布声明；`1.0.0` 一节只有英文版，`1.1.0` 起按节同步。
 
+<a id="114-2026-11-12"></a>
+## [1.1.4](https://github.com/vibe-bimer/smart-revit/compare/v1.1.3...v1.1.4)（2026-11-12）
+
+<a id="114-documentation"></a>
+### 文档
+
+* **changelog：** 翻译 1.1.3 的发布说明（[6c670cc](https://github.com/vibe-bimer/smart-revit/commit/6c670cc2bbcdc7549f5b0864d8315e7356280e4d)）。
+* **site：** 发布 1.1.3 并重生成提到它的页面（[18e4783](https://github.com/vibe-bimer/smart-revit/commit/18e47830c32ac6de1c9c6b11662e1d0020976564)）。
+
+<a id="114-ci"></a>
+### CI
+
+* **release：** 让 CI 改动进入发布说明（[1e0be01](https://github.com/vibe-bimer/smart-revit/commit/1e0be014dc2183163183d6014538edb311b16bdf)）。
+
 <a id="113-2026-11-12"></a>
 ## [1.1.3](https://github.com/vibe-bimer/smart-revit/compare/v1.1.2...v1.1.3)（2026-11-12）
 
