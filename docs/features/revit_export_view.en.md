@@ -6,7 +6,7 @@ description: "Export a view as a PNG, from 1 to 4000 pixels"
 
 `revit_export_view`
 
-<p class="facts"><span><b>Group</b> Views and snapshots</span><span><b>Kind</b> Read (read-only)</span><span><b>Since</b> 0.3.0</span><span><b>Version</b> Released 1.1.2</span><span><b>Same-name tool on the development line</b> Yes</span><span><b>This contract applies to the release</b> Yes</span></p>
+<p class="facts"><span><b>Group</b> Views and snapshots</span><span><b>Kind</b> Read (read-only)</span><span><b>Since</b> 0.3.0</span><span><b>Version</b> Released 1.1.3</span><span><b>Same-name tool on the development line</b> Yes</span><span><b>This contract applies to the release</b> Yes</span></p>
 
 Export a view as a PNG, from 1 to 4000 pixels
 

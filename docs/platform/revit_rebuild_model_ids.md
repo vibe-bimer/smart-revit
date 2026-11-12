@@ -6,7 +6,7 @@ description: "按模板重建模型与副本的构件 ID，支持重名策略。
 
 `revit_rebuild_model_ids`
 
-<p class="facts"><span><b>分组</b> 编辑原语</span><span><b>类型</b> 动作</span><span><b>基座与自研的区分</b> 自研（本仓库） · 已移植</span><span><b>状态</b> 未发布（开发线）</span><span><b>发布版版本</b> 1.1.2</span><span><b>来源分支</b> <code>feat/gitlab-pages</code></span><span><b>来源提交</b> <code>50baa705e8da63327ab2bff1e544c76252fddbc9</code></span><span><b>发布版有同名工具</b> 有，但参数不同</span><span><b>本页契约适用于发布版</b> 否</span></p>
+<p class="facts"><span><b>分组</b> 编辑原语</span><span><b>类型</b> 动作</span><span><b>基座与自研的区分</b> 自研（本仓库） · 已移植</span><span><b>状态</b> 未发布（开发线）</span><span><b>发布版版本</b> 1.1.3</span><span><b>来源分支</b> <code>feat/gitlab-pages</code></span><span><b>来源提交</b> <code>50baa705e8da63327ab2bff1e544c76252fddbc9</code></span><span><b>发布版有同名工具</b> 有，但参数不同</span><span><b>本页契约适用于发布版</b> 否</span></p>
 
 !!! note "使用提示"
     支持模板、副本与重名策略；约一千行，是这十四项里最后落地的一项。
@@ -22,7 +22,7 @@ description: "按模板重建模型与副本的构件 ID，支持重名策略。
 - 仅发布版有参数 per_copy_deltas
 - 仅发布版有参数 warmup_copy
 
-本页契约适用于开发线，不适用于发布版 1.1.2；照抄这条线的参数会在发布版上失败。
+本页契约适用于开发线，不适用于发布版 1.1.3；照抄这条线的参数会在发布版上失败。
 
 ## 参数 {#parameters}
 

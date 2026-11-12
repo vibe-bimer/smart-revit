@@ -6,7 +6,7 @@ description: "列出在跑的 Revit 实例及其打开的文档"
 
 `revit_list_instances`
 
-<p class="facts"><span><b>分组</b> 连接与文档</span><span><b>类型</b> 读取（只读）</span><span><b>起始版本</b> 0.6.0</span><span><b>版本</b> 已发布 1.1.2</span><span><b>开发线有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span></p>
+<p class="facts"><span><b>分组</b> 连接与文档</span><span><b>类型</b> 读取（只读）</span><span><b>起始版本</b> 0.6.0</span><span><b>版本</b> 已发布 1.1.3</span><span><b>开发线有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span></p>
 
 列出在跑的 Revit 实例及其打开的文档
 
