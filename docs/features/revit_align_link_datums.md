@@ -6,7 +6,7 @@ description: "把宿主轴网与标高对齐到已链接模型，dry_run 可预�
 
 `revit_align_link_datums`
 
-<p class="facts"><span><b>分组</b> 链接与协同</span><span><b>类型</b> 动作（需授权）</span><span><b>起始版本</b> 1.0.0</span><span><b>版本</b> 已发布 1.1.3</span><span><b>开发线有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span><span><b>影响范围</b> 模型构件 / 参数</span></p>
+<p class="facts"><span><b>分组</b> 链接与协同</span><span><b>类型</b> 动作（需授权）</span><span><b>起始版本</b> 1.0.0</span><span><b>版本</b> 已发布 1.1.4</span><span><b>开发线有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span><span><b>影响范围</b> 模型构件 / 参数</span></p>
 
 把宿主轴网与标高对齐到已链接模型，dry_run 可预览回滚
 

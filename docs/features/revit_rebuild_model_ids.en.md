@@ -6,7 +6,7 @@ description: "Copy selectable 3D-view components into one or more new models wit
 
 `revit_rebuild_model_ids`
 
-<p class="facts"><span><b>Group</b> Batch and ids</span><span><b>Kind</b> Action (opt-in)</span><span><b>Since</b> 0.8.0</span><span><b>Version</b> Released 1.1.3</span><span><b>Same-name tool on the development line</b> Yes</span><span><b>This contract applies to the release</b> Yes</span><span><b>Effect</b> New model files; source unchanged</span><span><b>Origin</b> Fork (this repository)</span></p>
+<p class="facts"><span><b>Group</b> Batch and ids</span><span><b>Kind</b> Action (opt-in)</span><span><b>Since</b> 0.8.0</span><span><b>Version</b> Released 1.1.4</span><span><b>Same-name tool on the development line</b> Yes</span><span><b>This contract applies to the release</b> Yes</span><span><b>Effect</b> New model files; source unchanged</span><span><b>Origin</b> Fork (this repository)</span></p>
 
 Copy selectable 3D-view components into one or more new models with fresh IDs
 
@@ -25,7 +25,7 @@ The list below is computed from the registry inputSchema; it is not a hand-writt
 - Parameter per_copy_deltas exists only in the release
 - Parameter warmup_copy exists only in the release
 
-This page is the contract of release 1.1.3; the same-name tool on the development line takes different parameters, so do not mix them.
+This page is the contract of release 1.1.4; the same-name tool on the development line takes different parameters, so do not mix them.
 
 ## Copyable prompts {#prompts}
 

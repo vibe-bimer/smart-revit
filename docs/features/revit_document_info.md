@@ -6,7 +6,7 @@ description: "当前文档概要：文件名、Revit 版本、标高、面积方
 
 `revit_document_info`
 
-<p class="facts"><span><b>分组</b> 连接与文档</span><span><b>类型</b> 读取（只读）</span><span><b>起始版本</b> 0.1.0</span><span><b>版本</b> 已发布 1.1.3</span><span><b>开发线有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span></p>
+<p class="facts"><span><b>分组</b> 连接与文档</span><span><b>类型</b> 读取（只读）</span><span><b>起始版本</b> 0.1.0</span><span><b>版本</b> 已发布 1.1.4</span><span><b>开发线有同名工具</b> 有</span><span><b>本页契约适用于发布版</b> 是</span></p>
 
 当前文档概要：文件名、Revit 版本、标高、面积方案、工作集、视图数
 

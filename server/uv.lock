@@ -646,7 +646,7 @@ wheels = [
 
 [[package]]
 name = "revit-model-mcp"
-version = "1.1.3"
+version = "1.1.4"
 source = { editable = "." }
 dependencies = [
     { name = "mcp" },

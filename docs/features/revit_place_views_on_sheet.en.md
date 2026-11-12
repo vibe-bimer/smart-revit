@@ -6,7 +6,7 @@ description: "Place views and schedules on a sheet; coordinates are sheet mm"
 
 `revit_place_views_on_sheet`
 
-<p class="facts"><span><b>Group</b> Sheets and schedules</span><span><b>Kind</b> Action (opt-in)</span><span><b>Since</b> 1.0.0</span><span><b>Version</b> Released 1.1.3</span><span><b>Same-name tool on the development line</b> Yes</span><span><b>This contract applies to the release</b> Yes</span><span><b>Effect</b> Model elements / parameters</span></p>
+<p class="facts"><span><b>Group</b> Sheets and schedules</span><span><b>Kind</b> Action (opt-in)</span><span><b>Since</b> 1.0.0</span><span><b>Version</b> Released 1.1.4</span><span><b>Same-name tool on the development line</b> Yes</span><span><b>This contract applies to the release</b> Yes</span><span><b>Effect</b> Model elements / parameters</span></p>
 
 Place views and schedules on a sheet; coordinates are sheet mm
 

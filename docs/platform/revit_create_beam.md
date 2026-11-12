@@ -6,7 +6,7 @@ description: "按曲线与标高创建梁，端点不做吸附；结构用途按
 
 `revit_create_beam`
 
-<p class="facts"><span><b>分组</b> 编辑原语</span><span><b>类型</b> 动作</span><span><b>基座与自研的区分</b> 自研（本仓库） · 已移植</span><span><b>状态</b> 未发布（开发线）</span><span><b>发布版版本</b> 1.1.3</span><span><b>来源分支</b> <code>feat/gitlab-pages</code></span><span><b>来源提交</b> <code>50baa705e8da63327ab2bff1e544c76252fddbc9</code></span><span><b>发布版有同名工具</b> 有，参数一致</span><span><b>本页契约适用于发布版</b> 否</span></p>
+<p class="facts"><span><b>分组</b> 编辑原语</span><span><b>类型</b> 动作</span><span><b>基座与自研的区分</b> 自研（本仓库） · 已移植</span><span><b>状态</b> 未发布（开发线）</span><span><b>发布版版本</b> 1.1.4</span><span><b>来源分支</b> <code>feat/gitlab-pages</code></span><span><b>来源提交</b> <code>50baa705e8da63327ab2bff1e544c76252fddbc9</code></span><span><b>发布版有同名工具</b> 有，参数一致</span><span><b>本页契约适用于发布版</b> 否</span></p>
 
 !!! note "使用提示"
     走曲线加标高的重载、端点不吸附、结构用途按枚举写入、竖向偏移先写族的标高参数再退到移动实例。
@@ -17,7 +17,7 @@ description: "按曲线与标高创建梁，端点不做吸附；结构用途按
 
 ## 与发布版的契约差异 {#contract-diff}
 
-同名工具的契约与发布版 1.1.3 一致。
+同名工具的契约与发布版 1.1.4 一致。
 
 ## 参数 {#parameters}
 

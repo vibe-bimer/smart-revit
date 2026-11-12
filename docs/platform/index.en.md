@@ -14,14 +14,14 @@ Each catalog follows a line: the feature catalog follows the working tree, and t
 
 | | Features catalog | Development line |
 | --- | --- | --- |
-| Status | Released 1.1.3 | Unreleased (development line) |
+| Status | Released 1.1.4 | Unreleased (development line) |
 | Branch | main | `feat/gitlab-pages` |
 | Tools | 93 | 93 |
 | Catalog | [Feature overview](../features/index.md) | index.md |
 
 ## Two catalogs {#catalogs}
 
-The feature catalog follows the working tree; the platform catalog records the current development line, built on the new base and not yet released. Both are generated from the same tree, so their tool sets coincide; a tool added after release 1.1.3 is marked unreleased on its own page.
+The feature catalog follows the working tree; the platform catalog records the current development line, built on the new base and not yet released. Both are generated from the same tree, so their tool sets coincide; a tool added after release 1.1.4 is marked unreleased on its own page.
 
 | | Features catalog | Development line |
 | --- | --- | --- |

@@ -11,7 +11,7 @@ hide:
   <div class="rmc-hero__grid" aria-hidden="true"></div>
   <div class="rmc-hero__inner">
     <div class="rmc-hero__copy">
-      <p class="rmc-eyebrow"><span class="rmc-eyebrow__dot" aria-hidden="true"></span>Add-in / MCP version 1.1.3</p>
+      <p class="rmc-eyebrow"><span class="rmc-eyebrow__dot" aria-hidden="true"></span>Add-in / MCP version 1.1.4</p>
       <h1 class="rmc-hero__title">Revit Model MCP</h1>
       <p class="rmc-hero__lede">Bring Autodesk Revit models to your AI assistant: inspect parameters and geometry, count elements, check models, export registers, edit elements, and copy models with new IDs. Read-only by default; actions need both gates.</p>
       <p class="rmc-hero__actions">
