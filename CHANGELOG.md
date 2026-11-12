@@ -6,6 +6,19 @@ All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 Versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.4](https://github.com/vibe-bimer/smart-revit/compare/v1.1.3...v1.1.4) (2026-11-12)
+
+
+### Documentation
+
+* **changelog:** translate the 1.1.3 release notes ([6c670cc](https://github.com/vibe-bimer/smart-revit/commit/6c670cc2bbcdc7549f5b0864d8315e7356280e4d))
+* **site:** publish 1.1.3 and regenerate the pages that name it ([18e4783](https://github.com/vibe-bimer/smart-revit/commit/18e47830c32ac6de1c9c6b11662e1d0020976564))
+
+
+### CI
+
+* **release:** show CI changes in the release notes ([1e0be01](https://github.com/vibe-bimer/smart-revit/commit/1e0be014dc2183163183d6014538edb311b16bdf))
+
 ## [1.1.3](https://github.com/vibe-bimer/smart-revit/compare/v1.1.2...v1.1.3) (2026-11-12)
 
 
