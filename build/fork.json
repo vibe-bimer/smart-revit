@@ -172,7 +172,8 @@
     ".github/requirements/uv.in": "the uv version floor the CI tooling installs",
     ".github/requirements/uv.txt": "the hash-pinned uv the CI tooling installs",
     ".pre-commit-config.yaml": "the Ruff release the local hooks run, pinned to the version server/pyproject.toml requires",
-    "build/sbom_dotnet.py": "the Ruff 0.17 default rules rewrite its UTC alias"
+    "build/sbom_dotnet.py": "the Ruff 0.17 default rules rewrite its UTC alias",
+    ".github/workflows/release-window.yml": "the release cadence this fork reports without blocking a merge"
   },
   "removed": {
     ".github/workflows/winget.yml": "removed: it published to upstream's WinGet package",

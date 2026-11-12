@@ -205,16 +205,15 @@ Automated tests do not validate live Revit behavior; see [validation evidence](d
 
 1. Merge PRs with Conventional Commit titles.
 2. The `chore(main): release X.Y.Z` PR appears when the maintainer dispatches the Release please workflow. It carries the generated changelog entries and the version updates; see the note above.
-3. Upstream, releases ship on Monday (Europe/Moscow). This fork tags when the maintainer decides the branch is ready.
+3. This fork has no release schedule: the maintainer tags when the branch is ready. Upstream ships on Monday (Europe/Moscow), and the `release-window` check reports that cadence without blocking.
 4. Check the Release please workflow, both MSI assets, six ZIPs, wheel, source distribution and `SHA256SUMS.txt`. If a job fails with `The job was not acquired by Runner`, that is a GitHub infrastructure failure: rerun it with `gh run rerun <run id> --failed`.
 5. Check the release assets and `SHA256SUMS.txt`. This fork publishes nothing to PyPI, the MCP Registry, Smithery or WinGet: upstream owns those names, and both projects share version numbers, so a release from here that claimed one of them would install upstream's code while appearing to work.
 6. After the release publishes, raise `released_version` in `tools/site/content/catalogs.yaml` to the tag and regenerate the pages: `cd server && uv run --with pyyaml python ../tools/site/generate_features.py --dump`, then `--write`. Pages state the published version, so the release pull request itself leaves them untouched.
 
 When the `SIGNPATH_API_TOKEN` secret and the `SIGNPATH_ORGANIZATION_ID` variable are set, the release job submits the MSIs and ZIPs to SignPath and waits up to 90 minutes for the approval of the signing request. Without them the job skips signing and publishes unsigned assets. Optional variables `SIGNPATH_PROJECT_SLUG`, `SIGNPATH_SIGNING_POLICY_SLUG` and `SIGNPATH_ARTIFACT_CONFIGURATION_SLUG` override the defaults `revit-model-mcp`, `release-signing` and `release`. The artifact configuration lives in `.signpath/artifact-configuration.xml`; keep the copy in SignPath identical.
 
-The required `release-window` check keeps the release PR red outside Monday in Europe/Moscow time and passes at once for every other PR.
-A scheduled run refreshes it when Monday starts and when it ends.
-For an urgent fix, the maintainer adds the `hotfix-release` label to the release PR, which turns the check green and allows a release on another day.
+The `release-window` check reports upstream's Monday (Europe/Moscow) cadence on the release PR.
+It never blocks a merge in this fork, and no label is needed to release on another day.
 The size of the change, not the calendar, decides the version bump: `feat` bumps the minor version and `fix` the patch version, as described below.
 
 In this fork release-please writes both when the maintainer merges the release pull request, and no one edits them by hand.

@@ -175,7 +175,7 @@ Core 测试覆盖解析、序列化、格式化、单位和查询处理。
 
 1. 使用 Conventional Commit 标题合并 PR。
 2. 维护者手动调度 Release please 工作流后，会出现 `chore(main): release X.Y.Z` PR，其中包含生成的变更日志条目与版本更新，见上方提示。
-3. 上游由维护者在必需检查通过后合并发布 PR；本 fork 由维护者在分支就绪时打 tag。
+3. 本 fork 没有发布日程：维护者在分支就绪时打 tag。上游按莫斯科周一发版，`release-window` 检查只报告这个节奏，不拦合并。
 4. 检查 Release please 工作流、两份 MSI 资产、七份按年份分开的 ZIP、wheel、源码发行包和 `SHA256SUMS.txt`。
 5. 对稳定发布检查 PyPI、MCP Registry 和 WinGet 任务结果；若未配置 WinGet 提交，则下载清单。
 6. 发布上线后，把 `tools/site/content/catalogs.yaml` 的 `released_version` 提到该标签，并重生成页面：在 `server` 下先跑 `uv run --with pyyaml python ../tools/site/generate_features.py --dump`，再 `--write`。页面只写已发布版本，所以发版 PR 本身不会改动这些页面。
